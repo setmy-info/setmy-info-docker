@@ -1,6 +1,6 @@
 # Copyright Imre Tabur
 
-JDK_VERSION=12
+JDK_VERSION=12.0.2
 ADDITIONAL_VERSION=1
 DOCKER_PROJECT_NAME="setmy-info-centos-java"
 DOCKER_PROJECT_VERSION="v$(JDK_VERSION)-$(ADDITIONAL_VERSION)"
@@ -15,7 +15,7 @@ all: download unback build image show-images login push
 download: $(JDK_TAR_FILE_NAME)
 
 $(JDK_TAR_FILE_NAME):
-	wget -c https://download.java.net/java/GA/jdk12/GPL/$(JDK_TAR_FILE_NAME) -O $(JDK_TAR_FILE_NAME)
+	wget -c https://download.java.net/java/GA/jdk$(JDK_VERSION)/e482c34c86bd4bf8b56c0b35558996b9/10/GPL/$(JDK_TAR_FILE_NAME) -O $(JDK_TAR_FILE_NAME)
 
 unback: $(JDK_DIR)
 

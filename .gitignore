@@ -8,5 +8,12 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+docker-centos-java/jdk*
+docker-centos-java/openjdk-*.tar.gz
+docker-centos-node/node-*.tar.xz
+docker-centos-node/node-*/
+docker-centos-java-tomcat/apache-tomcat*.tar.gz
+docker-centos-java-tomcat/apache-tomcat*/
+
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar

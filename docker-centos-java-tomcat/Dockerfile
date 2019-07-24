@@ -1,4 +1,4 @@
-FROM setmyinfo/setmy-info-centos-java:v12-1
+FROM setmyinfo/setmy-info-centos-java:v12.0.2-1
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
@@ -11,7 +11,7 @@ LABEL org.label-schema.name="Docker HUB Centos Tomcat" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE
 
-COPY apache-tomcat-9.0.17 /opt/tomcat
+COPY apache-tomcat-9.0.22 /opt/tomcat
 RUN mkdir -p /opt/tomcat/{logs,temp}
 RUN mkdir -p /opt/tomcat/conf/Catalina/
 RUN useradd tomcat --shell /sbin/nologin --no-create-home
