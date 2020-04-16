@@ -1,5 +1,0 @@
-#!/bin/sh
-
-echo "Hello from Docker test script"
-
-exit 0
