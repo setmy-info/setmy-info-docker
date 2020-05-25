@@ -32,7 +32,7 @@ services:
         build: 
             context: ./springboot-start-project
             dockerfile: Dockerfile
-        image: springboot-start-project:1.2.0-SNAPSHOT
+        image: springboot-start-project:1.0.0-SNAPSHOT
         ports:
             - "8020:8080"
     tomcat-start-project:
