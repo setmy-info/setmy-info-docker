@@ -6,12 +6,12 @@ DOCKER_ID_USER="xxxxxx"
 DOCKER_ID_ORGANIZATION="setmyinfo"
 DOCKER_CONTENT_TRUST=1
 
-all: build image show-images login push
+all: build latest-tag show-images login push
 
 build:
 	docker build -t  "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)" .
 
-image:
+latest-tag:
 	docker image tag "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)" $(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):latest
 
 show-images:
@@ -24,4 +24,4 @@ push:
 	docker image push $(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):latest
 	docker image push "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)"
 
-.PHONY: all build image show-images login push
+.PHONY: all build latest-tag show-images login push
