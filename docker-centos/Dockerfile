@@ -1,10 +1,10 @@
-FROM centos:7
+FROM centos:8.3.2011
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
 # http://label-schema.org/rc1/
 LABEL org.label-schema.name="Docker HUB Centos" \
-      org.label-schema.version="7.7.1908" \
+      org.label-schema.version="8.3.2011" \
       org.label-schema.description="setmy.info Docker HUB Centos" \
       org.label-schema.vendor="Hear And See Systems LLC" \
       org.label-schema.url="https://www.hearandseesystems.com" \
@@ -12,7 +12,7 @@ LABEL org.label-schema.name="Docker HUB Centos" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE
 
-RUN yum -y update
+RUN dnf -y update
 RUN cat /etc/centos-release
 RUN useradd microservice --shell /sbin/nologin --no-create-home
 RUN mkdir -p /opt/has/bin

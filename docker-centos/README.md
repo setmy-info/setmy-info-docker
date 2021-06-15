@@ -8,15 +8,15 @@ setmy.info CentOS base Docker Hub project.
 
 * **docker search centos** to search images.
 
-* **docker pull centos:7** to download images (takes a little time to download).
+* **docker pull centos:8** to download images (takes a little time to download).
 
-* **docker build -t "setmyinfo/setmy-info-centos:v1.0.1" .** to build image with tag.
+* **docker build -t "setmyinfo/setmy-info-centos:8.3.2011" .** to build image with tag.
 
 * **docker images** to see built images (repository, tag, image ID).
 
 * **docker ps -a** to see containers (executed images, container ID, image ID, ...)
 
-* **docker image tag setmyinfo/setmy-info-centos:v1.0.1 setmyinfo/setmy-info-centos:latest** to set latest tag.
+* **docker image tag setmyinfo/setmy-info-centos:8.3.2011 setmyinfo/setmy-info-centos:latest** to set latest tag.
 
 * **docker run setmyinfo/setmy-info-centos:latest** to execute container
 
