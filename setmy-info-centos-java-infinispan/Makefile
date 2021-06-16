@@ -1,17 +1,16 @@
 # Copyright Imre Tabur
 
-INFINISPAN_VERSION=10.1.3
+INFINISPAN_VERSION=12.1.4
 #ADDITIONAL_VERSION=1
 DOCKER_PROJECT_NAME="setmy-info-centos-java-infinispan"
 #DOCKER_PROJECT_VERSION="$(INFINISPAN_VERSION)-$(ADDITIONAL_VERSION)"
 DOCKER_PROJECT_VERSION="$(INFINISPAN_VERSION)"
-DOCKER_ID_USER="xxxxxx"
 DOCKER_ID_ORGANIZATION="setmyinfo"
 DOCKER_CONTENT_TRUST=1
 INFINISPAN_DIR_NAME=infinispan-server-$(INFINISPAN_VERSION).Final
 INFINISPAN_ZIP_FILE_NAME=infinispan-server-$(INFINISPAN_VERSION).Final.zip
 
-all: download unpack build image show-images login push
+all: download unpack build latest-tag show-images login push
 
 download: $(INFINISPAN_ZIP_FILE_NAME)
 
@@ -26,7 +25,7 @@ $(INFINISPAN_DIR_NAME):
 build:
 	docker build -t  "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)" .
 
-image:
+latest-tag:
 	docker image tag "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)" $(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):latest
 
 show-images:
@@ -39,4 +38,4 @@ push:
 	docker image push $(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):latest
 	docker image push "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)"
 
-.PHONY: all download unpack build image show-images login push
+.PHONY: all download unpack build latest-tag show-images login push

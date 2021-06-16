@@ -1,20 +1,19 @@
 # Copyright Imre Tabur
 
-NGINX_VERSION=1.16.1
+NGINX_VERSION=1.20.1
 ADDITIONAL_VERSION=0
 DOCKER_PROJECT_NAME="setmy-info-centos-nginx"
 #DOCKER_PROJECT_VERSION="$(NGINX_VERSION)-$(ADDITIONAL_VERSION)"
 DOCKER_PROJECT_VERSION="$(NGINX_VERSION)"
-DOCKER_ID_USER="xxxxxx"
 DOCKER_ID_ORGANIZATION="setmyinfo"
 DOCKER_CONTENT_TRUST=1
 
-all: build image show-images login push
+all: build latest-tag show-images login push
 
 build:
 	docker build -t  "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)" .
 
-image:
+latest-tag:
 	docker image tag "$(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)" $(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):latest
 
 show-images:
@@ -30,4 +29,4 @@ push:
 run:
 	docker run -p 80:80 -d $(DOCKER_ID_ORGANIZATION)/$(DOCKER_PROJECT_NAME):$(DOCKER_PROJECT_VERSION)
 
-.PHONY: all build image show-images login push
+.PHONY: all build latest-tag show-images login push

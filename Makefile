@@ -1,28 +1,27 @@
 
-DOCKER_ID_USER="xxxxxx"
-DOCKER_FOLDERS=docker-centos docker-centos-java docker-centos-java-tomcat docker-centos-nginx docker-centos-node docker-centos-java-zeebe docker-centos-java-infinispan
+DOCKER_FOLDERS=setmy-info-centos setmy-info-centos-java setmy-info-centos-java-tomcat setmy-info-centos-nginx setmy-info-centos-node setmy-info-centos-java-zeebe setmy-info-centos-java-infinispan
 
 all: $(DOCKER_FOLDERS)
 
-docker-centos:
+setmy-info-centos:
 	@cd $(@); pwd; $(MAKE)
 
-docker-centos-java:
+setmy-info-centos-java:
 	@cd $(@); pwd; $(MAKE)
 
-docker-centos-java-tomcat:
+setmy-info-centos-java-tomcat:
 	@cd $(@); pwd; $(MAKE)
 
-docker-centos-nginx:
+setmy-info-centos-nginx:
 	@cd $(@); pwd; $(MAKE)
 
-docker-centos-node:
+setmy-info-centos-node:
 	@cd $(@); pwd; $(MAKE)
 
-docker-centos-java-zeebe:
+setmy-info-centos-java-zeebe:
 	@cd $(@); pwd; $(MAKE)
 
-docker-centos-java-infinispan:
+setmy-info-centos-java-infinispan:
 	@cd $(@); pwd; $(MAKE)
 
 .PHONY: all $(DOCKER_FOLDERS)
