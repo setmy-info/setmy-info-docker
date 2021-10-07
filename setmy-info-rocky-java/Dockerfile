@@ -1,4 +1,4 @@
-FROM setmyinfo/setmy-info-centos:latest
+FROM setmyinfo/setmy-info-rocky:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
@@ -11,7 +11,7 @@ LABEL org.label-schema.name="Docker HUB Centos Java" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE
 
-COPY jdk-16.0.1 /opt/jdk
+COPY jdk-17 /opt/jdk
 RUN chown -R root:root /opt/jdk
 ENV JAVA_HOME /opt/jdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
