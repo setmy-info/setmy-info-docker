@@ -1,7 +1,7 @@
-# setmy-info-centos-java-zeebe
+# setmy-info-rocky-java-zeebe
 
 ## run for development
-docker run --name zeebe -p 26500:26500 setmyinfo/setmy-info-centos-java-zeebe:latest
+docker run --name zeebe -p 26500:26500 setmyinfo/setmy-info-rocky-java-zeebe:latest
 zbctl status
 wget -c https://docs.zeebe.io/introduction/order-process.bpmn
 zbctl deploy order-process.bpmn

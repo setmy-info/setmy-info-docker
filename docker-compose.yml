@@ -59,13 +59,13 @@ services:
         image: python-start-project:1.2.0-SNAPSHOT
         ports:
             - "8050:5000"
-    docker-centos-nginx:
-        container_name: docker-centos-nginx
+    docker-rocky-nginx:
+        container_name: docker-rocky-nginx
         build: 
-            context: ./docker-images/docker-centos-nginx
+            context: ./docker-images/docker-rocky-nginx
             dockerfile: Dockerfile
         depends_on:
             - tomcat-start-project
-        image: setmy-info-centos-nginx:v1.16.1
+        image: setmy-info-rocky-nginx:v1.16.1
         ports:
             - "80:80"

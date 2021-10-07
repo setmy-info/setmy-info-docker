@@ -1,4 +1,4 @@
-# setmy-info-centos
+# setmy-info-rocky
 
 setmy.info CentOS base Docker Hub project.
 
@@ -6,19 +6,19 @@ setmy.info CentOS base Docker Hub project.
 
 * Dockerfile guide: https://docs.docker.com/engine/reference/builder/
 
-* **docker search centos** to search images.
+* **docker search rocky** to search images.
 
-* **docker pull centos:8** to download images (takes a little time to download).
+* **docker pull rocky:8** to download images (takes a little time to download).
 
-* **docker build -t "setmyinfo/setmy-info-centos:8.3.2011" .** to build image with tag.
+* **docker build -t "setmyinfo/setmy-info-rocky:8.3.2011" .** to build image with tag.
 
 * **docker images** to see built images (repository, tag, image ID).
 
 * **docker ps -a** to see containers (executed images, container ID, image ID, ...)
 
-* **docker image tag setmyinfo/setmy-info-centos:8.3.2011 setmyinfo/setmy-info-centos:latest** to set latest tag.
+* **docker image tag setmyinfo/setmy-info-rocky:8.3.2011 setmyinfo/setmy-info-rocky:latest** to set latest tag.
 
-* **docker run setmyinfo/setmy-info-centos:latest** to execute container
+* **docker run setmyinfo/setmy-info-rocky:latest** to execute container
 
 * **docker image rm 8678a55b1fa4 f4031d35b507 someuser/docker_hub_test** removing some images by ID and tag
 
@@ -26,7 +26,7 @@ setmy.info CentOS base Docker Hub project.
 
 * **docker login** to login to Docker Hub.
 
-* **docker image push --disable-content-trust setmyinfo/setmy-info-centos:latest** to push built image to central repo (Docker Hub).
+* **docker image push --disable-content-trust setmyinfo/setmy-info-rocky:latest** to push built image to central repo (Docker Hub).
 
 ### Docker procy
 
@@ -55,4 +55,4 @@ For image release you should have Docker HUB ID. Also access to setmyinfo organi
 
 1. Remove all images
 2. Remove all containers
-3. docker pull setmyinfo/setmy-info-centos:latest
+3. docker pull setmyinfo/setmy-info-rocky:latest

@@ -1,4 +1,4 @@
-FROM setmyinfo/setmy-info-centos-java:latest
+FROM setmyinfo/setmy-info-rocky-java:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 

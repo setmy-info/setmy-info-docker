@@ -1,3 +1,3 @@
-# setmy-info-centos-java
+# setmy-info-rocky-java
 
-Same as: https://bitbucket.org/imreit/docker-centos
+Same as: https://bitbucket.org/imreit/docker-rocky
