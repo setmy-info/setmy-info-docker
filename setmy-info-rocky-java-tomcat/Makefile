@@ -1,6 +1,6 @@
 # Copyright Imre Tabur
 
-TOMCAT_VERSION=10.0.6
+TOMCAT_VERSION=10.0.12
 ADDITIONAL_VERSION=0
 DOCKER_PROJECT_NAME="setmy-info-rocky-java-tomcat"
 #DOCKER_PROJECT_VERSION="$(TOMCAT_VERSION)-$(ADDITIONAL_VERSION)"
@@ -15,7 +15,7 @@ all: download unpack build latest-tag show-images login push
 download: $(TOMCAT_TAR_FILE_NAME)
 
 $(TOMCAT_TAR_FILE_NAME):
-	wget -c https://downloads.apache.org/tomcat/tomcat-10/v$(TOMCAT_VERSION)/bin/$(TOMCAT_TAR_FILE_NAME) -O $(TOMCAT_TAR_FILE_NAME)
+	wget -c https://dlcdn.apache.org/tomcat/tomcat-10/v$(TOMCAT_VERSION)/bin/$(TOMCAT_TAR_FILE_NAME) -O $(TOMCAT_TAR_FILE_NAME)
 
 unpack: $(TOMCAT_DIR_NAME)
 

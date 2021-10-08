@@ -1,6 +1,6 @@
 # setmy-info-rocky
 
-setmy.info CentOS base Docker Hub project.
+setmy.info Rocky base Docker Hub project.
 
 ## Small docker guide
 
@@ -10,13 +10,13 @@ setmy.info CentOS base Docker Hub project.
 
 * **docker pull rocky:8** to download images (takes a little time to download).
 
-* **docker build -t "setmyinfo/setmy-info-rocky:8.3.2011" .** to build image with tag.
+* **docker build -t "setmyinfo/setmy-info-rocky:8.4" .** to build image with tag.
 
 * **docker images** to see built images (repository, tag, image ID).
 
 * **docker ps -a** to see containers (executed images, container ID, image ID, ...)
 
-* **docker image tag setmyinfo/setmy-info-rocky:8.3.2011 setmyinfo/setmy-info-rocky:latest** to set latest tag.
+* **docker image tag setmyinfo/setmy-info-rocky:8.4 setmyinfo/setmy-info-rocky:latest** to set latest tag.
 
 * **docker run setmyinfo/setmy-info-rocky:latest** to execute container
 

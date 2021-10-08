@@ -15,7 +15,7 @@ all: download unpack build latest-tag show-images login push
 download: $(JDK_TAR_FILE_NAME)
 
 $(JDK_TAR_FILE_NAME):
-	wget -c https://download.java.net/java/GA/jdk$(JDK_VERSION)/7147401fd7354114ac51ef3e1328291f/9/GPL/$(JDK_TAR_FILE_NAME)
+	wget -c https://download.java.net/java/GA/jdk$(JDK_VERSION)/0d483333a00540d886896bac774ff48b/35/GPL/$(JDK_TAR_FILE_NAME)
 
 unpack: $(JDK_DIR)
 

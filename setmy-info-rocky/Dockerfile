@@ -4,7 +4,7 @@ MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
 # http://label-schema.org/rc1/
 LABEL org.label-schema.name="Docker HUB rocky" \
-      org.label-schema.version="8.3.2011" \
+      org.label-schema.version="8.4" \
       org.label-schema.description="setmy.info Docker HUB rocky" \
       org.label-schema.vendor="Hear And See Systems LLC" \
       org.label-schema.url="https://www.hearandseesystems.com" \
