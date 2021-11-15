@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd /var/opt/hsqldb/data
+java -classpath /opt/hsqldb/lib/hsqldb.jar org.hsqldb.server.Server
+
+exit ${?}
