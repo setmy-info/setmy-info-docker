@@ -3,7 +3,7 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
 LABEL org.label-schema.name="Docker HUB Rocky Linux HSQLDB" \
-      org.label-schema.version="2.6.1-2" \
+      org.label-schema.version="2.6.1-3" \
       org.label-schema.description="setmy.info Docker HUB Rocky Linux HSQLDB" \
       org.label-schema.vendor="Hear And See Systems LLC" \
       org.label-schema.url="https://www.hearandseesystems.com" \

@@ -19,14 +19,6 @@ services:
         image: node-start-project:1.2.0-SNAPSHOT
         ports:
             - "4000:3000"
-    micronaut-start-project:
-        container_name: micronaut-start-project
-        build: 
-            context: ./micronaut-start-project
-            dockerfile: Dockerfile
-        image: micronaut-start-project:1.2.0-SNAPSHOT
-        ports:
-            - "8010:8080"
     springboot-start-project:
         container_name: springboot-start-project
         build: 

@@ -3,7 +3,7 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
 LABEL org.label-schema.name="Docker HUB Centos Java Zeebe" \
-      org.label-schema.version="1.1.3" \
+      org.label-schema.version="1.2.4" \
       org.label-schema.description="setmy.info Docker HUB Centos Java Zeebe" \
       org.label-schema.vendor="Hear And See Systems LLC" \
       org.label-schema.url="https://www.hearandseesystems.com" \
@@ -11,7 +11,7 @@ LABEL org.label-schema.name="Docker HUB Centos Java Zeebe" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE
 
-COPY camunda-cloud-zeebe-1.1.3 /opt/zeebe-broker
+COPY camunda-cloud-zeebe-1.2.4 /opt/zeebe-broker
 COPY src/zeebe-starter /opt/zeebe-broker/bin
 RUN chown -R root:root /opt/zeebe-broker
 RUN mkdir /opt/zeebe-broker/data

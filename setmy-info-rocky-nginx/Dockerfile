@@ -3,7 +3,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
 LABEL org.label-schema.name="Docker HUB Centos Nginx" \
-      org.label-schema.version="1.20.1" \
+      org.label-schema.version="1.20.2" \
       org.label-schema.description="setmy.info Docker HUB Centos Node" \
       org.label-schema.vendor="Hear And See Systems LLC" \
       org.label-schema.url="https://www.hearandseesystems.com" \
