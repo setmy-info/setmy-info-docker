@@ -28,8 +28,9 @@ ENV CATALINA_HOME /opt/tomcat
 ENV PATH="${CATALINA_HOME}/bin:${PATH}"
 
 WORKDIR /opt/tomcat
-#USER tomcat
-RUN cd /opt/tomcat && ls -la && ps axf && pwd && whoami
+
+USER tomcat
+RUN cd /opt/tomcat && ls -la && pwd && whoami
 
 EXPOSE 8080/tcp
 
