@@ -21,7 +21,7 @@ RUN dnf -y install yum-utils
 RUN dnf -y install nginx
 
 RUN cat /etc/nginx/nginx.conf
-RUN cat /etc/nginx/nginx.conf.default
+#RUN cat /etc/nginx/nginx.conf.default
 COPY ./etc/nginx/conf.d/default.conf  /etc/nginx/conf.d/default.conf
 
 EXPOSE 80/tcp
