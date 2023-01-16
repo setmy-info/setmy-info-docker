@@ -1,6 +1,6 @@
 # Copyright Imre Tabur
 
-JDK_VERSION=19
+JDK_VERSION=19.0.1
 ADDITIONAL_VERSION=0
 DOCKER_PROJECT_NAME="setmy-info-rocky-java"
 #DOCKER_PROJECT_VERSION="$(JDK_VERSION)-$(ADDITIONAL_VERSION)"
@@ -15,7 +15,7 @@ all: download unpack build latest-tag show-images login push
 download: $(JDK_TAR_FILE_NAME)
 
 $(JDK_TAR_FILE_NAME):
-	wget -c https://download.java.net/java/GA/jdk$(JDK_VERSION)/877d6127e982470ba2a7faa31cc93d04/36/GPL/$(JDK_TAR_FILE_NAME)
+	wget -c https://download.java.net/java/GA/jdk$(JDK_VERSION)/afdd2e245b014143b62ccb916125e3ce/10/GPL/$(JDK_TAR_FILE_NAME)
 
 unpack: $(JDK_DIR)
 
