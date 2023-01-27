@@ -11,7 +11,7 @@ LABEL org.label-schema.name="Docker HUB Centos Java Zeebe" \
       org.label-schema.schema-version="1.0" \
       org.label-schema.build-date=$BUILD_DATE
 
-COPY camunda-cloud-zeebe-1.2.4 /opt/zeebe-broker
+COPY camunda-zeebe-8.1.6 /opt/zeebe-broker
 COPY src/zeebe-starter /opt/zeebe-broker/bin
 RUN chown -R root:root /opt/zeebe-broker
 RUN mkdir /opt/zeebe-broker/data
