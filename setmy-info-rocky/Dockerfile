@@ -17,7 +17,17 @@ LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.ref.name=""
 
 RUN dnf -y update && \
-    cat /etc/rocky-release && \
+    dnf -y install tar gzip bzip2 wget && \
+    mkdir /tmp/sbcl && \
+    cd /tmp/sbcl && \
+    pwd && \
+    curl https://deac-ams.dl.sourceforge.net/project/sbcl/sbcl/2.3.0/sbcl-2.3.0-x86-64-linux-binary.tar.bz2 --output sbcl-2.3.0-x86-64-linux-binary.tar.bz2 && \
+    ls -la && \
+    tar -xvf sbcl-2.3.0-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
+    ls -la && \
+    cd ./sbcl-2.3.0-x86-64-linux && \
+    INSTALL_ROOT=/opt/sbcl sh install.sh && \
+    rm -R /tmp/sbcl && \
     useradd microservice --shell /sbin/nologin --no-create-home && \
     mkdir -p /opt/has/bin && \
     mkdir -p /opt/has/lib && \
@@ -32,3 +42,12 @@ RUN dnf -y update && \
     chmod -R go+rx /opt/has && \
     chmod -R go-w  /opt/has && \
     cd /opt && ls -la && cd /opt/has && ls -la && cd /var/opt/ && ls -la && cd /var/opt/has && ls -la
+
+ENV SBCL_HOME=/opt/sbcl
+ENV LD_LIBRARY_PATH=/opt/has/lib
+ENV PYTHONPATH=/opt/has/lib
+ENV PATH=${SBCL_HOME}/bin:${PATH}
+
+RUN cat /etc/redhat-release && \
+    python3 --version && \
+    sbcl --version
