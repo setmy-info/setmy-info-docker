@@ -2,6 +2,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
+# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Centos Nginx" \
       org.opencontainers.image.description="setmy.info Docker HUB Centos Node" \
       org.opencontainers.image.version="1.22.1" \

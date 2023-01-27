@@ -2,14 +2,19 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
-LABEL org.opencontainers.image.name="Docker HUB Centos Tomcat" \
-      org.opencontainers.image.version="10.0.27" \
+# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
+LABEL org.opencontainers.image.title="Docker HUB Centos Tomcat" \
       org.opencontainers.image.description="setmy.info Docker HUB Centos Tomcat" \
+      org.opencontainers.image.version="10.0.27" \
+      org.opencontainers.image.revision="10.0.27" \
+      org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
-      org.opencontainers.image.url="https://www.hearandseesystems.com" \
-      org.opencontainers.image.license="MIT" \
-      org.opencontainers.image.schema-version="1.0" \
-      org.opencontainers.image.build-date=$BUILD_DATE
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.documentation="" \
+      org.opencontainers.image.authors="Imre Tabur" \
+      org.opencontainers.image.source="" \
+      org.opencontainers.image.url="" \
+      org.opencontainers.image.ref.name=""
 
 COPY apache-tomcat-10.0.27 /opt/tomcat
 RUN mkdir -p /opt/tomcat/{logs,temp}

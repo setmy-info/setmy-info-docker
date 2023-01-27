@@ -2,16 +2,21 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
-LABEL org.label-schema.name="Docker HUB Centos Java Infinispan" \
-      org.label-schema.version="14.0.0" \
-      org.label-schema.description="setmy.info Docker HUB Centos Java Infinispan" \
-      org.label-schema.vendor="Hear And See Systems LLC" \
-      org.label-schema.url="https://www.hearandseesystems.com" \
-      org.label-schema.license="MIT" \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.build-date=$BUILD_DATE
+# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
+LABEL org.opencontainers.image.title="Docker HUB Centos Java Infinispan" \
+      org.opencontainers.image.description="setmy.info Docker HUB Centos Java Infinispan" \
+      org.opencontainers.image.version="14.0.6" \
+      org.opencontainers.image.revision="14.0.6" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.vendor="Hear And See Systems LLC" \
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.documentation="" \
+      org.opencontainers.image.authors="Imre Tabur" \
+      org.opencontainers.image.source="" \
+      org.opencontainers.image.url="" \
+      org.opencontainers.image.ref.name=""
 
-COPY infinispan-server-14.0.0.Final /opt/infinispan-server
+COPY infinispan-server-14.0.6.Final /opt/infinispan-server
 COPY src/infinispan-starter /opt/infinispan-server/bin
 RUN chown -R root:root /opt/infinispan-server
 RUN mkdir /opt/infinispan-server/server/data
