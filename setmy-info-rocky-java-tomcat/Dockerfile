@@ -2,16 +2,16 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
-LABEL org.label-schema.name="Docker HUB Centos Tomcat" \
-      org.label-schema.version="10.0.26" \
-      org.label-schema.description="setmy.info Docker HUB Centos Tomcat" \
-      org.label-schema.vendor="Hear And See Systems LLC" \
-      org.label-schema.url="https://www.hearandseesystems.com" \
-      org.label-schema.license="MIT" \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.build-date=$BUILD_DATE
+LABEL org.opencontainers.image.name="Docker HUB Centos Tomcat" \
+      org.opencontainers.image.version="10.0.27" \
+      org.opencontainers.image.description="setmy.info Docker HUB Centos Tomcat" \
+      org.opencontainers.image.vendor="Hear And See Systems LLC" \
+      org.opencontainers.image.url="https://www.hearandseesystems.com" \
+      org.opencontainers.image.license="MIT" \
+      org.opencontainers.image.schema-version="1.0" \
+      org.opencontainers.image.build-date=$BUILD_DATE
 
-COPY apache-tomcat-10.0.26 /opt/tomcat
+COPY apache-tomcat-10.0.27 /opt/tomcat
 RUN mkdir -p /opt/tomcat/{logs,temp}
 RUN mkdir -p /opt/tomcat/conf/Catalina/
 RUN useradd tomcat --shell /sbin/nologin --no-create-home
