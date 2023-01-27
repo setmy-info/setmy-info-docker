@@ -8,15 +8,15 @@ setmy.info Rocky base Docker Hub project.
 
 * **docker search rocky** to search images.
 
-* **docker pull rocky:8** to download images (takes a little time to download).
+* **docker pull rocky:9.1** to download images (takes a little time to download).
 
-* **docker build -t "setmyinfo/setmy-info-rocky:9" .** to build image with tag.
+* **docker build -t "setmyinfo/setmy-info-rocky:9.1-1" .** to build image with tag.
 
 * **docker images** to see built images (repository, tag, image ID).
 
 * **docker ps -a** to see containers (executed images, container ID, image ID, ...)
 
-* **docker image tag setmyinfo/setmy-info-rocky:9 setmyinfo/setmy-info-rocky:latest** to set latest tag.
+* **docker image tag setmyinfo/setmy-info-rocky:9.1-1 setmyinfo/setmy-info-rocky:latest** to set latest tag.
 
 * **docker run setmyinfo/setmy-info-rocky:latest** to execute container
 
@@ -28,7 +28,7 @@ setmy.info Rocky base Docker Hub project.
 
 * **docker image push --disable-content-trust setmyinfo/setmy-info-rocky:latest** to push built image to central repo (Docker Hub).
 
-### Docker procy
+### Docker proxy
 
     sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
 
@@ -46,10 +46,11 @@ setmy.info Rocky base Docker Hub project.
 
 For image release you should have Docker HUB ID. Also access to setmyinfo organization.
 
-1. Update version info in Dockerfile, README.md and build.sh.
-2. hg commit -m 'Version v1.0.1' && hg tag v1.0.1 && hg push
-2. Set Docker HUB user ID in build.sh
-2. ./build.sh
+1. Update version info in Dockerfile, README.md and build.properties.
+2. git add Dockerfile README.md build.properties
+3. git commit -m 'Docker Rocky version 9.1-1'
+4. Set Docker HUB user ID in build.sh
+5. ant all
 
 ### Test
 

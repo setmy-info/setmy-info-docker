@@ -2,33 +2,33 @@ FROM rockylinux/rockylinux:9.1
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
-# http://label-schema.org/rc1/
-LABEL org.label-schema.name="Docker HUB rocky" \
-      org.label-schema.version="9" \
-      org.label-schema.description="setmy.info Docker HUB rocky" \
-      org.label-schema.vendor="Hear And See Systems LLC" \
-      org.label-schema.url="https://www.hearandseesystems.com" \
-      org.label-schema.license="MIT" \
-      org.label-schema.schema-version="1.0" \
-      org.label-schema.build-date=$BUILD_DATE
+# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
+LABEL org.opencontainers.image.title="Docker HUB rocky" \
+      org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
+      org.opencontainers.image.version="9.1-1" \
+      org.opencontainers.image.revision="9.1-1" \
+	  org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.vendor="Hear And See Systems LLC" \
+      org.opencontainers.image.created=$BUILD_DATE \
+	  org.opencontainers.image.documentation="" \
+      org.opencontainers.authors="Imre Tabur" \
+      org.opencontainers.source="" \
+      org.opencontainers.url="" \
+      org.opencontainers.ref.name=""
 
-RUN dnf -y update
-RUN cat /etc/rocky-release
-RUN useradd microservice --shell /sbin/nologin --no-create-home
-RUN mkdir -p /opt/has/bin
-RUN mkdir -p /opt/has/lib
-RUN mkdir -p /opt/has/doc
-RUN mkdir -p /opt/has/man
-RUN mkdir -p /opt/has/etc
-RUN mkdir -p /var/opt/has
-RUN mkdir -p /var/opt/has/microservice
-RUN chown -R root:root /opt/has
-RUN chown -R microservice:microservice /var/opt/has
-
-RUN chmod -R u+rwx /opt/has
-RUN chmod -R go+rx /opt/has
-RUN chmod -R go-w  /opt/has
-RUN cd /opt && ls -la && \
-    cd /opt/has && ls -la && \
-    cd /var/opt/ && ls -la && \
-    cd /var/opt/has && ls -la
+RUN dnf -y update \
+    cat /etc/rocky-release \
+    useradd microservice --shell /sbin/nologin --no-create-home \
+    mkdir -p /opt/has/bin \
+    mkdir -p /opt/has/lib \
+    mkdir -p /opt/has/doc \
+    mkdir -p /opt/has/man \
+    mkdir -p /opt/has/etc \
+    mkdir -p /var/opt/has \
+    mkdir -p /var/opt/has/microservice \
+    chown -R root:root /opt/has \
+    chown -R microservice:microservice /var/opt/has \
+    chmod -R u+rwx /opt/has \
+    chmod -R go+rx /opt/has \
+    chmod -R go-w  /opt/has \
+    cd /opt && ls -la && cd /opt/has && ls -la && cd /var/opt/ && ls -la && cd /var/opt/has && ls -la
