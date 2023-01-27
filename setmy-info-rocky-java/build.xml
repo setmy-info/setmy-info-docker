@@ -6,7 +6,7 @@
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="download,unpack,build,latest-tag,show-images,login,push"/>
+    <target name="all" depends="download,unpack,build,latest-tag,show-images"/>
 
     <target name="download">
         <get src="${JDK_TAR_GZ_FILE_URL}" dest="${JDK_TAR_GZ_FILE_NAME}" skipexisting="true"/>

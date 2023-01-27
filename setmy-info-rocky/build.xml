@@ -6,7 +6,7 @@
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="build,latest-tag,show-images,login,push"/>
+    <target name="all" depends="build,latest-tag,show-images"/>
 
     <target name="build">
         <exec executable="cmd" osfamily="Windows">
