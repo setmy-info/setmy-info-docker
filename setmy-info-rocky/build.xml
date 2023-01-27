@@ -54,13 +54,13 @@
             <arg value="image"/>
             <arg value="list"/>
         </exec>
-        <exec executable="docker" osfamily="Windows">
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="tag"/>
             <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
             <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:latest"/>
         </exec>
-        <exec executable="docker" osfamily="Windows">
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="list"/>
         </exec>
@@ -73,7 +73,7 @@
             <arg value="image"/>
             <arg value="list"/>
         </exec>
-        <exec executable="docker" osfamily="Windows">
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="list"/>
         </exec>
@@ -85,7 +85,7 @@
             <arg value="docker"/>
             <arg value="login"/>
         </exec>
-        <exec executable="docker" osfamily="Windows">
+        <exec executable="docker" osfamily="unix">
             <arg value="login"/>
         </exec>
     </target>
@@ -105,12 +105,12 @@
             <arg value="push"/>
             <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
         </exec>
-        <exec executable="docker" osfamily="Windows">
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="push"/>
             <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:latest"/>
         </exec>
-        <exec executable="docker" osfamily="Windows">
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="push"/>
             <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
