@@ -9,7 +9,7 @@
     <target name="all" depends="download,unpack,build,latest-tag,show-images"/>
 
     <target name="download">
-        <get src="https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TAR_FILE_NAME}" dest="${NODE_TAR_FILE_NAME}"
+        <get src="https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TAR_FILE_NAME}" dest="${NODE_XZ_FILE_NAME}"
              skipexisting="true"/>
     </target>
 
