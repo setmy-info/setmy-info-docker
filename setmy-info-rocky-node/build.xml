@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="setmy-info-rocky-java" default="all" basedir=".">
+
+    <property file="build.properties"/>
+    <property name="BUILDKIT_PROGRESS" value="plain"/>
+    <property name="DOCKER_BUILDKIT" value="0"/>
+
+    <target name="all" depends="download,unpack,build,latest-tag,show-images"/>
+
+    <target name="download">
+        <get src="https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TAR_FILE_NAME} -O ${NODE_TAR_FILE_NAME}"
+             skipexisting="true"/>
+    </target>
+
+    <target name="unpack">
+        <unxz src="${NODE_XZ_FILE_NAME}"/>
+        <untar src="${NODE_TAR_FILE_NAME}" dest="."/>
+    </target>
+
+    <target name="build">
+        <exec executable="cmd" osfamily="Windows">
+            <env key="BUILDKIT_PROGRESS" value="${BUILDKIT_PROGRESS}"/>
+            <env key="DOCKER_BUILDKIT" value="${DOCKER_BUILDKIT}"/>
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="build"/>
+            <arg value="-t"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
+            <arg value="."/>
+        </exec>
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="list"/>
+        </exec>
+    </target>
+
+    <target name="latest-tag">
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="tag"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:latest"/>
+        </exec>
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="list"/>
+        </exec>
+    </target>
+
+    <target name="show-images">
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="list"/>
+        </exec>
+    </target>
+
+    <target name="login">
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="login"/>
+        </exec>
+    </target>
+
+    <target name="push">
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="push"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:latest"/>
+        </exec>
+        <exec executable="cmd" osfamily="Windows">
+            <arg value="/c"/>
+            <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="push"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
+        </exec>
+    </target>
+
+</project>

@@ -7,14 +7,14 @@ LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
       org.opencontainers.image.version="9.1-1" \
       org.opencontainers.image.revision="9.1-1" \
-	  org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
-	  org.opencontainers.image.documentation="" \
-      org.opencontainers.authors="Imre Tabur" \
-      org.opencontainers.source="" \
-      org.opencontainers.url="" \
-      org.opencontainers.ref.name=""
+      org.opencontainers.image.documentation="" \
+      org.opencontainers.image.authors="Imre Tabur" \
+      org.opencontainers.image.source="" \
+      org.opencontainers.image.url="" \
+      org.opencontainers.image.ref.name=""
 
 RUN dnf -y update && \
     cat /etc/rocky-release && \
