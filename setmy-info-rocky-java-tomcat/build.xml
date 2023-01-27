@@ -9,12 +9,12 @@
     <target name="all" depends="download,unpack,build,latest-tag,show-images"/>
 
     <target name="download">
-        <get src="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TAR_FILE_NAME}"
-             dest="${TOMCAT_TAR_FILE_NAME}" skipexisting="true"/>
+        <get src="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TAR_GZ_FILE_NAME}"
+             dest="${TOMCAT_TAR_GZ_FILE_NAME}" skipexisting="true"/>
     </target>
 
     <target name="unpack">
-        <gunzip src="${TOMCAT_GZ_FILE_NAME}"/>
+        <gunzip src="${TOMCAT_TAR_GZ_FILE_NAME}"/>
         <untar src="${TOMCAT_TAR_FILE_NAME}" dest="."/>
     </target>
 
