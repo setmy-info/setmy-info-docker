@@ -1,4 +1,4 @@
-FROM rockylinux/rockylinux:9
+FROM rockylinux/rockylinux:9.1
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
