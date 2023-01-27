@@ -14,7 +14,7 @@
     </target>
 
     <target name="unpack">
-        <unzip src="${INFINISPAN_ZIP_FILE_NAME}"/>
+        <unzip src="${INFINISPAN_ZIP_FILE_NAME}" dest="${INFINISPAN_DIR_NAME}"/>
     </target>
 
     <target name="build">
