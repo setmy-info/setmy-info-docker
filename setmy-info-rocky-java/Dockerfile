@@ -17,7 +17,8 @@ LABEL org.opencontainers.image.title="Docker HUB Centos Java" \
       org.opencontainers.image.ref.name=""
 
 COPY jdk-19.0.2 /opt/jdk
-RUN chown -R root:root /opt/jdk
+RUN chown -R root:root /opt/jdk && \
+    chmod ugo+rx /opt/jdk/bin/*
 ENV JAVA_HOME /opt/jdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 RUN cd /opt/jdk && ls -la && java -version

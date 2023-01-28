@@ -17,7 +17,8 @@ LABEL org.opencontainers.image.title="Docker HUB Centos Tomcat" \
       org.opencontainers.image.ref.name=""
 
 COPY apache-tomcat-10.0.27 /opt/tomcat
-RUN mkdir -p /opt/tomcat/{logs,temp}
+RUN mkdir -p /opt/tomcat/logs && \
+    mkdir -p /opt/tomcat/temp
 RUN mkdir -p /opt/tomcat/conf/Catalina/
 RUN useradd tomcat --shell /sbin/nologin --no-create-home
 RUN chown -R root:root     /opt/tomcat
@@ -26,7 +27,8 @@ RUN chown -R tomcat:tomcat /opt/tomcat/temp/
 RUN chown -R tomcat:tomcat /opt/tomcat/logs/
 RUN chown -R tomcat:tomcat /opt/tomcat/webapps/
 RUN chown -R tomcat:tomcat /opt/tomcat/conf/Catalina/
-RUN chmod goa+r /opt/tomcat/conf/*
+RUN chmod goa+r /opt/tomcat/conf/* && \
+    chmod ugo+rx /opt/tomcat/bin/*.sh
 # TODO : tomcat std apps deletion
 
 ENV CATALINA_HOME /opt/tomcat

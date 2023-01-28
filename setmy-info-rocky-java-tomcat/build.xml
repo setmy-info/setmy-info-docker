@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="setmy-info-rocky-java" default="all" basedir=".">
+<project name="setmy-info-rocky-java-tomcat" default="all" basedir=".">
 
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="download,unpack,build,latest-tag,show-images"/>
+    <target name="all" depends="download,unpack,build,latest-tag,show-images,login,push"/>
 
     <target name="download">
         <get src="https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/${TOMCAT_TAR_GZ_FILE_NAME}"
@@ -16,6 +16,7 @@
     <target name="unpack">
         <gunzip src="${TOMCAT_TAR_GZ_FILE_NAME}"/>
         <untar src="${TOMCAT_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="${TOMCAT_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
     </target>
 
     <target name="build">
@@ -32,6 +33,18 @@
         <exec executable="cmd" osfamily="Windows">
             <arg value="/c"/>
             <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="list"/>
+        </exec>
+        <exec executable="docker" osfamily="unix">
+            <env key="BUILDKIT_PROGRESS" value="${BUILDKIT_PROGRESS}"/>
+            <env key="DOCKER_BUILDKIT" value="${DOCKER_BUILDKIT}"/>
+            <arg value="build"/>
+            <arg value="-t"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
+            <arg value="."/>
+        </exec>
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="list"/>
         </exec>
@@ -52,6 +65,16 @@
             <arg value="image"/>
             <arg value="list"/>
         </exec>
+        <exec executable="docker" osfamily="unix">
+            <arg value="image"/>
+            <arg value="tag"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:latest"/>
+        </exec>
+        <exec executable="docker" osfamily="unix">
+            <arg value="image"/>
+            <arg value="list"/>
+        </exec>
     </target>
 
     <target name="show-images">
@@ -61,12 +84,19 @@
             <arg value="image"/>
             <arg value="list"/>
         </exec>
+        <exec executable="docker" osfamily="unix">
+            <arg value="image"/>
+            <arg value="list"/>
+        </exec>
     </target>
 
     <target name="login">
         <exec executable="cmd" osfamily="Windows">
             <arg value="/c"/>
             <arg value="docker"/>
+            <arg value="login"/>
+        </exec>
+        <exec executable="docker" osfamily="unix">
             <arg value="login"/>
         </exec>
     </target>
@@ -82,6 +112,16 @@
         <exec executable="cmd" osfamily="Windows">
             <arg value="/c"/>
             <arg value="docker"/>
+            <arg value="image"/>
+            <arg value="push"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
+        </exec>
+        <exec executable="docker" osfamily="unix">
+            <arg value="image"/>
+            <arg value="push"/>
+            <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:latest"/>
+        </exec>
+        <exec executable="docker" osfamily="unix">
             <arg value="image"/>
             <arg value="push"/>
             <arg value="${DOCKER_ID_ORGANIZATION}/${DOCKER_PROJECT_NAME}:${DOCKER_PROJECT_VERSION}"/>
