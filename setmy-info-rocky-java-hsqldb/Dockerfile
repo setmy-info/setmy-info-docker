@@ -20,7 +20,8 @@ RUN mkdir -p /opt/hsqldb/bin && \
     mkdir -p /opt/hsqldb/lib &&  \
     mkdir -p /var/opt/hsqldb/data
 
-COPY src/server /opt/hsqldb/bin
+COPY src/server /opt/hsqldb/bin && \
+     chmod ugo+rx /opt/hsqldb/bin/*
 COPY hsqldb-2.7.1/hsqldb/lib/hsqldb.jar /opt/hsqldb/lib
 RUN chown -R root:root /opt/hsqldb
 RUN chown -R root:root /var/opt/hsqldb
