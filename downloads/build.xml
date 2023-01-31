@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="setmy-info-docker-downloads" default="all" basedir=".">
+
+    <property file="build.properties"/>
+
+    <target name="all" depends="node,maven,ant,gradle,cmake,julia,go"/>
+    
+    <target name="node" depends="download-node,unpack-node"/>
+    
+    <target name="download-node">
+        <get src="${NODE_TAR_XZ_FILE_URL}" dest="${NODE_TAR_XZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-node">
+        <!-- wget https://repo1.maven.org/maven2/org/tukaani/xz/1.9/xz-1.9.jar under ANT/lib-->
+        <unxz src="${NODE_TAR_XZ_FILE_NAME}"/>
+        <untar src="${NODE_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="${NODE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <target name="maven" depends="download-maven,unpack-maven"/>
+    
+    <target name="download-maven">
+        <get src="${MAVEN_TAR_GZ_FILE_URL}" dest="${MAVEN_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-maven">
+        <gunzip src="${MAVEN_TAR_GZ_FILE_NAME}"/>
+        <untar src="${MAVEN_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="${MAVEN_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <target name="ant" depends="download-ant,unpack-ant"/>
+    
+    <target name="download-ant">
+        <get src="${ANT_TAR_GZ_FILE_URL}" dest="${ANT_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-ant">
+        <gunzip src="${ANT_TAR_GZ_FILE_NAME}"/>
+        <untar src="${ANT_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="${ANT_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <target name="gradle" depends="download-gradle,unpack-gradle"/>
+    
+    <target name="download-gradle">
+        <get src="${GRADLE_ZIP_FILE_URL}" dest="${GRADLE_ZIP_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-gradle">
+        <unzip src="${GRADLE_ZIP_FILE_NAME}" dest="."/>
+        <chmod dir="${GRADLE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <target name="cmake" depends="download-cmake,unpack-cmake"/>
+    
+    <target name="download-cmake">
+        <get src="${CMAKE_TAR_GZ_FILE_URL}" dest="${CMAKE_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-cmake">
+        <gunzip src="${CMAKE_TAR_GZ_FILE_NAME}"/>
+        <untar src="${CMAKE_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="${CMAKE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <target name="julia" depends="download-julia,unpack-julia"/>
+    
+    <target name="download-julia">
+        <get src="${JULIA_TAR_GZ_FILE_URL}" dest="${JULIA_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-julia">
+        <gunzip src="${JULIA_TAR_GZ_FILE_NAME}"/>
+        <untar src="${JULIA_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="${JULIA_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <target name="go" depends="download-go,unpack-go"/>
+    
+    <target name="download-go">
+        <get src="${GO_TAR_GZ_FILE_URL}" dest="${GO_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-go">
+        <gunzip src="${GO_TAR_GZ_FILE_NAME}"/>
+        <untar src="${GO_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="go/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+</project>
