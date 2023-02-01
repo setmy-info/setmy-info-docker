@@ -16,8 +16,11 @@ LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-RUN dnf -y update && \
+COPY ./collections/setmy-info-scripts-0.51.0.noarch.rpm /tmp
+RUN ls -la ~/ && \
+    dnf -y update && \
     dnf -y install tar gzip bzip2 wget && \
+    rpm -i /tmp/setmy-info-scripts-0.51.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
