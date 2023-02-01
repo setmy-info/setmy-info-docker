@@ -21,8 +21,8 @@ ENV JAVA_HOME=/opt/jdk
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key && \
-    dnf install -y tini fontconfig jenkins && \
-#    systemctl enable jenkins && \
+    dnf install -y fontconfig jenkins && \
+    systemctl enable jenkins && \
     firewall-cmd --permanent --new-service=jenkins && \
     firewall-cmd --permanent --service=jenkins --set-short="Jenkins ports" && \
     firewall-cmd --permanent --service=jenkins --set-description="Jenkins port exceptions" && \
@@ -35,6 +35,4 @@ USER jenkins
 
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
 
-ENTRYPOINT ["/sbin/tini", "--"]
-
-CMD ["/usr/local/bin/jenkins.sh"
+CMD ["/sbin/init"}
