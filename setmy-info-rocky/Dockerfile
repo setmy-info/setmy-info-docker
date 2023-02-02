@@ -5,8 +5,8 @@ MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
-      org.opencontainers.image.version="9.1-1" \
-      org.opencontainers.image.revision="9.1-1" \
+      org.opencontainers.image.version="9.1-2" \
+      org.opencontainers.image.revision="9.1-2" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -17,8 +17,8 @@ LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.ref.name=""
 
 COPY ./collections/setmy-info-scripts-0.51.0.noarch.rpm /tmp
-RUN ls -la ~/ && \
-    dnf -y update && \
+
+RUN dnf -y update && \
     dnf -y install tar gzip bzip2 wget && \
     rpm -i /tmp/setmy-info-scripts-0.51.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
@@ -51,6 +51,8 @@ ENV LD_LIBRARY_PATH=/opt/has/lib
 ENV PYTHONPATH=/opt/has/lib
 ENV PATH=${SBCL_HOME}/bin:${PATH}
 
-RUN cat /etc/redhat-release && \
+RUN source /etc/profile.d/setmy-info.sh && \
+    cat /etc/redhat-release && \
     python3 --version && \
-    sbcl --version
+    sbcl --version && \
+    smi-version
