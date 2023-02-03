@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="setmy-info-rocky" default="all" basedir=".">
+<project name="setmy-info-rocky" default="build" basedir=".">
 
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="build,latest-tag,show-images"/>
+    <!-- 
+        ant prepare
+            Build scripts package and copies it into place
+        ant
+            Build image
+        ant push
+            Push Image to docker hub
+    -->
 
-    <target name="build">
+    <target name="all" depends="prepare,build"/>
+
+    <target name="prepare" depends="setmy-info-scripts,sbcl"/>
+
+    <target name="build" depends="build-image,latest-tag,show-images"/>
+    
+    <target name="setmy-info-scripts">
+        <ant antfile="../collections/build.xml" dir="../collections" target="setmy-info-scripts"/>
+    </target>
+
+    <target name="sbcl">
+        <ant antfile="../collections/build.xml" dir="../collections" target="sbcl"/>
+    </target>
+
+    <target name="build-image">
         <exec executable="cmd" osfamily="Windows">
             <env key="BUILDKIT_PROGRESS" value="${BUILDKIT_PROGRESS}"/>
             <env key="DOCKER_BUILDKIT" value="${DOCKER_BUILDKIT}"/>

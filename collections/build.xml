@@ -4,20 +4,47 @@
 
     <property file="build.properties"/>
 
-    <target name="all" depends="jdk,ant,maven,gradle,node,cmake,julia,go,setmy-info-scripts"/>
+    <target name="all" depends="download,unpack"/>
+
+    <target name="download" depends="download-sbcl,download-jdk"/>
+    
+    <target name="unpack" depends="unpack-sbcl,unpack-jdk"/>
+
+    <!-- ######################## -->
+    
+    <target name="setmy-info-scripts">
+        <ant antfile="build.xml" dir="${SMI_SCRIPTS_DIR}" target="all"/>
+        <copy todir="${SMI_ROCKY_DOCKER_DIR}">
+            <fileset dir="${SMI_SCRIPTS_DIR}" includes="*.rpm"/>
+        </copy>
+    </target>
+    
+    <!-- ######################## -->
+    
+    <target name="sbcl" depends="download-sbcl,unpack-sbcl"/>
+
+    <target name="download-sbcl">
+        <get src="${SBCL_TAR_BZ2_FILE_URL}" dest="${SMI_ROCKY_DOCKER_DIR}/${SBCL_TAR_BZ2_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-sbcl">
+        <!-- bunzip2 src="${SMI_ROCKY_DOCKER_DIR}/${SBCL_TAR_BZ2_FILE_NAME}"/>
+        <untar src="${SMI_ROCKY_DOCKER_DIR}/${SBCL_TAR_FILE_NAME}" dest="${SMI_ROCKY_DOCKER_DIR}/"/>
+        <chmod dir="${SMI_ROCKY_DOCKER_DIR}/${SBCL_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/ -->
+    </target>
 
     <!-- ######################## -->
 
     <target name="jdk" depends="download-jdk,unpack-jdk"/>
 
     <target name="download-jdk">
-        <get src="${JDK_TAR_GZ_FILE_URL}" dest="${JDK_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${JDK_TAR_GZ_FILE_URL}" dest="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_TAR_GZ_FILE_NAME}" skipexisting="true"/>
     </target>
 
     <target name="unpack-jdk">
-        <gunzip src="${JDK_TAR_GZ_FILE_NAME}"/>
-        <untar src="${JDK_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="${JDK_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+        <gunzip src="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_TAR_GZ_FILE_NAME}"/>
+        <untar src="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_DOCKER_DIR}"/>
+        <chmod dir="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
     <!-- ######################## -->
@@ -119,37 +146,16 @@
         <untar src="${GO_TAR_FILE_NAME}" dest="."/>
         <chmod dir="${GO_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
-
-    <!-- ######################## -->
-    
-    <target name="sbcl" depends="download-sbcl,unpack-sbcl"/>
-
-    <target name="download-sbcl">
-        <get src="${SBCL_TAR_BZ2_FILE_URL}" dest="${SBCL_TAR_BZ2_FILE_NAME}" skipexisting="true"/>
-    </target>
-
-    <target name="unpack-sbcl">
-        <!-- bunzip2 src="${SBCL_TAR_BZ2_FILE_NAME}"/>
-        <untar src="${SBCL_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="${SBCL_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/ -->
-    </target>
-
     
     <!-- ######################## -->
-    <target name="setmy-info-scripts">
-        <ant antfile="build.xml" dir="${SMI_SCRIPTS_DIR}" target="all"/>
-        <copy todir="./">
-            <fileset dir="${SMI_SCRIPTS_DIR}" includes="*.rpm"/>
-        </copy>
-    </target>
 
     <target name="copy-to-docker" depends="make-docker-collection-dir">
-        <copy todir="${SMI_ROCKY_DOCKER_COLLECTIONS_DIR}">
+        <!--copy todir="${SMI_ROCKY_DOCKER_COLLECTIONS_DIR}">
             <fileset dir="./" includes="*.rpm"/>
         </copy>
         <copy todir="${SMI_ROCKY_JAVA_COLLECTIONS_DIR}">
             <fileset dir="${JDK_DIR_NAME}"/>
-        </copy>
+        </copy-->
         <!-- copy todir="${SMI_CI_DOCKER_COLLECTIONS_DIR}/${ANT_DIR_NAME}">
             <fileset dir="${ANT_DIR_NAME}"/>
         </copy>
@@ -174,9 +180,9 @@
     </target>
 
     <target name="make-docker-collection-dir">
-        <mkdir dir="${SMI_ROCKY_DOCKER_COLLECTIONS_DIR}"/>
+        <!-- mkdir dir="${SMI_ROCKY_DOCKER_COLLECTIONS_DIR}"/>
         <mkdir dir="${SMI_ROCKY_JAVA_COLLECTIONS_DIR}"/>
-        <mkdir dir="${SMI_CI_DOCKER_COLLECTIONS_DIR}"/>
+        <mkdir dir="${SMI_CI_DOCKER_COLLECTIONS_DIR}"/ -->
     </target>
 
 </project>

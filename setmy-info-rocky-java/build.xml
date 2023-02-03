@@ -6,10 +6,10 @@
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="download,unpack,build,latest-tag,show-images,login,push"/>
+    <target name="all" depends="download,unpack,build,latest-tag,show-images"/>
 
     <target name="download">
-        <get src="${JDK_TAR_GZ_FILE_URL}" dest="${JDK_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <ant antfile="../collections/build.xml" dir="../collections" target="download-jdk"/>
     </target>
 
     <target name="unpack">
@@ -100,7 +100,7 @@
         </exec>
     </target>
 
-    <target name="push">
+    <target name="push" depends="login">
         <exec executable="cmd" osfamily="Windows">
             <arg value="/c"/>
             <arg value="docker"/>

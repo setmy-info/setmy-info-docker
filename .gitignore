@@ -1,1 +1,11 @@
-*/collections
+**/openjdk-*
+**/apache-ant-*
+**/apache-maven-*
+**/gradle-*
+**/cmake-*
+**/go*
+**/julia-*
+**/node-*
+**/*.rpm
+**/xz-*
+**/sbcl-*
