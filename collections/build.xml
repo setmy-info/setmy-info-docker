@@ -61,6 +61,20 @@
 
     <!-- ######################## -->
 
+    <target name="tomcat" depends="download-tomcat,unpack-tomcat"/>
+
+    <target name="download-tomcat">
+        <get src="${TOMCAT_TAR_GZ_FILE_URL}" dest="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-tomcat">
+        <gunzip src="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_GZ_FILE_NAME}"/>
+        <untar src="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}"/>
+        <chmod dir="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
+    </target>
+
+    <!-- ######################## -->
+
     <target name="ant" depends="download-ant,unpack-ant"/>
 
     <target name="download-ant">

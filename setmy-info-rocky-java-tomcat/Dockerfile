@@ -1,7 +1,5 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
 
-MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
-
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Centos Tomcat" \
       org.opencontainers.image.description="setmy.info Docker HUB Centos Tomcat" \
@@ -11,23 +9,24 @@ LABEL org.opencontainers.image.title="Docker HUB Centos Tomcat" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
-      org.opencontainers.image.authors="Imre Tabur" \
+      org.opencontainers.image.authors="Imre Tabur <imre.tabur@eesti.ee>" \
       org.opencontainers.image.source="" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
 COPY apache-tomcat-10.0.27 /opt/tomcat
+
 RUN mkdir -p /opt/tomcat/logs && \
-    mkdir -p /opt/tomcat/temp
-RUN mkdir -p /opt/tomcat/conf/Catalina/
-RUN useradd tomcat --shell /sbin/nologin --no-create-home
-RUN chown -R root:root     /opt/tomcat
-RUN chown -R tomcat:tomcat /opt/tomcat/work/
-RUN chown -R tomcat:tomcat /opt/tomcat/temp/
-RUN chown -R tomcat:tomcat /opt/tomcat/logs/
-RUN chown -R tomcat:tomcat /opt/tomcat/webapps/
-RUN chown -R tomcat:tomcat /opt/tomcat/conf/Catalina/
-RUN chmod goa+r /opt/tomcat/conf/* && \
+    mkdir -p /opt/tomcat/temp && \
+    mkdir -p /opt/tomcat/conf/Catalina/ && \
+    useradd tomcat --shell /sbin/nologin --no-create-home && \
+    chown -R root:root     /opt/tomcat && \
+    chown -R tomcat:tomcat /opt/tomcat/work/ && \
+    chown -R tomcat:tomcat /opt/tomcat/temp/ && \
+    chown -R tomcat:tomcat /opt/tomcat/logs/ && \
+    chown -R tomcat:tomcat /opt/tomcat/webapps/ && \
+    chown -R tomcat:tomcat /opt/tomcat/conf/Catalina/ && \
+    chmod goa+r /opt/tomcat/conf/* && \
     chmod ugo+rx /opt/tomcat/bin/*.sh
 # TODO : tomcat std apps deletion
 
