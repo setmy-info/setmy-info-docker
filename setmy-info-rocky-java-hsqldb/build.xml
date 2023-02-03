@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="setmy-info-rocky-java-hsqldb" default="all" basedir=".">
+<project name="setmy-info-rocky-java-hsqldb" default="build" basedir=".">
 
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="download,unpack,build,latest-tag,show-images,login,push"/>
+    <!-- 
+        ant prepare
+            Build scripts package and copies it into place
+        ant
+            Build image
+        ant push
+            Push Image to docker hub
+    -->
 
-    <target name="download">
-        <get src="https://altushost-swe.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_7/${HSQLDB_ZIP_FILE_NAME}"
-             dest="${HSQLDB_ZIP_FILE_NAME}" skipexisting="true"/>
+    <target name="all" depends="prepare,build"/>
+
+    <target name="prepare" depends="hsqldb"/>
+
+    <target name="build" depends="build-image,latest-tag,show-images"/>
+
+    <target name="hsqldb">
+        <ant antfile="../collections/build.xml" dir="../collections" target="hsqldb"/>
     </target>
 
-    <target name="unpack">
-        <unzip src="${HSQLDB_ZIP_FILE_NAME}" dest="."/>
-    </target>
-
-    <target name="build">
+    <target name="build-image">
         <exec executable="cmd" osfamily="Windows">
             <env key="BUILDKIT_PROGRESS" value="${BUILDKIT_PROGRESS}"/>
             <env key="DOCKER_BUILDKIT" value="${DOCKER_BUILDKIT}"/>
@@ -99,7 +107,7 @@
         </exec>
     </target>
 
-    <target name="push">
+    <target name="push" depends="login">
         <exec executable="cmd" osfamily="Windows">
             <arg value="/c"/>
             <arg value="docker"/>
