@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="setmy-info-rocky-node" default="all" basedir=".">
+<project name="setmy-info-rocky-node" default="build" basedir=".">
 
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <target name="all" depends="download,unpack,build,latest-tag,show-images,login,push"/>
+    <!-- 
+        ant prepare
+            Build scripts package and copies it into place
+        ant
+            Build image
+        ant push
+            Push Image to docker hub
+    -->
 
-    <target name="download">
-        <get src="https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TAR_XZ_FILE_NAME}" dest="${NODE_TAR_XZ_FILE_NAME}"
-             skipexisting="true"/>
+    <target name="all" depends="prepare,build"/>
+
+    <target name="prepare" depends="node"/>
+
+    <target name="build" depends="build-image,latest-tag,show-images"/>
+
+    <target name="node">
+        <ant antfile="../collections/build.xml" dir="../collections" target="node"/>
     </target>
 
-    <target name="unpack">
-        <!-- wget https://repo1.maven.org/maven2/org/tukaani/xz/1.9/xz-1.9.jar under ANT/lib-->
-        <unxz src="${NODE_TAR_XZ_FILE_NAME}"/>
-        <untar src="${NODE_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="${NODE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
-    <target name="build">
+    <target name="build-image">
         <exec executable="cmd" osfamily="Windows">
             <env key="BUILDKIT_PROGRESS" value="${BUILDKIT_PROGRESS}"/>
             <env key="DOCKER_BUILDKIT" value="${DOCKER_BUILDKIT}"/>
@@ -102,7 +107,7 @@
         </exec>
     </target>
 
-    <target name="push">
+    <target name="push" depends="login">
         <exec executable="cmd" osfamily="Windows">
             <arg value="/c"/>
             <arg value="docker"/>

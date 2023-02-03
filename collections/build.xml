@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="setmy-info-downloads" default="all" basedir=".">
+<project name="setmy-info-docker-collections" default="all" basedir=".">
 
     <property file="build.properties"/>
 
@@ -28,9 +28,6 @@
     </target>
 
     <target name="unpack-sbcl">
-        <!-- bunzip2 src="${SMI_ROCKY_DOCKER_DIR}/${SBCL_TAR_BZ2_FILE_NAME}"/>
-        <untar src="${SMI_ROCKY_DOCKER_DIR}/${SBCL_TAR_FILE_NAME}" dest="${SMI_ROCKY_DOCKER_DIR}/"/>
-        <chmod dir="${SMI_ROCKY_DOCKER_DIR}/${SBCL_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/ -->
     </target>
 
     <!-- ######################## -->
@@ -45,6 +42,21 @@
         <gunzip src="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_TAR_GZ_FILE_NAME}"/>
         <untar src="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_DOCKER_DIR}"/>
         <chmod dir="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <!-- ######################## -->
+
+    <target name="node" depends="download-node,unpack-node"/>
+
+    <target name="download-node">
+        <get src="${NODE_TAR_XZ_FILE_URL}" dest="${SMI_ROCKY_NODE_DOCKER_DIR}/${NODE_TAR_XZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-node">
+        <!-- wget https://repo1.maven.org/maven2/org/tukaani/xz/1.9/xz-1.9.jar under ANT/lib -->
+        <unxz src="${SMI_ROCKY_NODE_DOCKER_DIR}/${NODE_TAR_XZ_FILE_NAME}"/>
+        <untar src="${SMI_ROCKY_NODE_DOCKER_DIR}/${NODE_TAR_FILE_NAME}" dest="${SMI_ROCKY_NODE_DOCKER_DIR}/"/>
+        <chmod dir="${SMI_ROCKY_NODE_DOCKER_DIR}/${NODE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
     <!-- ######################## -->
@@ -88,21 +100,6 @@
     <target name="unpack-gradle">
         <unzip src="${GRADLE_ZIP_FILE_NAME}" dest="."/>
         <chmod dir="${GRADLE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
-    <!-- ######################## -->
-
-    <target name="node" depends="download-node,unpack-node"/>
-
-    <target name="download-node">
-        <get src="${NODE_TAR_XZ_FILE_URL}" dest="${NODE_TAR_XZ_FILE_NAME}" skipexisting="true"/>
-    </target>
-
-    <target name="unpack-node">
-        <!-- wget https://repo1.maven.org/maven2/org/tukaani/xz/1.9/xz-1.9.jar under ANT/lib -->
-        <unxz src="${NODE_TAR_XZ_FILE_NAME}"/>
-        <untar src="${NODE_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="${NODE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
     <!-- ######################## -->

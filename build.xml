@@ -3,25 +3,31 @@
 <project name="setmy-info-docker" default="all" basedir=".">
 
     <target name="all" depends="prepare,build,push">
-        <!-- ant antfile="build.xml" dir="setmy-info-rocky-java"/>
+        <!-- 
         <ant antfile="build.xml" dir="setmy-info-rocky-java-tomcat"/>
         <ant antfile="build.xml" dir="etmy-info-rocky-nginx"/>
-        <ant antfile="build.xml" dir="setmy-info-rocky-node"/>
         <ant antfile="build.xml" dir="setmy-info-rocky-java-zeebe"/>
         <ant antfile="build.xml" dir="setmy-info-rocky-java-infinispan"/>
-        <ant antfile="build.xml" dir="setmy-info-rocky-java-hsqldb"/ -->
+        <ant antfile="build.xml" dir="setmy-info-rocky-java-hsqldb"/>
+        -->
     </target>
 
     <target name="prepare">
-        <ant antfile="build.xml" dir="setmy-info-rocky" target="prepare"/>
+        <!--ant antfile="build.xml" dir="setmy-info-rocky" target="prepare"/>
+        <ant antfile="build.xml" dir="setmy-info-rocky-java" target="prepare"/-->
+        <ant antfile="build.xml" dir="setmy-info-rocky-node" target="prepare"/>
     </target>
 
     <target name="build">
-        <ant antfile="build.xml" dir="setmy-info-rocky"/>
+        <!--ant antfile="build.xml" dir="setmy-info-rocky"/>
+        <ant antfile="build.xml" dir="setmy-info-rocky-java"/-->
+        <ant antfile="build.xml" dir="setmy-info-rocky-node"/>
     </target>
 
     <target name="push">
-        <ant antfile="build.xml" dir="setmy-info-rocky" target="push"/>
+        <!--ant antfile="build.xml" dir="setmy-info-rocky" target="push"/>
+        <ant antfile="build.xml" dir="setmy-info-rocky-java" target="push"/-->
+        <ant antfile="build.xml" dir="setmy-info-rocky-node" target="push"/>
     </target>
 
 </project>
