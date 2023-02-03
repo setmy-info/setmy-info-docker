@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.title="Docker HUB rocky" \
 COPY setmy-info-scripts-0.51.0.noarch.rpm /tmp/
 
 RUN dnf -y update && \
-    dnf -y install tar gzip bzip2 wget && \
+    dnf -y install tar gzip bzip2 wget yum-utils && \
     rpm -i /tmp/setmy-info-scripts-0.51.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
