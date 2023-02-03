@@ -75,6 +75,20 @@
 
     <!-- ######################## -->
 
+    <target name="zeebe" depends="download-zeebe,unpack-zeebe"/>
+
+    <target name="download-zeebe">
+        <get src="${ZEEBE_TAR_GZ_FILE_URL}" dest="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-zeebe">
+        <gunzip src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_GZ_FILE_NAME}"/>
+        <untar src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}"/>
+        <chmod dir="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
+    </target>
+
+    <!-- ######################## -->
+
     <target name="ant" depends="download-ant,unpack-ant"/>
 
     <target name="download-ant">
