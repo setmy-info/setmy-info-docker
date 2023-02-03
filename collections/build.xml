@@ -84,7 +84,20 @@
     <target name="unpack-zeebe">
         <gunzip src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_GZ_FILE_NAME}"/>
         <untar src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}"/>
-        <chmod dir="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
+        <chmod dir="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
+
+    <!-- ######################## -->
+
+    <target name="infinispan" depends="download-infinispan,unpack-infinispan"/>
+
+    <target name="download-infinispan">
+        <get src="${INFINISPAN_ZIP_FILE_URL}" dest="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_ZIP_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-infinispan">
+        <unzip src="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_ZIP_FILE_NAME}" dest="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}"/>
+        <chmod dir="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
     </target>
 
     <!-- ######################## -->
