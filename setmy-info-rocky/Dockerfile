@@ -1,10 +1,10 @@
-FROM rockylinux/rockylinux:9.1
+FROM rockylinux/rockylinux:9.2
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
-      org.opencontainers.image.version="9.1-3" \
-      org.opencontainers.image.revision="9.1-3" \
+      org.opencontainers.image.version="9.2" \
+      org.opencontainers.image.revision="9.2" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -14,19 +14,20 @@ LABEL org.opencontainers.image.title="Docker HUB rocky" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY setmy-info-scripts-0.51.0.noarch.rpm /tmp/
+COPY setmy-info-scripts-0.54.0.noarch.rpm /tmp/
 
 RUN dnf -y update && \
     dnf -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.51.0.noarch.rpm && \
+#    TODO : set it back
+#    rpm -i /tmp/setmy-info-scripts-0.54.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
-    curl https://deac-ams.dl.sourceforge.net/project/sbcl/sbcl/2.3.0/sbcl-2.3.0-x86-64-linux-binary.tar.bz2 --output sbcl-2.3.0-x86-64-linux-binary.tar.bz2 && \
+    curl https://nav.dl.sourceforge.net/project/sbcl/sbcl/2.3.5/sbcl-2.3.5-x86-64-linux-binary.tar.bz2 --output sbcl-2.3.5-x86-64-linux-binary.tar.bz2 && \
     ls -la && \
-    tar -xvf sbcl-2.3.0-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
+    tar -xvf sbcl-2.3.5-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
     ls -la && \
-    cd ./sbcl-2.3.0-x86-64-linux && \
+    cd ./sbcl-2.3.5-x86-64-linux && \
     INSTALL_ROOT=/opt/sbcl sh install.sh && \
     rm -R /tmp/sbcl && \
     useradd microservice --shell /sbin/nologin --no-create-home && \
@@ -49,9 +50,11 @@ ENV LD_LIBRARY_PATH=/opt/has/lib
 ENV PYTHONPATH=/opt/has/lib
 ENV PATH=${SBCL_HOME}/bin:${PATH}
 
-RUN source /etc/profile.d/setmy-info.sh && \
-    cat /etc/redhat-release && \
+#    TODO : set it back
+# RUN source /etc/profile.d/setmy-info.sh && \
+RUN cat /etc/redhat-release && \
     python3 --version && \
     sbcl --version && \
-    curl --version && \
-    smi-version
+    curl --version
+#    TODO : set it back
+#    smi-version

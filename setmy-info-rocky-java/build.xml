@@ -6,7 +6,7 @@
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <!-- 
+    <!--
         ant prepare
             Build scripts package and copies it into place
         ant
