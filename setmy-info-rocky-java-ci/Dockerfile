@@ -23,7 +23,7 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 COPY jenkins.tar.gz /var/lib
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
-    dnf install -y fontconfig jenkins && \
+    dnf install -y fontconfig jenkins git && \
     tar xvzf /var/lib/jenkins.tar.gz -C /var/lib && \
     chown -R jenkins:jenkins /var/lib/jenkins
     #/usr/bin/systemctl enable jenkins
