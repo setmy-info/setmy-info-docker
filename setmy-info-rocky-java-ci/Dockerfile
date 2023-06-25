@@ -1,4 +1,5 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
+#FROM setmyinfo/setmy-info-rocky:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
@@ -17,35 +18,26 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.ref.name=""
 
 ENV LANG C.UTF-8
-ENV JAVA_HOME=/opt/jdk
-ENV PATH=$JAVA_HOME/bin:$PATH
 
-COPY jenkins.tar.gz /var/lib
+#ENV JAVA_HOME=/opt/jdk
+#ENV PATH=$JAVA_HOME/bin:$PATH
+#COPY jdk-17.0.2 /opt/jdk
+
+COPY jenkins /var/lib/jenkins
+#COPY .ssh /var/lib/jenkins/.ssh
+COPY jenkins-cli.jar /opt/setmy.info/lib
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
     dnf install -y fontconfig jenkins git && \
-    tar xvzf /var/lib/jenkins.tar.gz -C /var/lib && \
-    chown -R jenkins:jenkins /var/lib/jenkins
-    #/usr/bin/systemctl enable jenkins
-    #firewall-cmd --permanent --new-service=jenkins && \
-    #firewall-cmd --permanent --service=jenkins --set-short="Jenkins ports" && \
-    #firewall-cmd --permanent --service=jenkins --set-description="Jenkins port exceptions" && \
-    #firewall-cmd --permanent --service=jenkins --add-port=8080/tcp && \
-    #firewall-cmd --permanent --add-service=jenkins && \
-    #firewall-cmd --zone=public --add-service=http --permanent && \
-    #firewall-cmd --reload && \
-    #ls -la /var/lib/jenkins/jenkins.war && \
+    chown -R jenkins:jenkins /var/lib/jenkins && ls -la /var/lib/jenkins && \
+    java --version
 
-# Initial default admin password (change it at first use): e0c926f9e29a4842befe68bc699e0224
+# Initial (change it) default admin password
 ENV JENKINS_ADMIN_PASSWORD=e0c926f9e29a4842befe68bc699e0224
-
-# docker -e GITHUB_TOKEN=$GITHUB_TOKEN -e OTHER_VARIABLE=$OTHER_VARIABLE ...GITHUB_USERNAME,   to pass tokens into Jenkins, to access repos in github
-# docker volume create jenkins-data
 
 USER jenkins
 WORKDIR /var/lib/jenkins
 EXPOSE 8080
 
-#RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
-#CMD ["/sbin/init"]
+#RUN java -jar /opt/setmy.info/lib/jenkins-cli.jar --plugins "blueocean docker-workflow"
 CMD ["java", "-jar", "/usr/share/java/jenkins.war", "--enable-future-java"]

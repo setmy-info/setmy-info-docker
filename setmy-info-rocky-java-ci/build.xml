@@ -2,6 +2,7 @@
 
 <project name="setmy-info-rocky-java-jenkins" default="all" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
