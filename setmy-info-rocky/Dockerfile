@@ -18,8 +18,7 @@ COPY setmy-info-scripts-0.54.0.noarch.rpm /tmp/
 
 RUN dnf -y update && \
     dnf -y install tar gzip bzip2 wget yum-utils && \
-#    TODO : set it back
-#    rpm -i /tmp/setmy-info-scripts-0.54.0.noarch.rpm && \
+    rpm -i /tmp/setmy-info-scripts-0.54.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
@@ -50,11 +49,9 @@ ENV LD_LIBRARY_PATH=/opt/has/lib
 ENV PYTHONPATH=/opt/has/lib
 ENV PATH=${SBCL_HOME}/bin:${PATH}
 
-#    TODO : set it back
-# RUN source /etc/profile.d/setmy-info.sh && \
+RUN source /etc/profile.d/setmy-info.sh && \
 RUN cat /etc/redhat-release && \
     python3 --version && \
     sbcl --version && \
     curl --version
-#    TODO : set it back
-#    smi-version
+    smi-version
