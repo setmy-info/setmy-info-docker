@@ -13,6 +13,14 @@
         <ant antfile="build.xml" dir="setmy-info-rocky-java-zeebe" target="prepare"/>
         <ant antfile="build.xml" dir="setmy-info-rocky-java-infinispan" target="prepare"/>
         <ant antfile="build.xml" dir="setmy-info-rocky-java-hsqldb" target="prepare"/>
+        <ant antfile="build.xml" dir="collections" target="download-ant"/>
+        <ant antfile="build.xml" dir="collections" target="download-maven"/>
+        <ant antfile="build.xml" dir="collections" target="download-gradle"/>
+        <ant antfile="build.xml" dir="collections" target="download-cmake"/>
+        <ant antfile="build.xml" dir="collections" target="download-dvc"/>
+        <ant antfile="build.xml" dir="collections" target="download-julia"/>
+        <ant antfile="build.xml" dir="collections" target="download-go"/>
+        <ant antfile="build.xml" dir="collections" target="download-jenkins"/>
     </target>
 
     <target name="build">

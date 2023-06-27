@@ -6,25 +6,36 @@
 
     <target name="all" depends="download,unpack"/>
 
-    <target name="download" depends="download-sbcl,download-jdk"/>
-    
+    <target name="download" depends="init,download-sbcl,download-jdk"/>
+
     <target name="unpack" depends="unpack-sbcl,unpack-jdk"/>
 
     <!-- ######################## -->
-    
+
+    <target name="init">
+        <mkdir dir="${SMI_TEMP_DOCKER_DIR}"/>
+        <mkdir dir="${SMI_DOWNLOAD_DOCKER_DIR}"/>
+    </target>
+
+    <!-- ######################## -->
+
     <target name="setmy-info-scripts">
         <ant antfile="build.xml" dir="${SMI_SCRIPTS_DIR}" target="all"/>
         <copy todir="${SMI_ROCKY_DOCKER_DIR}">
             <fileset dir="${SMI_SCRIPTS_DIR}" includes="*.rpm"/>
         </copy>
+        <copy todir="${SMI_DOWNLOAD_DOCKER_DIR}">
+            <fileset dir="${SMI_SCRIPTS_DIR}" includes="*.rpm"/>
+        </copy>
     </target>
-    
+
     <!-- ######################## -->
-    
+
     <target name="sbcl" depends="download-sbcl,unpack-sbcl"/>
 
     <target name="download-sbcl">
-        <get src="${SBCL_TAR_BZ2_FILE_URL}" dest="${SMI_ROCKY_DOCKER_DIR}/${SBCL_TAR_BZ2_FILE_NAME}" skipexisting="true"/>
+        <get src="${SBCL_TAR_BZ2_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${SBCL_TAR_BZ2_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-sbcl">
@@ -35,7 +46,8 @@
     <target name="jdk" depends="download-jdk,unpack-jdk"/>
 
     <target name="download-jdk">
-        <get src="${JDK_TAR_GZ_FILE_URL}" dest="${SMI_ROCKY_JAVA_DOCKER_DIR}/${JDK_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${JDK_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${JDK_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-jdk">
@@ -49,7 +61,8 @@
     <target name="node" depends="download-node,unpack-node"/>
 
     <target name="download-node">
-        <get src="${NODE_TAR_XZ_FILE_URL}" dest="${SMI_ROCKY_NODE_DOCKER_DIR}/${NODE_TAR_XZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${NODE_TAR_XZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${NODE_TAR_XZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-node">
@@ -64,12 +77,14 @@
     <target name="tomcat" depends="download-tomcat,unpack-tomcat"/>
 
     <target name="download-tomcat">
-        <get src="${TOMCAT_TAR_GZ_FILE_URL}" dest="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${TOMCAT_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${TOMCAT_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-tomcat">
         <gunzip src="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_GZ_FILE_NAME}"/>
-        <untar src="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}"/>
+        <untar src="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_TAR_FILE_NAME}"
+               dest="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}"/>
         <chmod dir="${SMI_ROCKY_JAVA_TOMCAT_DOCKER_DIR}/${TOMCAT_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
     </target>
 
@@ -78,12 +93,14 @@
     <target name="zeebe" depends="download-zeebe,unpack-zeebe"/>
 
     <target name="download-zeebe">
-        <get src="${ZEEBE_TAR_GZ_FILE_URL}" dest="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${ZEEBE_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${ZEEBE_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-zeebe">
         <gunzip src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_GZ_FILE_NAME}"/>
-        <untar src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}"/>
+        <untar src="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_TAR_FILE_NAME}"
+               dest="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}"/>
         <chmod dir="${SMI_ROCKY_JAVA_ZEEBE_DOCKER_DIR}/${ZEEBE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
@@ -92,12 +109,15 @@
     <target name="infinispan" depends="download-infinispan,unpack-infinispan"/>
 
     <target name="download-infinispan">
-        <get src="${INFINISPAN_ZIP_FILE_URL}" dest="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_ZIP_FILE_NAME}" skipexisting="true"/>
+        <get src="${INFINISPAN_ZIP_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${INFINISPAN_ZIP_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-infinispan">
-        <unzip src="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_ZIP_FILE_NAME}" dest="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}"/>
-        <chmod dir="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
+        <unzip src="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_ZIP_FILE_NAME}"
+               dest="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}"/>
+        <chmod dir="${SMI_ROCKY_JAVA_INFINISPAN_DOCKER_DIR}/${INFINISPAN_DIR_NAME}/bin" perm="ugo+rx"
+               includes="**/*.sh"/>
     </target>
 
     <!-- ######################## -->
@@ -105,11 +125,13 @@
     <target name="hsqldb" depends="download-hsqldb,unpack-hsqldb"/>
 
     <target name="download-hsqldb">
-        <get src="${HSQLDB_ZIP_FILE_URL}" dest="${SMI_ROCKY_JAVA_HSQLDB_DOCKER_DIR}/${HSQLDB_ZIP_FILE_NAME}" skipexisting="true"/>
+        <get src="${HSQLDB_ZIP_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${HSQLDB_ZIP_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-hsqldb">
-        <unzip src="${SMI_ROCKY_JAVA_HSQLDB_DOCKER_DIR}/${HSQLDB_ZIP_FILE_NAME}" dest="${SMI_ROCKY_JAVA_HSQLDB_DOCKER_DIR}"/>
+        <unzip src="${SMI_ROCKY_JAVA_HSQLDB_DOCKER_DIR}/${HSQLDB_ZIP_FILE_NAME}"
+               dest="${SMI_ROCKY_JAVA_HSQLDB_DOCKER_DIR}"/>
     </target>
 
     <!-- ######################## -->
@@ -117,8 +139,10 @@
     <target name="ant" depends="download-ant,unpack-ant"/>
 
     <target name="download-ant">
-        <get src="${ANT_TAR_GZ_FILE_URL}" dest="${ANT_TAR_GZ_FILE_NAME}" skipexisting="true"/>
-        <get src="${ANT_EXT_XZ_FILE_URL}" dest="${ANT_EXT_XZ_JAR_FILE_NAME}" skipexisting="true"/>
+        <get src="${ANT_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${ANT_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
+        <get src="${ANT_EXT_XZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${ANT_EXT_XZ_JAR_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-ant">
@@ -133,7 +157,8 @@
     <target name="maven" depends="download-maven,unpack-maven"/>
 
     <target name="download-maven">
-        <get src="${MAVEN_TAR_GZ_FILE_URL}" dest="${MAVEN_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${MAVEN_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${MAVEN_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-maven">
@@ -147,7 +172,8 @@
     <target name="gradle" depends="download-gradle,unpack-gradle"/>
 
     <target name="download-gradle">
-        <get src="${GRADLE_ZIP_FILE_URL}" dest="${GRADLE_ZIP_FILE_NAME}" skipexisting="true"/>
+        <get src="${GRADLE_ZIP_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${GRADLE_ZIP_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-gradle">
@@ -160,7 +186,8 @@
     <target name="cmake" depends="download-cmake,unpack-cmake"/>
 
     <target name="download-cmake">
-        <get src="${CMAKE_TAR_GZ_FILE_URL}" dest="${CMAKE_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${CMAKE_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${CMAKE_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-cmake">
@@ -174,7 +201,8 @@
     <target name="julia" depends="download-julia,unpack-julia"/>
 
     <target name="download-julia">
-        <get src="${JULIA_TAR_GZ_FILE_URL}" dest="${JULIA_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${JULIA_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${JULIA_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
     </target>
 
     <target name="unpack-julia">
@@ -188,7 +216,7 @@
     <target name="go" depends="download-go,unpack-go"/>
 
     <target name="download-go">
-        <get src="${GO_TAR_GZ_FILE_URL}" dest="${GO_TAR_GZ_FILE_NAME}" skipexisting="true"/>
+        <get src="${GO_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${GO_TAR_GZ_FILE_NAME}" skipexisting="true"/>
     </target>
 
     <target name="unpack-go">
@@ -196,7 +224,38 @@
         <untar src="${GO_TAR_FILE_NAME}" dest="."/>
         <chmod dir="${GO_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
-    
+
+    <!-- ######################## -->
+
+    <target name="dvc" depends="download-dvc,unpack-dvc"/>
+
+    <target name="download-dvc">
+        <get src="${DVC_RPM_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${DVC_RPM_FILE_NAME}" skipexisting="true"/>
+    </target>
+
+    <target name="unpack-dvc">
+    </target>
+
+    <!-- ######################## -->
+
+    <target name="jenkins" depends="download-jenkins,unpack-jenkins"/>
+
+    <target name="download-jenkins">
+        <get src="${JENKINS_WAR_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${JENKINS_WAR_FILE_NAME}"
+             skipexisting="true"/>
+    </target>
+
+    <target name="unpack-jenkins">
+        <unzip src="${SMI_DOWNLOAD_DOCKER_DIR}/${JENKINS_WAR_FILE_NAME}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/">
+            <patternset>
+                <include name="WEB-INF/lib/cli-${JENKINS_VERSION}.jar"/>
+            </patternset>
+        </unzip>
+        <move file="${SMI_DOWNLOAD_DOCKER_DIR}/WEB-INF/lib/cli-${JENKINS_VERSION}.jar"
+              todir="${SMI_DOWNLOAD_DOCKER_DIR}"/>
+        <delete dir="${SMI_DOWNLOAD_DOCKER_DIR}/WEB-INF"/>
+    </target>
+
     <!-- ######################## -->
 
     <target name="copy-to-docker" depends="make-docker-collection-dir">
