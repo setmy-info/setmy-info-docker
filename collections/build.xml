@@ -194,22 +194,11 @@
 
     <!-- ######################## -->
 
-    <target name="jenkins" depends="download-jenkins,unpack-jenkins"/>
+    <target name="jenkins" depends="download-jenkins"/>
 
     <target name="download-jenkins">
         <get src="${JENKINS_WAR_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${JENKINS_WAR_FILE_NAME}"
              skipexisting="true"/>
-    </target>
-
-    <target name="unpack-jenkins">
-        <unzip src="${SMI_DOWNLOAD_DOCKER_DIR}/${JENKINS_WAR_FILE_NAME}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/">
-            <patternset>
-                <include name="WEB-INF/lib/cli-${JENKINS_VERSION}.jar"/>
-            </patternset>
-        </unzip>
-        <move file="${SMI_DOWNLOAD_DOCKER_DIR}/WEB-INF/lib/cli-${JENKINS_VERSION}.jar"
-              todir="${SMI_DOWNLOAD_DOCKER_DIR}"/>
-        <delete dir="${SMI_DOWNLOAD_DOCKER_DIR}/WEB-INF"/>
     </target>
 
     <!-- ######################## -->

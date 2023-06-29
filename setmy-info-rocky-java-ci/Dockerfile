@@ -23,13 +23,32 @@ ENV LANG C.UTF-8
 #ENV PATH=$JAVA_HOME/bin:$PATH
 #COPY jdk-17.0.2 /opt/jdk
 
-COPY jenkins /var/lib/jenkins
+# Development time with usable urls
 #COPY .ssh /var/lib/jenkins/.ssh
+
+ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:$PATH
+
+COPY jenkins /var/lib/jenkins
 COPY jenkins-cli.jar /opt/setmy.info/lib
+COPY dvc-3.2.1-1.x86_64.rpm /opt/setmy.info/lib/dvc.rpm
+COPY ./apache-ant-1.10.13 /opt/ant
+COPY ./apache-maven-3.9.3 /opt/maven
+COPY ./gradle-8.1.1 /opt/gralde
+COPY ./cmake-3.26.4-linux-x86_64 /opt/cmake
+COPY ./node-v18.16.1-linux-x64 /opt/node
+COPY ./go /opt/go
+COPY ./julia-1.9.1 /opt/julia
+
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
-    dnf install -y fontconfig jenkins git && \
+    dnf install -y fontconfig jenkins git make && \
+    dnf install -y /opt/setmy.info/lib/dvc.rpm && \
     chown -R jenkins:jenkins /var/lib/jenkins && ls -la /var/lib/jenkins && \
+    ant -version && \
+    mvn --version && \
+    gradle --version && \
+    node --version && \
+    cmake --version && \
     java --version
 
 # Initial (change it) default admin password
