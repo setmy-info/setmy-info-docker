@@ -8,7 +8,7 @@
 
     <target name="download"
             depends="init,download-sbcl,download-jdk,download-node,download-ant,download-maven,download-gradle,
-            download-cmake,download-dvc,download-julia,download-go,download-jenkins"
+            download-cmake,download-dvc,download-tomcat,download-zeebe,download-infinispan,download-hsqldb,download-julia,download-go,download-jenkins"
     />
 
     <!-- ######################## -->

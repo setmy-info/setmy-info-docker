@@ -23,6 +23,7 @@
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
     <target name="setmy-info-scripts">
+        <ant antfile="build.xml" dir="../collections" target="setmy-info-scripts"/>
         <copy todir=".">
             <fileset dir="../download" includes="setmy-info-scripts*.rpm"/>
         </copy>
