@@ -1,5 +1,5 @@
-FROM setmyinfo/setmy-info-rocky-java:latest
-#FROM setmyinfo/setmy-info-rocky:latest
+FROM setmyinfo/setmy-info-rocky:latest
+#FROM setmyinfo/setmy-info-rocky-java:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
@@ -19,15 +19,14 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
 
 ENV LANG C.UTF-8
 
-#ENV JAVA_HOME=/opt/jdk
-#ENV PATH=$JAVA_HOME/bin:$PATH
-#COPY jdk-17.0.2 /opt/jdk
-
-# Development time with usable urls
-#COPY .ssh /var/lib/jenkins/.ssh
-
+ENV JAVA_HOME=/opt/jdk
+ENV PATH=$JAVA_HOME/bin:$PATH
 ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:$PATH
 
+# Development time with usable keys
+#COPY .ssh /var/lib/jenkins/.ssh
+
+COPY jdk-17.0.2 /opt/jdk
 COPY jenkins /var/lib/jenkins
 COPY jenkins-cli.jar /opt/setmy.info/lib
 COPY dvc-3.2.1-1.x86_64.rpm /opt/setmy.info/lib/dvc.rpm
