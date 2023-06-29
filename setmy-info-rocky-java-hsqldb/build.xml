@@ -2,11 +2,12 @@
 
 <project name="setmy-info-rocky-java-hsqldb" default="build" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <!-- 
+    <!--
         ant prepare
             Build scripts package and copies it into place
         ant
@@ -17,12 +18,19 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="hsqldb"/>
+    <target name="prepare" depends="hsqldb,unpack-hsqldb"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
     <target name="hsqldb">
-        <ant antfile="../collections/build.xml" dir="../collections" target="hsqldb"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="${HSQLDB_ZIP_FILE_NAME}"/>
+        </copy>
+    </target>
+
+    <target name="unpack-hsqldb">
+        <unzip src="./${HSQLDB_ZIP_FILE_NAME}"
+               dest="."/>
     </target>
 
     <target name="build-image">

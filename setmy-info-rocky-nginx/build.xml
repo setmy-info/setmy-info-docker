@@ -2,11 +2,12 @@
 
 <project name="setmy-info-rocky-nginx" default="build" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <!-- 
+    <!--
         ant prepare
             Build scripts package and copies it into place
         ant

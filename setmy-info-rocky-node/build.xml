@@ -2,11 +2,12 @@
 
 <project name="setmy-info-rocky-node" default="build" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <!-- 
+    <!--
         ant prepare
             Build scripts package and copies it into place
         ant
@@ -17,12 +18,21 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="node"/>
+    <target name="prepare" depends="node,unpack-node"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
     <target name="node">
-        <ant antfile="../collections/build.xml" dir="../collections" target="node"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="${NODE_TAR_XZ_FILE_NAME}"/>
+        </copy>
+    </target>
+
+    <target name="unpack-node">
+        <!-- wget https://repo1.maven.org/maven2/org/tukaani/xz/1.9/xz-1.9.jar under ANT/lib -->
+        <unxz src="./${NODE_TAR_XZ_FILE_NAME}"/>
+        <untar src="./${NODE_TAR_FILE_NAME}" dest="${SMI_ROCKY_NODE_DOCKER_DIR}/"/>
+        <chmod dir="./${NODE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
     <target name="build-image">

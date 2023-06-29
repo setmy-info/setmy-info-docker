@@ -2,6 +2,7 @@
 
 <project name="setmy-info-rocky-java" default="build" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
@@ -17,12 +18,20 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="jdk"/>
+    <target name="prepare" depends="jdk,unpack-jdk"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
     <target name="jdk">
-        <ant antfile="../collections/build.xml" dir="../collections" target="jdk"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="${JDK_TAR_GZ_FILE_NAME}"/>
+        </copy>
+    </target>
+
+    <target name="unpack-jdk">
+        <gunzip src="./${JDK_TAR_GZ_FILE_NAME}"/>
+        <untar src="./${JDK_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_DOCKER_DIR}"/>
+        <chmod dir="./${JDK_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
     <target name="build-image">

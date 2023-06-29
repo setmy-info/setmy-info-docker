@@ -2,11 +2,12 @@
 
 <project name="setmy-info-rocky-java-tomcat" default="build" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <!-- 
+    <!--
         ant prepare
             Build scripts package and copies it into place
         ant
@@ -17,12 +18,21 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="tomcat"/>
+    <target name="prepare" depends="tomcat,unpack-tomcat"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
     <target name="tomcat">
-        <ant antfile="../collections/build.xml" dir="../collections" target="tomcat"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="${TOMCAT_TAR_GZ_FILE_NAME}"/>
+        </copy>
+    </target>
+
+    <target name="unpack-tomcat">
+        <gunzip src="./${TOMCAT_TAR_GZ_FILE_NAME}"/>
+        <untar src="./${TOMCAT_TAR_FILE_NAME}"
+               dest="."/>
+        <chmod dir="./${TOMCAT_DIR_NAME}/bin" perm="ugo+rx" includes="**/*.sh"/>
     </target>
 
     <target name="build-image">

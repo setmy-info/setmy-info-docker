@@ -29,29 +29,29 @@ RUN dnf -y update && \
     cd ./sbcl-2.3.5-x86-64-linux && \
     INSTALL_ROOT=/opt/sbcl sh install.sh && \
     rm -R /tmp/sbcl && \
-    useradd microservice --shell /sbin/nologin --no-create-home && \
-    mkdir -p /opt/has/bin && \
-    mkdir -p /opt/has/lib && \
-    mkdir -p /opt/has/doc && \
-    mkdir -p /opt/has/man && \
-    mkdir -p /opt/has/etc && \
-    mkdir -p /var/opt/has && \
-    mkdir -p /var/opt/has/microservice && \
-    chown -R root:root /opt/has && \
-    chown -R microservice:microservice /var/opt/has && \
-    chmod -R u+rwx /opt/has && \
-    chmod -R go+rx /opt/has && \
-    chmod -R go-w  /opt/has && \
-    cd /opt && ls -la && cd /opt/has && ls -la && cd /var/opt/ && ls -la && cd /var/opt/has && ls -la
+#    useradd microservice --shell /sbin/nologin --no-create-home && \
+    mkdir -p /opt/setmy.info/bin && \
+    mkdir -p /opt/setmy.info/lib && \
+    mkdir -p /opt/setmy.info/doc && \
+    mkdir -p /opt/setmy.info/man && \
+    mkdir -p /opt/setmy.info/etc && \
+    mkdir -p /var/setmy.info/setmy.info && \
+    mkdir -p /var/opt/setmy.info/microservice && \
+    chown -R root:root /opt/setmy.info && \
+    chown -R microservice:microservice /var/opt/setmy.info && \
+    chmod -R u+rwx /opt/setmy.info && \
+    chmod -R go+rx /opt/setmy.info && \
+    chmod -R go-w  /opt/setmy.info && \
+    cd /opt && ls -la && cd /opt/setmy.info && ls -la && cd /var/opt/ && ls -la && cd /var/opt/setmy.info && ls -la
 
 ENV SBCL_HOME=/opt/sbcl
-ENV LD_LIBRARY_PATH=/opt/has/lib
-ENV PYTHONPATH=/opt/has/lib
+ENV LD_LIBRARY_PATH=/opt/setmy.info/lib
+ENV PYTHONPATH=/opt/setmy.info/lib
 ENV PATH=${SBCL_HOME}/bin:${PATH}
 
 RUN source /etc/profile.d/setmy-info.sh && \
-RUN cat /etc/redhat-release && \
+    cat /etc/redhat-release && \
     python3 --version && \
     sbcl --version && \
-    curl --version
+    curl --version && \
     smi-version

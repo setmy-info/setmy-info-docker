@@ -2,11 +2,12 @@
 
 <project name="setmy-info-rocky-java-infinispan" default="build" basedir=".">
 
+    <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
 
-    <!-- 
+    <!--
         ant prepare
             Build scripts package and copies it into place
         ant
@@ -17,12 +18,21 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="infinispan"/>
+    <target name="prepare" depends="infinispan,unpack-infinispan"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
-    
+
     <target name="infinispan">
-        <ant antfile="../collections/build.xml" dir="../collections" target="infinispan"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="${INFINISPAN_ZIP_FILE_NAME}"/>
+        </copy>
+    </target>
+
+    <target name="unpack-infinispan">
+        <unzip src="./${INFINISPAN_ZIP_FILE_NAME}"
+               dest="."/>
+        <chmod dir="./${INFINISPAN_DIR_NAME}/bin" perm="ugo+rx"
+               includes="**/*.sh"/>
     </target>
 
     <target name="build-image">

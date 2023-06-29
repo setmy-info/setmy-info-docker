@@ -1,10 +1,10 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
-LABEL org.opencontainers.image.title="Docker HUB Centos Tomcat" \
-      org.opencontainers.image.description="setmy.info Docker HUB Centos Tomcat" \
-      org.opencontainers.image.version="10.1.10" \
-      org.opencontainers.image.revision="10.1.10" \
+LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
+      org.opencontainers.image.description="setmy.info Docker HUB Rocky Tomcat" \
+      org.opencontainers.image.version="10.1.10-2" \
+      org.opencontainers.image.revision="10.1.10-2" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \

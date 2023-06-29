@@ -23,11 +23,15 @@
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
     <target name="setmy-info-scripts">
-        <ant antfile="../collections/build.xml" dir="../collections" target="setmy-info-scripts"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="setmy-info-scripts*.rpm"/>
+        </copy>
     </target>
 
     <target name="sbcl">
-        <ant antfile="../collections/build.xml" dir="../collections" target="sbcl"/>
+        <copy todir=".">
+            <fileset dir="../download" includes="${SBCL_TAR_BZ2_FILE_NAME}"/>
+        </copy>
     </target>
 
     <target name="build-image">
