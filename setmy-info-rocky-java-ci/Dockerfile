@@ -20,12 +20,13 @@ ENV LANG C.UTF-8
 
 ENV JAVA_HOME=/opt/jdk
 ENV PATH=$JAVA_HOME/bin:$PATH
-ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:$PATH
+ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$PATH
 
 COPY jenkins /var/lib/jenkins
 COPY jenkins-cli.jar /opt/setmy.info/lib
 COPY dvc-3.2.1-1.x86_64.rpm /opt/setmy.info/lib/dvc.rpm
-COPY zulu17.42.21-ca-crac-jdk17.0.7-linux_x64 /opt/jdk
+#COPY zulu17.42.21-ca-crac-jdk17.0.7-linux_x64 /opt/jdk
+COPY jdk-17.0.2 /opt/jdk
 COPY apache-ant-1.10.13 /opt/ant
 COPY apache-maven-3.9.3 /opt/maven
 COPY gradle-8.1.1 /opt/gradle
