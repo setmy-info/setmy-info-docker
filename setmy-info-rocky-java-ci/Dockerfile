@@ -40,6 +40,7 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.
     dnf install -y /opt/setmy.info/lib/dvc.rpm && \
     chown -R jenkins:jenkins /var/lib/jenkins && ls -la /var/lib/jenkins && \
     ls -la /opt && \
+    ls -la /opt/julia/lib && \
     ant -version && \
     mvn --version && \
     gradle --version && \

@@ -144,6 +144,12 @@
     <target name="unpack-julia">
         <gunzip src="./${JULIA_TAR_GZ_FILE_NAME}"/>
         <untar src="./${JULIA_TAR_FILE_NAME}" dest="."/>
+        <exec executable="tar" osfamily="unix">
+            <arg value="xvf"/>
+            <arg value="./${JULIA_TAR_FILE_NAME}"/>
+            <arg value="-C"/>
+            <arg value="."/>
+        </exec>
         <chmod dir="./${JULIA_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
