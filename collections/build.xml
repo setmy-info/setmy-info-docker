@@ -7,7 +7,7 @@
     <target name="all" depends="download"/>
 
     <target name="download"
-            depends="init,download-sbcl,download-jdk,download-node,download-ant,download-maven,download-gradle,
+            depends="init,download-sbcl,download-jdk,download-jdk17,download-node,download-ant,download-maven,download-gradle,
             download-cmake,download-dvc,download-tomcat,download-zeebe,download-infinispan,download-hsqldb,download-julia,download-go,download-jenkins"
     />
 
@@ -42,6 +42,15 @@
 
     <target name="download-jdk">
         <get src="${JDK_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${JDK_TAR_GZ_FILE_NAME}"
+             skipexisting="true"/>
+    </target>
+
+    <!-- ######################## -->
+
+    <target name="jdk17" depends="download-jdk17"/>
+
+    <target name="download-jdk17">
+        <get src="${JDK17_TAR_GZ_FILE_URL}" dest="${SMI_DOWNLOAD_DOCKER_DIR}/${JDK17_TAR_GZ_FILE_NAME}"
              skipexisting="true"/>
     </target>
 

@@ -41,6 +41,7 @@
         <ant antfile="build.xml" dir="setmy-info-rocky-java-zeebe" target="push"/>
         <ant antfile="build.xml" dir="setmy-info-rocky-java-infinispan" target="push"/>
         <ant antfile="build.xml" dir="setmy-info-rocky-java-hsqldb" target="push"/>
+        <ant antfile="build.xml" dir="setmy-info-rocky-java-ci" target="push"/>
     </target>
 
 </project>

@@ -19,10 +19,22 @@
     <target name="all" depends="prepare,build"/>
 
     <target name="prepare"
-            depends="maven,unpack-maven,gradle,unpack-gradle,node,unpack-node,cmake,unpack-cmake,ant,unpack-ant,
+            depends="jdk17,unpack-jdk17,maven,unpack-maven,gradle,unpack-gradle,node,unpack-node,cmake,unpack-cmake,ant,unpack-ant,
             dvc,unpack-dvc,jenkins,unpack-jenkins,go,unpack-go,julia,unpack-julia"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
+
+    <target name="jdk17">
+        <copy todir=".">
+            <fileset dir="../download" includes="${JDK17_TAR_GZ_FILE_NAME}"/>
+        </copy>
+    </target>
+
+    <target name="unpack-jdk17">
+        <gunzip src="./${JDK17_TAR_GZ_FILE_NAME}"/>
+        <untar src="./${JDK17_TAR_FILE_NAME}" dest="."/>
+        <chmod dir="./${JDK17_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
+    </target>
 
     <target name="maven">
         <copy todir=".">
