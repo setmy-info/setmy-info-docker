@@ -6,6 +6,7 @@
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
+    <property name="DOWNLOAD_DIR" value="./target/download"/>
 
     <!--
         ant prepare
@@ -18,139 +19,83 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare"
-            depends="jdk17,unpack-jdk17,maven,unpack-maven,gradle,unpack-gradle,node,unpack-node,cmake,unpack-cmake,ant,unpack-ant,
-            dvc,unpack-dvc,jenkins,unpack-jenkins,go,unpack-go,julia,unpack-julia"/>
+    <target name="prepare" depends="make-download-dir,jdk17,maven,gradle,node,cmake,ant,dvc,jenkins,unpack-jenkins,go,julia"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
+    <target name="make-download-dir">
+        <mkdir dir="${DOWNLOAD_DIR}"/>
+    </target>
+
     <target name="jdk17">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${JDK17_TAR_GZ_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-jdk17">
-        <gunzip src="./${JDK17_TAR_GZ_FILE_NAME}"/>
-        <untar src="./${JDK17_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="./${JDK17_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="maven">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${MAVEN_TAR_GZ_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-maven">
-        <gunzip src="./${MAVEN_TAR_GZ_FILE_NAME}"/>
-        <untar src="./${MAVEN_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="./${MAVEN_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="gradle">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${GRADLE_ZIP_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-gradle">
-        <unzip src="./${GRADLE_ZIP_FILE_NAME}"
-               dest="."/>
-        <chmod dir="./${GRADLE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="node">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${NODE_TAR_XZ_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-node">
-        <!-- wget https://repo1.maven.org/maven2/org/tukaani/xz/1.9/xz-1.9.jar under ANT/lib -->
-        <unxz src="./${NODE_TAR_XZ_FILE_NAME}"/>
-        <untar src="./${NODE_TAR_FILE_NAME}" dest="./"/>
-        <chmod dir="./${NODE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="cmake">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${CMAKE_TAR_GZ_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-cmake">
-        <gunzip src="./${CMAKE_TAR_GZ_FILE_NAME}"/>
-        <untar src="./${CMAKE_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="./${CMAKE_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="ant">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${ANT_TAR_GZ_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-ant">
-        <gunzip src="./${ANT_TAR_GZ_FILE_NAME}"/>
-        <untar src="./${ANT_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="./${ANT_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="dvc">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${DVC_RPM_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-dvc">
-    </target>
-
     <target name="jenkins">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${JENKINS_WAR_FILE_NAME}"/>
         </copy>
     </target>
 
     <target name="unpack-jenkins">
-        <unzip src="./${JENKINS_WAR_FILE_NAME}" dest="./">
+        <unzip src="${DOWNLOAD_DIR}/${JENKINS_WAR_FILE_NAME}" dest="${DOWNLOAD_DIR}/">
             <patternset>
                 <include name="WEB-INF/lib/cli-${JENKINS_VERSION}.jar"/>
             </patternset>
         </unzip>
-        <move file="./WEB-INF/lib/cli-${JENKINS_VERSION}.jar"
-              tofile="./jenkins-cli.jar"/>
-        <delete dir="./WEB-INF"/>
+        <move file="${DOWNLOAD_DIR}/WEB-INF/lib/cli-${JENKINS_VERSION}.jar"
+              tofile="${DOWNLOAD_DIR}/jenkins-cli.jar"/>
+        <delete dir="${DOWNLOAD_DIR}/WEB-INF"/>
     </target>
 
     <target name="go">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${GO_TAR_GZ_FILE_NAME}"/>
         </copy>
     </target>
 
-    <target name="unpack-go">
-        <gunzip src="./${GO_TAR_GZ_FILE_NAME}"/>
-        <untar src="./${GO_TAR_FILE_NAME}" dest="."/>
-        <chmod dir="./${GO_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
-    </target>
-
     <target name="julia">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${JULIA_TAR_GZ_FILE_NAME}"/>
         </copy>
-    </target>
-
-    <target name="unpack-julia">
-        <gunzip src="./${JULIA_TAR_GZ_FILE_NAME}"/>
-        <untar src="./${JULIA_TAR_FILE_NAME}" dest="."/>
-        <exec executable="tar" osfamily="unix">
-            <arg value="xvf"/>
-            <arg value="./${JULIA_TAR_FILE_NAME}"/>
-            <arg value="-C"/>
-            <arg value="."/>
-        </exec>
-        <chmod dir="./${JULIA_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>
 
     <target name="build-image">

@@ -1,3 +1,19 @@
+FROM setmyinfo/setmy-info-rocky:latest as BUILD
+
+COPY ./target/download /var/download
+WORKDIR /var/download
+RUN dnf -y install unzip tar xz && \
+    tar xvzf /var/download/jenkins-1.0.1.tar.gz && \
+    tar xvzf /var/download/openjdk-17.0.2_linux-x64_bin.tar.gz && \
+    tar xvzf /var/download/apache-ant-1.10.13-bin.tar.gz && \
+    tar xvzf /var/download/apache-maven-3.9.3-bin.tar.gz && \
+    tar xvzf /var/download/cmake-3.26.4-linux-x86_64.tar.gz && \
+    tar xvzf /var/download/go1.20.5.linux-amd64.tar.gz && \
+    tar xvzf /var/download/julia-1.9.1-linux-x86_64.tar.gz && \
+    tar xvf  /var/download/node-v18.16.1-linux-x64.tar.xz && \
+    unzip /var/download/gradle-8.1.1-bin.zip && \
+    ls -la
+
 FROM setmyinfo/setmy-info-rocky:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
@@ -20,17 +36,17 @@ ENV LANG C.UTF-8
 ENV JAVA_HOME=/opt/jdk
 ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$JAVA_HOME/bin:$PATH
 
-COPY jenkins-cli.jar /opt/setmy.info/lib
-COPY jdk-17.0.2 /opt/jdk
-#COPY zulu17.42.21-ca-crac-jdk17.0.7-linux_x64 /opt/jdk
-COPY apache-ant-1.10.13 /opt/ant
-COPY apache-maven-3.9.3 /opt/maven
-COPY gradle-8.1.1 /opt/gradle
-COPY cmake-3.26.4-linux-x86_64 /opt/cmake
-COPY dvc-3.2.1-1.x86_64.rpm /opt/setmy.info/lib/dvc.rpm
-COPY node-v18.16.1-linux-x64 /opt/node
-COPY go /opt/go
-COPY julia-1.9.1 /opt/julia
+COPY --from=BUILD /var/download/jdk-17.0.2 /opt/jdk
+COPY --from=BUILD /var/download/apache-ant-1.10.13 /opt/ant
+COPY --from=BUILD /var/download/apache-maven-3.9.3 /opt/maven
+COPY --from=BUILD /var/download/gradle-8.1.1 /opt/gradle
+COPY --from=BUILD /var/download/cmake-3.26.4-linux-x86_64 /opt/cmake
+COPY --from=BUILD /var/download/node-v18.16.1-linux-x64 /opt/node
+COPY --from=BUILD /var/download/go /opt/go
+COPY --from=BUILD /var/download/julia-1.9.1 /opt/julia
+COPY --from=BUILD /var/download/jenkins /var/lib/jenkins
+COPY ./target/download/jenkins-cli.jar /opt/setmy.info/lib
+COPY ./target/download/dvc-3.2.1-1.x86_64.rpm /opt/setmy.info/lib/dvc.rpm
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
@@ -50,11 +66,6 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.
     julia --version && \
     java --version
 
-COPY jenkins /var/lib/jenkins
-COPY .jenkins/secrets/initialAdminPassword /var/lib/jenkins/.jenkins/secrets/initialAdminPassword
-
-RUN chown -R jenkins:jenkins /var/lib/jenkins
-
 USER jenkins
 
 WORKDIR /var/lib/jenkins
@@ -65,7 +76,4 @@ RUN git config --global init.defaultBranch master && \
 
 EXPOSE 8080
 
-#RUN java -jar /opt/setmy.info/lib/jenkins-cli.jar --plugins "blueocean docker-workflow"
-#CMD ["java", "-jar", "/usr/share/java/jenkins.war"]
 CMD ["java", "-jar", "/usr/share/java/jenkins.war", "--enable-future-java"]
-
