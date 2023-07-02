@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: jenkins-config-map
+    namespace: jenkins-dev
+data:
+    variable: "Value in quotations"
+immutable: true

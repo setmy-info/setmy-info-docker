@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: jenkins-deployment
+    namespace: jenkins-dev
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: jenkins
+    template:
+        metadata:
+            labels:
+                app: jenkins
+        spec:
+            containers:
+                -   name: jenkins
+                    image: setmyinfo/setmy-info-rocky-java-jenkins:latest
+                    env:
+                        -   name: GITHUB_TOKEN
+                            valueFrom:
+                                secretKeyRef:
+                                    name: jenkins-secrets-map
+                                    key: github-token
+                                    optional: false
+                        -   name: GITHUB_USERNAME
+                            valueFrom:
+                                secretKeyRef:
+                                    name: jenkins-secrets-map
+                                    key: github-username
+                                    optional: false
+                    ports:
+                        -   containerPort: 8080
+                    volumeMounts:
+                        -   name: jenkins-data
+                            mountPath: /var/lib/jenkins
+            volumes:
+                -   name: jenkins-data
+                    emptyDir: { }
+    ports:
+        -   containerPort: 8080
+            hostPort: 2376
