@@ -37,6 +37,3 @@ spec:
             volumes:
                 -   name: jenkins-data
                     emptyDir: { }
-    ports:
-        -   containerPort: 8080
-            hostPort: 2376

@@ -19,7 +19,7 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="make-download-dir,jdk17,maven,gradle,node,cmake,ant,dvc,jenkins,unpack-jenkins,go,julia"/>
+    <target name="prepare" depends="make-download-dir,jdk17,maven,gradle,node,cmake,ant,dvc,jenkins,unpack-jenkins,jenkins-home,go,julia"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
@@ -84,6 +84,12 @@
         <move file="${DOWNLOAD_DIR}/WEB-INF/lib/cli-${JENKINS_VERSION}.jar"
               tofile="${DOWNLOAD_DIR}/jenkins-cli.jar"/>
         <delete dir="${DOWNLOAD_DIR}/WEB-INF"/>
+    </target>
+
+    <target name="jenkins-home">
+        <copy todir="${DOWNLOAD_DIR}">
+            <fileset dir="../download" includes="${JENKINS_HOME_TAR_GZ_FILE_NAME}"/>
+        </copy>
     </target>
 
     <target name="go">
