@@ -49,7 +49,8 @@ kubectl delete service jenkins-service
 kubectl delete deployment jenkins-deployment
 kubectl delete secrets jenkins-secrets-map
 kubectl delete configmap jenkins-config-map
-kubectl delete namespace jenkins-namespace
+kubectl delete namespace jenkins-dev
+kubectl delete namespace jenkins-ingress
 ```
 
 Because secrets and config maps have **immutable: true**, then config and secret maps need to be removed to apply new

@@ -31,9 +31,9 @@ spec:
                                     optional: false
                     ports:
                         -   containerPort: 8080
-                    volumeMounts:
-                        -   name: jenkins-data
-                            mountPath: /var/lib/jenkins
-            volumes:
-                -   name: jenkins-data
-                    emptyDir: { }
+#                    volumeMounts:
+#                        -   name: jenkins-data
+#                            mountPath: /var/lib/jenkins
+#            volumes:
+#                -   name: jenkins-data
+#                    emptyDir: { }
