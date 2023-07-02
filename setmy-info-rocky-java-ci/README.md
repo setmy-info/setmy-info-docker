@@ -10,6 +10,7 @@ kubectl apply -f src/main/k8s/dev/jenkins-config-map.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-secrets-map.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-deployment.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-service.yaml
+kubectl apply -f src/main/k8s/dev/jenkins-ingress.yaml
 ```
 
 Change **kubectl** default namespace used. Otherwise, use **-n jenkins-dev** at the end of kubectl command line.
