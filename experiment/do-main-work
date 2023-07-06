@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Should be microservice: $(whoami) ${*}"
+
+exit 0

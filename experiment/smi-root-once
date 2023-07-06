@@ -1,0 +1,9 @@
+#!/bin/sh
+
+export PATH=/opt/setmy.info/bin:${PATH}
+
+${1}
+sed -i '/microservice/d' /etc/sudoers
+cp -f /etc/sudoers.backup /etc/sudoers
+
+exit 0

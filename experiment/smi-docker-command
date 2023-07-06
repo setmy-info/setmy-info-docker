@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ $# -lt 2 ]; then
+    echo "At least two parameters are required"
+    exit 1
+fi
+
+export PATH=/opt/setmy.info/bin:${PATH}
+
+AS_ROOT_USER_SCRIPT=${1}
+AS_RESTRICTED_USER_SCRIPT=${2}
+shift 2
+
+sudo /opt/setmy.info/bin/smi-root-once ${AS_ROOT_USER_SCRIPT}
+${AS_RESTRICTED_USER_SCRIPT} "$@"
+
+exit ${?}
