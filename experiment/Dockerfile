@@ -6,12 +6,9 @@ RUN dnf -y install sudo && \
 
 ENV PATH=/opt/setmy.info/bin:$PATH
 
-COPY smi-docker-command /opt/setmy.info/bin/
-COPY smi-root-once /opt/setmy.info/bin/
-
 COPY do-install /opt/setmy.info/bin/
 COPY do-main-work /opt/setmy.info/bin/
 
 USER microservice
 
-CMD [ "smi-docker-command", "do-install", "do-main-work", "a", "b", "c"]
+CMD [ "smi-docker-command", "/opt/setmy.info/bin/do-install", "/opt/setmy.info/bin/do-main-work", "a", "b", "c"]
