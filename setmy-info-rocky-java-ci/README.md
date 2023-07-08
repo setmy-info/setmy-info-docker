@@ -42,6 +42,12 @@ kubectl get endpoints
 kubectl get service
 ```
 
+Remove service and deployment
+
+```shell
+kubectl delete deployment jenkins-deployment
+```
+
 Remove all
 
 ```shell

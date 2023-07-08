@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project name="setmy-info-rocky-java" default="build" basedir=".">
+<project name="setmy-info-rocky-java" default="all" basedir=".">
 
     <property file="../collections/build.properties"/>
     <property file="build.properties"/>
     <property name="BUILDKIT_PROGRESS" value="plain"/>
     <property name="DOCKER_BUILDKIT" value="0"/>
+    <property name="DOWNLOAD_DIR" value="./target/download"/>
 
     <!--
         ant prepare
@@ -18,18 +19,24 @@
 
     <target name="all" depends="prepare,build"/>
 
-    <target name="prepare" depends="jdk,unpack-jdk"/>
+    <!-- target name="prepare" depends="jdk,unpack-jdk"/ -->
+    <target name="prepare" depends="make-download-dir,jdk"/>
 
     <target name="build" depends="build-image,latest-tag,show-images"/>
 
+    <target name="make-download-dir">
+        <mkdir dir="${DOWNLOAD_DIR}"/>
+    </target>
+
     <target name="jdk">
-        <copy todir=".">
+        <copy todir="${DOWNLOAD_DIR}">
             <fileset dir="../download" includes="${JDK_TAR_GZ_FILE_NAME}"/>
         </copy>
     </target>
 
     <target name="unpack-jdk">
         <gunzip src="./${JDK_TAR_GZ_FILE_NAME}"/>
+        <!-- bug with untar : doesn't unpack something correctly and java doesn't work correctly -->
         <untar src="./${JDK_TAR_FILE_NAME}" dest="${SMI_ROCKY_JAVA_DOCKER_DIR}"/>
         <chmod dir="./${JDK_DIR_NAME}/bin" perm="ugo+rx" includes="**/*"/>
     </target>

@@ -4,7 +4,7 @@ COPY ./target/download /var/download
 WORKDIR /var/download
 RUN dnf -y install unzip tar xz && \
     tar xvzf /var/download/jenkins-1.0.1.tar.gz && \
-    tar xvzf /var/download/openjdk-17.0.2_linux-x64_bin.tar.gz && \
+    # tar xvzf /var/download/openjdk-17.0.2_linux-x64_bin.tar.gz && \
     tar xvzf /var/download/apache-ant-1.10.13-bin.tar.gz && \
     tar xvzf /var/download/apache-maven-3.9.3-bin.tar.gz && \
     tar xvzf /var/download/cmake-3.26.4-linux-x86_64.tar.gz && \
@@ -14,15 +14,15 @@ RUN dnf -y install unzip tar xz && \
     unzip /var/download/gradle-8.1.1-bin.zip && \
     ls -la
 
-FROM setmyinfo/setmy-info-rocky:latest
+FROM setmyinfo/setmy-info-rocky-java:latest
 
 MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux CI" \
-      org.opencontainers.image.version="2.412-2" \
-      org.opencontainers.image.revision="2.412-2" \
+      org.opencontainers.image.version="2.413" \
+      org.opencontainers.image.revision="2.413" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -33,10 +33,11 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.ref.name=""
 
 ENV LANG C.UTF-8
-ENV JAVA_HOME=/opt/jdk
-ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$JAVA_HOME/bin:$PATH
+# ENV JAVA_HOME=/opt/jdk
+# ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$JAVA_HOME/bin:$PATH
+ENV PATH=/opt/ant/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$PATH
 
-COPY --from=BUILD /var/download/jdk-17.0.2 /opt/jdk
+#COPY --from=BUILD /var/download/jdk-17.0.2 /opt/jdk
 COPY --from=BUILD /var/download/apache-ant-1.10.13 /opt/ant
 COPY --from=BUILD /var/download/apache-maven-3.9.3 /opt/maven
 COPY --from=BUILD /var/download/gradle-8.1.1 /opt/gradle
