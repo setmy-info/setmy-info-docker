@@ -4,6 +4,5 @@ metadata:
     name: jenkins-config-map
     namespace: jenkins-dev
 data:
-    variable: "Value in quotations"
     jenkins-url: "http://192.168.49.2:30000"
 immutable: true
