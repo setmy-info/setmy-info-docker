@@ -17,6 +17,12 @@ spec:
                 -   name: jenkins
                     image: setmyinfo/setmy-info-rocky-java-jenkins:latest
                     env:
+                        -   name: JENKINS_URL
+                            valueFrom:
+                                secretKeyRef:
+                                    name: jenkins-config-map
+                                    key: jenkins-url
+                                    optional: false
                         -   name: GITHUB_TOKEN
                             valueFrom:
                                 secretKeyRef:
