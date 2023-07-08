@@ -19,7 +19,7 @@ spec:
                     env:
                         -   name: JENKINS_URL
                             valueFrom:
-                                secretKeyRef:
+                                configMapKeyRef:
                                     name: jenkins-config-map
                                     key: jenkins-url
                                     optional: false
