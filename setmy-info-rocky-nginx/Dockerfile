@@ -3,13 +3,13 @@ FROM setmyinfo/setmy-info-rocky:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Nginx" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Node" \
-      org.opencontainers.image.version="1.24.0-3" \
-      org.opencontainers.image.revision="1.24.0-3" \
+      org.opencontainers.image.version="1.24.0-4" \
+      org.opencontainers.image.revision="1.24.0-4" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
-      org.opencontainers.image.authors="Imre Tabur <imre.tabur@eesti.ee>" \
+      org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
       org.opencontainers.image.source="" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""

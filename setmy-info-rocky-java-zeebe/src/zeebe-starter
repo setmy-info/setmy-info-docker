@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright 2019 Imre Tabur <imre.tabur@eesti.ee>
+# Copyright 2019 Imre Tabur <imre.tabur@mail.ee>
 
 OPT_DIR=/opt
 ZEEBE_OPT_DIR=${OPT_DIR}/zeebe-broker

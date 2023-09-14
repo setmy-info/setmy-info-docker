@@ -16,7 +16,7 @@ RUN dnf -y install unzip tar xz && \
 
 FROM setmyinfo/setmy-info-rocky-java:latest
 
-MAINTAINER Imre Tabur "imre.tabur@eesti.ee"
+MAINTAINER Imre Tabur "imre.tabur@mail.ee"
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \

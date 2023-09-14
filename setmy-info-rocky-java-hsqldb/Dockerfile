@@ -3,13 +3,13 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux HSQLDB" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux HSQLDB" \
-      org.opencontainers.image.version="2.7.2-3" \
-      org.opencontainers.image.revision="2.7.2-3" \
+      org.opencontainers.image.version="2.7.2-4" \
+      org.opencontainers.image.revision="2.7.2-4" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
-      org.opencontainers.image.authors="Imre Tabur <imre.tabur@eesti.ee>" \
+      org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
       org.opencontainers.image.source="" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
