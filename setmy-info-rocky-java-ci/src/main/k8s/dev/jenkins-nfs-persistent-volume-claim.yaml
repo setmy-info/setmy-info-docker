@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: jenkins-nfs-persistent-volume-claim
+    namespace: jenkins-dev
+spec:
+    accessModes:
+        - ReadWriteMany
+    resources:
+        requests:
+            storage: 5Gi
+    storageClassName: ""
+    volumeName: jenkins-nfs-persistent-volume
+

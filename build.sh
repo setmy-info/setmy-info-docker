@@ -37,4 +37,4 @@ docker_build() {
     docker_build_in_dir setmy-info-rocky-java-infinispan
     docker_build_in_dir setmy-info-rocky-java-hsqldb
     docker_build_in_dir setmy-info-rocky-java-ci
- }
+}

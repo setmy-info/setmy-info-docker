@@ -3,8 +3,8 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Java Zeebe" \
-      org.opencontainers.image.version="8.2.13" \
-      org.opencontainers.image.revision="8.2.13" \
+      org.opencontainers.image.version="8.2.15" \
+      org.opencontainers.image.revision="8.2.15" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY camunda-zeebe-8.2.13 /opt/zeebe-broker
+COPY camunda-zeebe-8.2.15 /opt/zeebe-broker
 COPY src/zeebe-starter /opt/zeebe-broker/bin
 RUN chown -R root:root /opt/zeebe-broker && \
     mkdir /opt/zeebe-broker/data && \

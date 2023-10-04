@@ -1,0 +1,24 @@
+#!/bin/sh
+
+echo "Should be root: $(whoami)"
+
+mkdir -p /mnt/gintra/ee/has/development/software/packages
+mkdir -p ~/.setmy.info/packages
+
+echo "Files in /mnt/gintra/ee/has/development/software/packages"
+ls -la /mnt/gintra/ee/has/development/software/packages
+
+echo "Files in ~/.setmy.info/packages"
+ls -la ~/.setmy.info/packages
+
+smi-sync /mnt/gintra/ee/has/development/software/packages/ ~/.setmy.info/packages/
+
+echo "After sync files in ~/.setmy.info/packages"
+ls -la ~/.setmy.info/packages
+
+smi-download-package maven gradle cmake dvc go julia nodejs leiningen groovy
+smi-sync ~/.setmy.info/packages/ /mnt/gintra/ee/has/development/software/packages/
+smi-install-package maven gradle cmake dvc go julia nodejs leiningen groovy
+
+exit 0
+

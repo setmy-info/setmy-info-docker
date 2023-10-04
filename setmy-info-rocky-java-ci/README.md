@@ -8,6 +8,8 @@ Currently, only for internal network, in-house, by team use. Security related en
 kubectl apply -f src/main/k8s/dev/jenkins-namespace.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-config-map.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-secrets-map.yaml
+kubectl apply -f src/main/k8s/dev/jenkins-nfs-persistent-volume.yaml
+kubectl apply -f src/main/k8s/dev/jenkins-nfs-persistent-volume-claim.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-deployment.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-service.yaml
 kubectl apply -f src/main/k8s/dev/jenkins-ingress.yaml
@@ -57,6 +59,8 @@ kubectl delete secrets jenkins-secrets-map
 kubectl delete configmap jenkins-config-map
 kubectl delete namespace jenkins-dev
 kubectl delete namespace jenkins-ingress
+kubectl delete pvc jenkins-nfs-persistent-volume-claim
+kubectl delete pv jenkins-nfs-persistent-volume
 ```
 
 Because secrets and config maps have **immutable: true**, then config and secret maps need to be removed to apply new
@@ -74,4 +78,10 @@ Secrets map update.
 ```shell
 kubectl delete secrets jenkins-secrets-map
 kubectl apply -f src/main/k8s/dev/jenkins-secrets-map.yaml
+```
+
+For probing
+
+```shell
+docker run --name setmy-info-rocky-java-jenkins -p 30000:8080 -v /var/opt/setmy.info/gintra:/mnt/gintra -d setmyinfo/setmy-info-rocky-java-jenkins:latest
 ```
