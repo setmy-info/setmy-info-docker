@@ -1,6 +1,6 @@
 #!/bin/sh
 
 echo "Should be root: $(whoami)"
-dnf install -y mc
+#dnf install -y mc
 
 exit 0
