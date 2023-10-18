@@ -3,8 +3,8 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Tomcat" \
-      org.opencontainers.image.version="10.1.13-1" \
-      org.opencontainers.image.revision="10.1.13-1" \
+      org.opencontainers.image.version="10.1.15" \
+      org.opencontainers.image.revision="10.1.15" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY apache-tomcat-10.1.13 /opt/tomcat
+COPY apache-tomcat-10.1.15 /opt/tomcat
 
 RUN mkdir -p /opt/tomcat/logs && \
     mkdir -p /opt/tomcat/temp && \

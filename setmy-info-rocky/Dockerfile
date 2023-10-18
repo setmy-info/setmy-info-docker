@@ -3,8 +3,8 @@ FROM rockylinux/rockylinux:9.2
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
-      org.opencontainers.image.version="9.2-4" \
-      org.opencontainers.image.revision="9.2-4" \
+      org.opencontainers.image.version="9.2-5" \
+      org.opencontainers.image.revision="9.2-5" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -14,12 +14,12 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY setmy-info-scripts-0.61.0.noarch.rpm /tmp/
+COPY setmy-info-scripts-0.63.0.noarch.rpm /tmp/
 COPY sbcl-2.3.9-x86-64-linux-binary.tar.bz2  /tmp/
 
 RUN dnf -y update && \
     dnf -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.61.0.noarch.rpm && \
+    rpm -i /tmp/setmy-info-scripts-0.63.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
@@ -43,6 +43,8 @@ RUN dnf -y update && \
     chmod -R go+rx /opt/setmy.info && \
     chmod -R go-w  /opt/setmy.info && \
     cd /opt && ls -la && cd /opt/setmy.info && ls -la && cd /var/opt/ && ls -la && cd /var/opt/setmy.info && ls -la
+
+COPY http://beta.quicklisp.org/quicklisp.lisp /opt/setmy.info/lib/quicklisp.lisp
 
 ENV SBCL_HOME=/opt/sbcl
 ENV LD_LIBRARY_PATH=/opt/setmy.info/lib
