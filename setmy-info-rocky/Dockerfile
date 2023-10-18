@@ -44,8 +44,6 @@ RUN dnf -y update && \
     chmod -R go-w  /opt/setmy.info && \
     cd /opt && ls -la && cd /opt/setmy.info && ls -la && cd /var/opt/ && ls -la && cd /var/opt/setmy.info && ls -la
 
-COPY http://beta.quicklisp.org/quicklisp.lisp /opt/setmy.info/lib/quicklisp.lisp
-
 ENV SBCL_HOME=/opt/sbcl
 ENV LD_LIBRARY_PATH=/opt/setmy.info/lib
 ENV PYTHONPATH=/opt/setmy.info/lib
