@@ -12,7 +12,7 @@ SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
 
 docker_prepare() {
     CUR_DIR=$(pwd)
-    cp ${SMI_HOME_PACKAGES_LOCATION}/setmy-info-scripts-*.noarch.rpm ./
+    cp ${SMI_HOME_PACKAGES_LOCATION}/setmy-info-scripts/setmy-info-scripts-*.noarch.rpm ./
     cp ${SMI_HOME_PACKAGES_LOCATION}/sbcl-*-x86-64-linux-binary.tar.bz2 ./
     cd ${CUR_DIR}
 }
