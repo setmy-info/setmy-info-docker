@@ -13,8 +13,8 @@ MAINTAINER Imre Tabur "imre.tabur@mail.ee"
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux CI" \
-      org.opencontainers.image.version="2.440.2" \
-      org.opencontainers.image.revision="2.440.2" \
+      org.opencontainers.image.version="2.452.1" \
+      org.opencontainers.image.revision="2.452.1" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -54,4 +54,3 @@ RUN git config --global init.defaultBranch master && \
 EXPOSE 8080
 
 CMD [ "smi-docker-command", "do-install", "java", "-jar", "/usr/share/java/jenkins.war", "--enable-future-java" ]
-
