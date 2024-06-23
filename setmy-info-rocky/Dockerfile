@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY setmy-info-scripts-0.76.1.noarch.rpm /tmp/setmy-info-scripts.noarch.rpm
+COPY setmy-info-scripts-0.78.0.noarch.rpm /tmp/setmy-info-scripts.noarch.rpm
 COPY sbcl-2.4.5-x86-64-linux-binary.tar.bz2  /tmp/
 
 RUN dnf -y update && \
