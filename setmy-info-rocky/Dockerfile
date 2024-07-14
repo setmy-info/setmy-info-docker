@@ -3,8 +3,8 @@ FROM rockylinux/rockylinux:9.4
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
-      org.opencontainers.image.version="9.4-2" \
-      org.opencontainers.image.revision="9.4-2" \
+      org.opencontainers.image.version="9.4-3" \
+      org.opencontainers.image.revision="9.4-3" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -14,19 +14,19 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY setmy-info-scripts-0.78.0.noarch.rpm /tmp/
-COPY sbcl-2.4.5-x86-64-linux-binary.tar.bz2  /tmp/
+COPY setmy-info-scripts-0.79.0.noarch.rpm /tmp/
+COPY sbcl-2.4.6-x86-64-linux-binary.tar.bz2  /tmp/
 
-RUN dnf -y update && \
-    dnf -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.78.0.noarch.rpm && \
+RUN yum -y update && \
+    yum -y install tar gzip bzip2 wget yum-utils && \
+    rpm -i /tmp/setmy-info-scripts-0.79.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
     ls -la && \
-    tar -xvf /tmp/sbcl-2.4.5-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
+    tar -xvf /tmp/sbcl-2.4.6-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
     ls -la && \
-    cd ./sbcl-2.4.5-x86-64-linux && \
+    cd ./sbcl-2.4.6-x86-64-linux && \
     INSTALL_ROOT=/opt/sbcl sh install.sh && \
     rm -R /tmp/sbcl && \
 #    useradd microservice --shell /sbin/nologin --no-create-home && \

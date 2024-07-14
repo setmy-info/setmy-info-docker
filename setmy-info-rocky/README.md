@@ -8,7 +8,7 @@ setmy.info Rocky base Docker Hub project.
 
 * **docker search rocky** to search images.
 
-* **docker pull rocky:9.3** to download images (takes a little time to download).
+* **docker pull rocky:9.4** to download images (takes a little time to download).
 
 * **docker build -t "setmyinfo/setmy-info-rocky:9.3" .** to build image with tag.
 
