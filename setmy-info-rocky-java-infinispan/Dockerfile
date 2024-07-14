@@ -3,8 +3,8 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Java Infinispan" \
-      org.opencontainers.image.version="15.0.4" \
-      org.opencontainers.image.revision="15.0.4" \
+      org.opencontainers.image.version="15.0.5" \
+      org.opencontainers.image.revision="15.0.5" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -14,7 +14,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
       org.opencontainers.image.url="" \
       org.opencontainers.image.ref.name=""
 
-COPY infinispan-server-15.0.4.Final /opt/infinispan-server
+COPY infinispan-server-15.0.5.Final /opt/infinispan-server
 COPY src/infinispan-starter /opt/infinispan-server/bin
 RUN chown -R root:root /opt/infinispan-server && \
     mkdir /opt/infinispan-server/server/data && \

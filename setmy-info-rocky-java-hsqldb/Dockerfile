@@ -3,8 +3,8 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux HSQLDB" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux HSQLDB" \
-      org.opencontainers.image.version="2.7.2-8" \
-      org.opencontainers.image.revision="2.7.2-8" \
+      org.opencontainers.image.version="2.7.3" \
+      org.opencontainers.image.revision="2.7.3" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -18,7 +18,7 @@ RUN mkdir -p /opt/hsqldb/bin && \
     mkdir -p /opt/hsqldb/lib &&  \
     mkdir -p /var/opt/hsqldb/data
 
-COPY hsqldb-2.7.2/hsqldb/lib/hsqldb.jar /opt/hsqldb/lib/
+COPY hsqldb-2.7.3/hsqldb/lib/hsqldb.jar /opt/hsqldb/lib/
 COPY src/server /opt/hsqldb/bin
 RUN chmod ugo+rx /opt/hsqldb/bin/* && \
     chown -R root:root /opt/hsqldb && \
