@@ -3,8 +3,8 @@ FROM rockylinux/rockylinux:9.4
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
-      org.opencontainers.image.version="9.4-3" \
-      org.opencontainers.image.revision="9.4-3" \
+      org.opencontainers.image.version="9.4-4" \
+      org.opencontainers.image.revision="9.4-4" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \

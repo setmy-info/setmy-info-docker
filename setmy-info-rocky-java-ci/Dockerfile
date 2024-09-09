@@ -13,8 +13,8 @@ MAINTAINER Imre Tabur "imre.tabur@mail.ee"
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux CI" \
-      org.opencontainers.image.version="2.467-1" \
-      org.opencontainers.image.revision="2.467-1" \
+      org.opencontainers.image.version="2.467-2" \
+      org.opencontainers.image.revision="2.467-2" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
@@ -37,7 +37,16 @@ COPY ./src/main/sh/do-install /opt/setmy.info/bin/
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
-    dnf install -y fontconfig jenkins git make sudo rsync unzip tar xz && \
+    dnf install -y epel-release && \
+    dnf --enablerepo=epel group && \
+    dnf config-manager --set-enabled crb && \
+    dnf config-manager --set-enabled plus && \
+    dnf config-manager --set-enabled rt && \
+    dnf update -y && \
+    dnf install -y  fontconfig jenkins git make sudo rsync \
+		    unzip tar xz make yum-utils rpmdevtools \
+		    rpm-build git mercurial meld openssl-devel \
+		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
     id jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers && \
     chown -R jenkins:jenkins /var/lib/jenkins && \
