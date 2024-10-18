@@ -14,15 +14,16 @@ MAINTAINER Imre Tabur "imre.tabur@mail.ee"
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux CI" \
       org.opencontainers.image.version="2.467-2" \
-      org.opencontainers.image.revision="2.467-2" \
+      org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors="Imre Tabur" \
-      org.opencontainers.image.source="" \
-      org.opencontainers.image.url="" \
-      org.opencontainers.image.ref.name=""
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-ci" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-ci" \
+      org.opencontainers.image.ref.name="" \
+      org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
 ENV LANG C.UTF-8
 ENV PATH=/opt/setmy.info/bin:/opt/leiningen/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$PATH

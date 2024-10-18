@@ -4,15 +4,16 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux HSQLDB" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux HSQLDB" \
       org.opencontainers.image.version="2.7.3-1" \
-      org.opencontainers.image.revision="2.7.3-1" \
+      org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
-      org.opencontainers.image.source="" \
-      org.opencontainers.image.url="" \
-      org.opencontainers.image.ref.name=""
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-hsqldb" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-hsqldb" \
+      org.opencontainers.image.ref.name="" \
+      org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
 RUN mkdir -p /opt/hsqldb/bin && \
     mkdir -p /opt/hsqldb/lib &&  \

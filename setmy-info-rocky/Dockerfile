@@ -4,15 +4,16 @@ FROM rockylinux/rockylinux:9.4
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
       org.opencontainers.image.version="9.4-4" \
-      org.opencontainers.image.revision="9.4-4" \
+      org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
-      org.opencontainers.image.source="" \
-      org.opencontainers.image.url="" \
-      org.opencontainers.image.ref.name=""
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky" \
+      org.opencontainers.image.ref.name="" \
+      org.opencontainers.image.base.name=""
 
 COPY setmy-info-scripts-0.84.0.noarch.rpm /tmp/
 COPY sbcl-2.4.6-x86-64-linux-binary.tar.bz2  /tmp/

@@ -4,15 +4,16 @@ FROM setmyinfo/setmy-info-rocky-java:latest
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.version="8.5.5-1" \
-      org.opencontainers.image.revision="8.5.5-1" \
+      org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
-      org.opencontainers.image.source="" \
-      org.opencontainers.image.url="" \
-      org.opencontainers.image.ref.name=""
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-zeebe" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-zeebe" \
+      org.opencontainers.image.ref.name="" \
+      org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
 COPY camunda-zeebe-8.5.5 /opt/zeebe-broker
 COPY src/zeebe-starter /opt/zeebe-broker/bin
