@@ -3,7 +3,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Node" \
-      org.opencontainers.image.version="20.15.1-2" \
+      org.opencontainers.image.version="22.12.0" \
       org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \

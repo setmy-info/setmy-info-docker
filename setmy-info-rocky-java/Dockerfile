@@ -11,7 +11,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Java" \
-      org.opencontainers.image.version="21.0.2-4" \
+      org.opencontainers.image.version="21.0.2-5" \
       org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \

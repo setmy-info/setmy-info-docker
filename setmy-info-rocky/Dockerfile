@@ -1,9 +1,9 @@
-FROM rockylinux/rockylinux:9.4
+FROM rockylinux/rockylinux:9.5
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux" \
-      org.opencontainers.image.version="9.4-4" \
+      org.opencontainers.image.version="9.5" \
       org.opencontainers.image.revision="" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
@@ -15,12 +15,12 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name=""
 
-COPY setmy-info-scripts-0.84.0.noarch.rpm /tmp/
+COPY setmy-info-scripts-0.87.0.noarch.rpm /tmp/
 COPY sbcl-2.4.6-x86-64-linux-binary.tar.bz2  /tmp/
 
 RUN yum -y update && \
     yum -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.84.0.noarch.rpm && \
+    rpm -i /tmp/setmy-info-scripts-0.87.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
