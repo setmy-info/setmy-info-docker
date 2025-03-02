@@ -15,19 +15,19 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name=""
 
-COPY setmy-info-scripts-0.87.0.noarch.rpm /tmp/
-COPY sbcl-2.4.6-x86-64-linux-binary.tar.bz2  /tmp/
+COPY setmy-info-scripts-0.88.0.noarch.rpm /tmp/
+COPY sbcl-2.5.2-x86-64-linux-binary.tar.bz2  /tmp/
 
 RUN yum -y update && \
     yum -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.87.0.noarch.rpm && \
+    rpm -i /tmp/setmy-info-scripts-0.88.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
     ls -la && \
-    tar -xvf /tmp/sbcl-2.4.6-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
+    tar -xvf /tmp/sbcl-2.5.2-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
     ls -la && \
-    cd ./sbcl-2.4.6-x86-64-linux && \
+    cd ./sbcl-2.5.2-x86-64-linux && \
     INSTALL_ROOT=/opt/sbcl sh install.sh && \
     rm -R /tmp/sbcl && \
 #    useradd microservice --shell /sbin/nologin --no-create-home && \
