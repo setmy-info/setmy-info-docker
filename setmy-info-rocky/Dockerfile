@@ -15,12 +15,12 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name=""
 
-COPY setmy-info-scripts-0.88.0.noarch.rpm /tmp/
+COPY setmy-info-scripts-0.89.0.noarch.rpm /tmp/
 COPY sbcl-2.5.2-x86-64-linux-binary.tar.bz2  /tmp/
 
 RUN yum -y update && \
     yum -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.88.0.noarch.rpm && \
+    rpm -i /tmp/setmy-info-scripts-0.89.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
