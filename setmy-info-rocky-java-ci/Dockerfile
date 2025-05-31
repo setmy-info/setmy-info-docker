@@ -1,5 +1,9 @@
 FROM setmyinfo/setmy-info-rocky-java:latest as BUILD
 
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION=2.504.2-1
+
 COPY ./target/download /var/download
 WORKDIR /var/download
 RUN dnf -y install unzip tar xz && \
@@ -13,11 +17,11 @@ MAINTAINER Imre Tabur "imre.tabur@mail.ee"
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux CI" \
-      org.opencontainers.image.version="2.467-2" \
-      org.opencontainers.image.revision="" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${VCS_REF}" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
-      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors="Imre Tabur" \
       org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-ci" \

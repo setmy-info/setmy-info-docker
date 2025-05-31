@@ -1,14 +1,18 @@
 FROM setmyinfo/setmy-info-rocky:latest
 
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION=1.28.0-1
+
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Nginx" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Node" \
-      org.opencontainers.image.version="1.24.0-10" \
-      org.opencontainers.image.revision="" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${VCS_REF}" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
-      org.opencontainers.image.created=$BUILD_DATE \
-      org.opencontainers.image.documentation="" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.documentation="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/README.md" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
       org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-nginx" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-nginx" \

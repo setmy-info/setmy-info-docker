@@ -1,21 +1,25 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
 
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION=11.0.7-1
+
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Tomcat" \
-      org.opencontainers.image.version="10.1.26-1" \
-      org.opencontainers.image.revision="" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${VCS_REF}" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
-      org.opencontainers.image.created=$BUILD_DATE \
-      org.opencontainers.image.documentation="" \
+      org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.documentation="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/README.md" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
       org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-tomcat" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-tomcat" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY apache-tomcat-10.1.26 /opt/tomcat
+COPY apache-tomcat-11.0.7 /opt/tomcat
 
 RUN mkdir -p /opt/tomcat/logs && \
     mkdir -p /opt/tomcat/temp && \
