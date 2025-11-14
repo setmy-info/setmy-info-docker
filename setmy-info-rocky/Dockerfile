@@ -1,8 +1,8 @@
-FROM rockylinux/rockylinux:9.5
+FROM rockylinux/rockylinux:10.0
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=9.5-1
+ARG VERSION=10.0
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
@@ -19,19 +19,19 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name=""
 
-COPY setmy-info-scripts-0.91.0.noarch.rpm /tmp/
-COPY sbcl-2.5.4-x86-64-linux-binary.tar.bz2  /tmp/
+COPY setmy-info-scripts-0.98.0.noarch.rpm /tmp/
+COPY sbcl-2.5.8-x86-64-linux-binary.tar.bz2  /tmp/
 
 RUN yum -y update && \
     yum -y install tar gzip bzip2 wget yum-utils && \
-    rpm -i /tmp/setmy-info-scripts-0.91.0.noarch.rpm && \
+    rpm -i /tmp/setmy-info-scripts-0.98.0.noarch.rpm && \
     mkdir /tmp/sbcl && \
     cd /tmp/sbcl && \
     pwd && \
     ls -la && \
-    tar -xvf /tmp/sbcl-2.5.4-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
+    tar -xvf /tmp/sbcl-2.5.8-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
     ls -la && \
-    cd ./sbcl-2.5.4-x86-64-linux && \
+    cd ./sbcl-2.5.8-x86-64-linux && \
     INSTALL_ROOT=/opt/sbcl sh install.sh && \
     rm -R /tmp/sbcl && \
 #    useradd microservice --shell /sbin/nologin --no-create-home && \
