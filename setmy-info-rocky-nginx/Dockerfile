@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Nginx" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Node" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.licenses="BSD-2-Clause,MIT" \
       org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.documentation="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/README.md" \
@@ -31,9 +31,14 @@ RUN dnf -y update && \
     ls -la /etc/nginx/conf.d && \
     cat /etc/nginx/nginx.conf && \
     #cat /etc/nginx/nginx.conf.default && \
-    cat /etc/nginx/conf.d/default.conf
+    cat /etc/nginx/conf.d/default.conf && \
+    dnf clean all && rm -rf /var/cache/dnf
 
 COPY ./etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+
+RUN chown -R root:microservice /usr/share/nginx/www && \
+    chmod -R u+rX,g+rX,o+rX /usr/share/nginx/www && \
+    chmod -R u+r,go+r /etc/nginx
 
 EXPOSE 80/tcp
 EXPOSE 443/tcp
