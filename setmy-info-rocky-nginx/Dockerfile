@@ -34,9 +34,9 @@ RUN dnf -y update && \
     cat /etc/nginx/conf.d/default.conf && \
     dnf clean all && rm -rf /var/cache/dnf
 
-COPY ./etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY ./etc/nginx/conf.d/             /etc/nginx/conf.d/
 
-RUN chown -R root:microservice /usr/share/nginx/www && \
+RUN chown -R root:nginx /usr/share/nginx/www && \
     chmod -R u+rX,g+rX,o+rX /usr/share/nginx/www && \
     chmod -R u+r,go+r /etc/nginx
 
