@@ -26,7 +26,7 @@ RUN chown -R root:root /opt/infinispan-server && \
     mkdir /opt/infinispan-server/server/logs && \
     chown -R microservice:microservice /opt/infinispan-server/server/data && \
     chown -R microservice:microservice /opt/infinispan-server/server/logs
-ENV INFINISPAN_HOME /opt/infinispan-server
+ENV INFINISPAN_HOME=/opt/infinispan-server
 ENV PATH="${INFINISPAN_HOME}/bin:${PATH}"
 RUN cd /opt/infinispan-server && ls -la
 USER microservice

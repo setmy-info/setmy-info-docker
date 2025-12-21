@@ -30,6 +30,6 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java" \
 COPY --from=BUILD /var/download/jdk-25.0.1 /opt/jdk
 RUN chown -R root:root /opt/jdk && \
     chmod ugo+rx /opt/jdk/bin/*
-ENV JAVA_HOME /opt/jdk
+ENV JAVA_HOME=/opt/jdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 RUN cd /opt/jdk && ls -la && java -version

@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 ENV PATH=/opt/setmy.info/bin:/opt/leiningen/bin:/opt/maven/bin:/opt/gradle/bin:/opt/cmake/bin:/opt/node/bin:/opt/go/bin:/opt/julia/bin:/usr/bin:$PATH
 
 RUN mkdir -p /opt/leiningen/bin && \

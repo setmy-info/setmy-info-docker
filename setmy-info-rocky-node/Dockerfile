@@ -23,6 +23,6 @@ COPY node-v24.12.0-linux-x64 /opt/node
 RUN useradd node --shell /sbin/nologin --no-create-home && \
     chown -R root:root /opt/node && \
     chmod ugo+rx /opt/node/bin/*
-ENV NODE_HOME /opt/node
+ENV NODE_HOME=/opt/node
 ENV PATH="${NODE_HOME}/bin:${PATH}"
 RUN cd /opt/node && ls -la && node --version
