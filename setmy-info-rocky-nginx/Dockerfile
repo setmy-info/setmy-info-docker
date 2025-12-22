@@ -22,6 +22,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Nginx" \
 COPY ./etc/yum.repos.d/nginx.repo     /etc/yum.repos.d/nginx.repo
 COPY ./usr/share/nginx/www/index.html /usr/share/nginx/www/index.html
 COPY ./usr/share/nginx/www/error.html /usr/share/nginx/www/error.html
+COPY ./usr/share/nginx/www/favicon.ico /usr/share/nginx/www/favicon.ico
 
 RUN dnf -y update && \
     rpm --import https://nginx.org/keys/nginx_signing.key && \
