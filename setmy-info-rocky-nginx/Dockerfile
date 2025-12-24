@@ -1,15 +1,3 @@
-FROM setmyinfo/setmy-info-rocky:latest as BUILD
-
-RUN dnf -y install openssl &&  \
-    dnf clean all &&  \
-    openssl req -x509 -nodes -days 365 \
-      -newkey rsa:2048 \
-      -keyout /etc/ssl/private/localhost.key \
-      -out /etc/ssl/certs/localhost.crt \
-      -subj "/CN=localhost" && \
-  chmod 600 /etc/ssl/private/localhost.key && \
-  chmod 644 /etc/ssl/certs/localhost.crt
-
 FROM setmyinfo/setmy-info-rocky:latest
 
 ARG BUILD_DATE
@@ -35,8 +23,6 @@ COPY ./etc/yum.repos.d/nginx.repo     /etc/yum.repos.d/nginx.repo
 COPY ./usr/share/nginx/www/index.html /usr/share/nginx/www/index.html
 COPY ./usr/share/nginx/www/error.html /usr/share/nginx/www/error.html
 COPY ./usr/share/nginx/www/favicon.ico /usr/share/nginx/www/favicon.ico
-COPY --from=BUILD /etc/ssl/private/localhost.key /etc/ssl/private/localhost.key
-COPY --from=BUILD /etc/ssl/certs/localhost.crt   /etc/ssl/certs/localhost.crt
 
 RUN dnf -y update && \
     rpm --import https://nginx.org/keys/nginx_signing.key && \
