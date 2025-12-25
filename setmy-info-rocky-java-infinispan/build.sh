@@ -11,8 +11,8 @@ SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
 
 docker_prepare() {
     CUR_DIR=$(pwd)
-    cp ${SMI_HOME_PACKAGES_LOCATION}/infinispan-server-${INFINISPAN_VERSION}.Final.zip ./
-    unzip infinispan-server-${INFINISPAN_VERSION}.Final.zip
+    cp ${SMI_HOME_PACKAGES_LOCATION}/infinispan-server-${INFINISPAN_VERSION}.zip ./
+    unzip infinispan-server-${INFINISPAN_VERSION}.zip
     cd ${CUR_DIR}
 }
 

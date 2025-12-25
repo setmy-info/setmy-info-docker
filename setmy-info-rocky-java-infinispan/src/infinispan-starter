@@ -1,11 +1,13 @@
 #!/bin/sh
 
-# Copyright 2019 Imre Tabur <imre.tabur@mail.ee>
+# Copyright 2025 Imre Tabur <imre.tabur@mail.ee>
+
+set -e
 
 OPT_DIR=/opt
 INFINISPAN_OPT_DIR=${OPT_DIR}/infinispan-server
 INFINISPAN_BIN_DIR=${INFINISPAN_OPT_DIR}/bin
-INFINISPAN_WORKING_DIR=${INFINISPAN_OPT_DIR}
+INFINISPAN_WORKING_DIR=/var${INFINISPAN_OPT_DIR}
 
 cd ${INFINISPAN_WORKING_DIR}
 ${INFINISPAN_BIN_DIR}/server.sh -Dinfinispan.bind.address=0.0.0.0

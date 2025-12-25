@@ -19,21 +19,24 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY infinispan-server-15.2.0.Final /opt/infinispan-server
+COPY infinispan-server-16.0.5 /opt/infinispan-server
 COPY src/infinispan-starter /opt/infinispan-server/bin
 RUN chown -R root:root /opt/infinispan-server && \
-    mkdir /opt/infinispan-server/server/data && \
-    mkdir /opt/infinispan-server/server/logs && \
-    chown -R microservice:microservice /opt/infinispan-server/server/data && \
-    chown -R microservice:microservice /opt/infinispan-server/server/logs
-ENV INFINISPAN_HOME=/opt/infinispan-server
-ENV PATH="${INFINISPAN_HOME}/bin:${PATH}"
-RUN cd /opt/infinispan-server && ls -la
-USER microservice
-RUN whoami
+    mkdir -p /opt/infinispan-server/server && \
+    mkdir -p /opt/infinispan-server/server/log && \
+    mkdir -p /var/opt/infinispan-server && \
+    chown -R microservice:microservice /var/opt/infinispan-server && \
+    chown -R microservice:microservice /opt/infinispan-server/server && \
+    cd /opt/infinispan-server && \
+    ls -la && \
+    /opt/infinispan-server/bin/cli.sh user create admin -p admin -g admin
 
-WORKDIR /opt/infinispan-server
+ENV PATH="/opt/infinispan-server/bin:${PATH}"
+
+USER microservice
+
+WORKDIR /var/opt/infinispan-server
 
 EXPOSE 11222/tcp 7800/tcp 11221/tcp 8080/tcp 9990/tcp
 
-CMD ["/opt/infinispan-server/bin/infinispan-starter"]
+CMD ["infinispan-starter"]
