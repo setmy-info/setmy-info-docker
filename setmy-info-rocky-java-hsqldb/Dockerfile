@@ -30,10 +30,10 @@ RUN chmod ugo+rx /opt/hsqldb/bin/* && \
     chown -R root:root /var/opt/hsqldb && \
     chown -R microservice:microservice /var/opt/hsqldb/data
 
-WORKDIR /opt/hsqldb/bin
+WORKDIR /var/opt/hsqldb/data
 
 EXPOSE 9001/tcp
 
 USER microservice
 
-CMD ["/opt/hsqldb/bin/server", "run"]
+CMD ["/opt/hsqldb/bin/server", "microservicedb"]
