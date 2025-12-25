@@ -2,6 +2,25 @@
 
 Currently, only for internal network, in-house, by team use. Security related enhancements still waiting to be done.
 
+## Installed
+
+* Installed suggested plugins.
+* Installed:
+    * Blue Ocean/blueocean : https://plugins.jenkins.io/blueocean/
+    * JavaMail API/javax-mail-api : https://plugins.jenkins.io/javax-mail-api/
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+    * xxx/xxx : xxx
+
 ## DEV environment setup and config
 
 ```shell
@@ -83,5 +102,25 @@ kubectl apply -f src/main/k8s/dev/jenkins-secrets-map.yaml
 For probing
 
 ```shell
+docker build --no-cache --progress=plain -t setmyinfo/setmy-info-rocky-java-jenkins:2.528.3-1 -t setmyinfo/setmy-info-rocky-java-jenkins:latest .
+docker run --rm -p 30000:8080 setmyinfo/setmy-info-rocky-java-jenkins:latest
+docker exec -it HASH /bin/sh
+java -jar /opt/setmy.info/lib/jenkins-cli.jar -s http://localhost:8080/ help
+java -jar /opt/setmy.info/lib/jenkins-cli.jar -s http://localhost:8080/ -auth user:user list-plugins
+java -jar /opt/setmy.info/lib/jenkins-cli.jar -s http://localhost:8080/ -auth user:user install-plugin workflow-aggregator email-ext github ssh-credentials publish-over-ssh ant blueocean blueocean-pipeline-editor blueocean-git-pipeline blueocean-github-pipeline blueocean-dashboard blueocean-i18n blueocean-events blueocean-web -restart
+
 docker run --name setmy-info-rocky-java-jenkins -p 30000:8080 -v /var/opt/setmy.info/gintra:/mnt/gintra -d setmyinfo/setmy-info-rocky-java-jenkins:latest
+```
+
+Packaging installed Jenkins folder
+
+```shell
+docker exec -it HASH /bin/sh
+mkdir /tmp/packaging
+cd /var/lib
+tar -czf /tmp/packaging/jenkins-2.0.0.tar.gz jenkins
+tar -tzvf /tmp/packaging/jenkins-2.0.0.tar.gz
+rm -f /home/has/.setmy.info/packages/jenkins-2.0.0.tar.gz
+
+docker cp HASH:/tmp/packaging/jenkins-2.0.0.tar.gz /home/has/.setmy.info/packages/jenkins-2.0.0.tar.gz
 ```

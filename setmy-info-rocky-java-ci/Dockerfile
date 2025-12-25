@@ -7,12 +7,10 @@ ARG VERSION=2.504.2-1
 COPY ./target/download /var/download
 WORKDIR /var/download
 RUN dnf -y install unzip tar xz && \
-    tar xvzf /var/download/jenkins-1.0.1.tar.gz && \
+    tar xvzf /var/download/jenkins-2.0.0.tar.gz && \
     ls -la
 
 FROM setmyinfo/setmy-info-rocky-java:latest
-
-MAINTAINER Imre Tabur "imre.tabur@mail.ee"
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
@@ -48,9 +46,12 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.
     dnf config-manager --set-enabled plus && \
     dnf config-manager --set-enabled rt && \
     dnf update -y && \
-    dnf install -y  fontconfig jenkins git make sudo rsync \
+    dnf install -y fontconfig jenkins git make sudo rsync \
 		    unzip tar xz make yum-utils rpmdevtools \
 		    rpm-build git mercurial meld openssl-devel \
+            zlib-devel bzip2-devel xz-devel \
+            # Python build deps
+            libffi-devel readline-devel tk-devel gdbm-devel ncurses-devel uuid-devel libuuid-devel expat-devel \
 		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
     id jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers && \

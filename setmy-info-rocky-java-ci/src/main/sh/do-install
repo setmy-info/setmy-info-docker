@@ -16,9 +16,9 @@ smi-sync /mnt/gintra/ee/has/development/software/packages/ ~/.setmy.info/package
 echo "After sync files in ~/.setmy.info/packages"
 ls -la ~/.setmy.info/packages
 
-smi-download-package maven gradle cmake dvc go julia nodejs leiningen groovy
+smi-download-package mvn gradle cmake dvc go julia nodejs leiningen groovy
 smi-sync ~/.setmy.info/packages/ /mnt/gintra/ee/has/development/software/packages/
-smi-install-package maven gradle cmake dvc go julia nodejs leiningen groovy
+smi-install-package mvn gradle cmake dvc go julia nodejs leiningen groovy
 
 exit 0
 
