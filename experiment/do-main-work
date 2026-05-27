@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Should be microservice: $(whoami) ${*}"
+sudo echo "Hello World"
+smi-python hello.py
+pwd
+exit 0
