@@ -2,7 +2,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=1.28.1-1
+ARG VERSION=1.30.4-1
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Nginx" \
