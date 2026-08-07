@@ -2,7 +2,7 @@ FROM setmyinfo/setmy-info-rocky-java:latest as BUILD
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=2.504.2-1
+ARG VERSION=2.568.2
 
 COPY ./target/download /var/download
 WORKDIR /var/download

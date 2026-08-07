@@ -9,3 +9,4 @@
 **/*.rpm
 **/xz-*
 **/sbcl-*
+.idea
