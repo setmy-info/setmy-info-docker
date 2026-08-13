@@ -1,8 +1,10 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
 
+ARG HSQLDB_VERSION=2.7.4
+
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=2.7.4-2
+ARG VERSION=${HSQLDB_VERSION}-3
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux HSQLDB" \

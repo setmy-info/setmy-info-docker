@@ -1,8 +1,10 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
 
+ARG INFINISPAN_VERSION=16.2.2
+
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=16.2.2
+ARG VERSION=${INFINISPAN_VERSION}-1
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
@@ -19,7 +21,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY infinispan-server-16.2.2 /opt/infinispan-server
+COPY infinispan-server-${INFINISPAN_VERSION} /opt/infinispan-server
 COPY src/infinispan-starter /opt/infinispan-server/bin
 RUN chown -R root:root /opt/infinispan-server && \
     mkdir -p /opt/infinispan-server/server && \

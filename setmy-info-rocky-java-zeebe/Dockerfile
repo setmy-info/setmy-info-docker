@@ -1,8 +1,10 @@
 FROM setmyinfo/setmy-info-rocky-java:latest
 
+ARG ZEEBE_VERSION=8.9.14
+
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=8.9.14
+ARG VERSION=${ZEEBE_VERSION}-1
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
@@ -19,7 +21,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY camunda-zeebe-${VERSION} /opt/zeebe-broker
+COPY camunda-zeebe-${ZEEBE_VERSION} /opt/zeebe-broker
 COPY src/zeebe-starter /opt/zeebe-broker/bin
 RUN chown -R root:root /opt/zeebe-broker && \
     mkdir /opt/zeebe-broker/data && \

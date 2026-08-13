@@ -10,3 +10,14 @@
 **/xz-*
 **/sbcl-*
 .idea
+
+setmy-info-rocky-java-ci/target/
+setmy-info-rocky-java-hsqldb/hsqldb-*
+setmy-info-rocky-java-infinispan/infinispan-server-*
+setmy-info-rocky-java-tomcat/apache-tomcat-*
+setmy-info-rocky-java-zeebe/camunda-zeebe-*
+
+setmy-info-rocky-java-hsqldb/hsqldb-2.7.4.zip
+setmy-info-rocky-java-infinispan/infinispan-server-16.2.2.zip
+setmy-info-rocky-java-tomcat/apache-tomcat-11.0.24.tar.gz
+setmy-info-rocky-java-zeebe/camunda-zeebe-8.9.14.tar.gz

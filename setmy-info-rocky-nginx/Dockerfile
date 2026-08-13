@@ -3,6 +3,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION=1.30.4-1
+# https://nginx.org/packages/centos/10/x86_64/RPMS/
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Nginx" \

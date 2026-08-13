@@ -1,13 +1,15 @@
 FROM setmyinfo/setmy-info-rocky:latest as BUILD
 
+ARG JDK_VERSION=26.0.2
+
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=26.0.2
+ARG VERSION=${JDK_VERSION}-1
 
-COPY ./openjdk-26.0.2_linux-x64_bin.tar.gz /var/download/
+COPY ./openjdk-${JDK_VERSION}_linux-x64_bin.tar.gz /var/download/
 WORKDIR /var/download
 RUN dnf -y install tar && \
-    tar xvzf /var/download/openjdk-26.0.2_linux-x64_bin.tar.gz && \
+    tar xvzf /var/download/openjdk-${JDK_VERSION}_linux-x64_bin.tar.gz && \
     ls -la
 
 FROM setmyinfo/setmy-info-rocky:latest
@@ -27,7 +29,9 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
-COPY --from=BUILD /var/download/jdk-26.0.2 /opt/jdk
+ARG JDK_VERSION=26.0.2
+
+COPY --from=BUILD /var/download/jdk-${JDK_VERSION} /opt/jdk
 RUN chown -R root:root /opt/jdk && \
     chmod ugo+rx /opt/jdk/bin/*
 ENV JAVA_HOME=/opt/jdk
