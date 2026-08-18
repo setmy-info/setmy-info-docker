@@ -4,7 +4,7 @@ ARG TOMCAT_VERSION=11.0.24
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${TOMCAT_VERSION}-1
+ARG VERSION=${TOMCAT_VERSION}-2
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
