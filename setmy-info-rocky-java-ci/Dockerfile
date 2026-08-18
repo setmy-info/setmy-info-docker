@@ -69,6 +69,6 @@ RUN git config --global init.defaultBranch master && \
     git config --global user.name "Jenkins" && \
     git config --global user.email example@example.com
 
-EXPOSE 8080
+EXPOSE 8080 7070
 
 CMD [ "smi-docker-command", "do-install", "java", "-jar", "/usr/share/java/jenkins.war", "--enable-future-java" ]
