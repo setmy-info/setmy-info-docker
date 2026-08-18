@@ -12,11 +12,20 @@ spec:
         metadata:
             labels:
                 app: jenkins
+                role: controller
         spec:
             containers:
                 -   name: jenkins
                     image: setmyinfo/setmy-info-rocky-java-jenkins:latest
                     env:
+                        -   name: SMI_JENKINS_ROLE
+                            value: "controller"
+                        -   name: SMI_JENKINS_PORT
+                            value: "7070"
+                        -   name: SMI_JENKINS_HOST
+                            value: "0.0.0.0"
+                        -   name: SMI_JENKINS_HOME
+                            value: "/var/lib/jenkins"
                         -   name: JENKINS_URL
                             valueFrom:
                                 configMapKeyRef:
@@ -36,10 +45,24 @@ spec:
                                     key: github-username
                                     optional: false
                     ports:
-                        -   containerPort: 7070
+                        -   name: http
+                            containerPort: 7070
+                    readinessProbe:
+                        httpGet:
+                            path: /login
+                            port: http
+                        initialDelaySeconds: 30
+                        periodSeconds: 10
+                    livenessProbe:
+                        httpGet:
+                            path: /login
+                            port: http
+                        initialDelaySeconds: 120
+                        periodSeconds: 30
 #                    volumeMounts:
-#                        -   name: jenkins-data
-#                            mountPath: /var/lib/jenkins
+#                        -   name: gintra
+#                            mountPath: /mnt/gintra
 #            volumes:
-#                -   name: jenkins-data
-#                    emptyDir: { }
+#                -   name: gintra
+#                    persistentVolumeClaim:
+#                        claimName: jenkins-nfs-persistent-volume-claim

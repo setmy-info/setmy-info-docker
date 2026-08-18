@@ -5,4 +5,10 @@ metadata:
     namespace: jenkins-dev
 data:
     jenkins-url: "http://192.168.49.2:30000"
+    # Address of the controller as seen by the agent nodes inside the cluster.
+    controller-host: "jenkins-service.jenkins-dev.svc.cluster.local"
+    controller-port: "7070"
+    # Name of the node as created on the controller. The agent secret in
+    # jenkins-secrets-map belongs to exactly this node.
+    node-name: "kubernetes-node-1"
 immutable: true

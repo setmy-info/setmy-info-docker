@@ -7,8 +7,9 @@ spec:
     selector:
         app: jenkins
     ports:
-        -   protocol: TCP
+        -   name: http
+            protocol: TCP
             port: 7070
-            targetPort: 7070
+            targetPort: http
             nodePort: 30000
     type: NodePort

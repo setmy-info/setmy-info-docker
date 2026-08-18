@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# Container entry point, called by smi-docker-command as the restricted user.
+#
+# Selects what this container is: a Jenkins controller or a Jenkins agent node.
+# Everything else is decided by smi-jenkins-controller(1) and smi-jenkins-node(1),
+# which detect the live mode from the effective user (jenkins) themselves.
+#
+# Configuration is passed as environment variables:
+#
+#   SMI_JENKINS_ROLE               controller | node
+#
+#   controller:
+#     SMI_JENKINS_HOST             listen address    (default: 0.0.0.0)
+#     SMI_JENKINS_PORT             HTTP port         (default: 7070)
+#     SMI_JENKINS_HOME             Jenkins home      (default: /var/lib/jenkins)
+#
+#   node:
+#     SMI_JENKINS_CONTROLLER_HOST  controller host   (default: 127.0.0.1)
+#     SMI_JENKINS_CONTROLLER_PORT  controller port   (default: 7070)
+#     SMI_JENKINS_NODE_NAME        node name         (default: hostname)
+#     SMI_JENKINS_WORKDIR          agent work dir    (default: JENKINS_HOME/nodes/NAME)
+#     SMI_JENKINS_SECRET           agent secret      (required, no default)
+#
+#   JAVA_OPTS                      additional JVM options
+#
+# When SMI_JENKINS_ROLE is not set the role is detected from the secret: a
+# container that is given an agent secret can only be an agent node.
+
+if [ -z "${SMI_JENKINS_ROLE}" ]; then
+    if [ -n "${SMI_JENKINS_SECRET}" ]; then
+        SMI_JENKINS_ROLE="node"
+    else
+        SMI_JENKINS_ROLE="controller"
+    fi
+fi
+
+case "${SMI_JENKINS_ROLE}" in
+    controller)
+        echo "Starting Jenkins controller as $(id -un)"
+        exec smi-jenkins-controller "$@"
+        ;;
+    node)
+        # The hostname command is not part of a minimal image, so the node name
+        # is resolved here and never left to the default of smi-jenkins-node.
+        if [ -z "${SMI_JENKINS_NODE_NAME}" ]; then
+            SMI_JENKINS_NODE_NAME=$(hostname 2>/dev/null || uname -n)
+            export SMI_JENKINS_NODE_NAME
+        fi
+        echo "Starting Jenkins node ${SMI_JENKINS_NODE_NAME} as $(id -un)"
+        exec smi-jenkins-node "$@"
+        ;;
+    *)
+        echo "ERROR: SMI_JENKINS_ROLE=${SMI_JENKINS_ROLE}: expected controller or node" >&2
+        exit 1
+        ;;
+esac

@@ -4,7 +4,7 @@ ARG JENKINS_VERSION=2.568.2
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${JENKINS_VERSION}-3
+ARG VERSION=${JENKINS_VERSION}-4
 
 COPY ./target/download /var/download
 WORKDIR /var/download
@@ -38,7 +38,8 @@ RUN mkdir -p /opt/leiningen/bin && \
 
 COPY --from=BUILD /var/download/jenkins /var/lib/jenkins
 COPY ./target/download/jenkins-cli.jar /opt/setmy.info/lib/jenkins-cli.jar
-COPY ./src/main/sh/do-install /opt/setmy.info/bin/
+COPY ./target/download/jenkins-agent.jar /opt/setmy.info/lib/jenkins-agent.jar
+COPY ./src/main/sh/do-install ./src/main/sh/do-start /opt/setmy.info/bin/
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo && \
     echo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
@@ -57,10 +58,19 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenk
 		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
     id jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers && \
+    chmod 0755 /opt/setmy.info/bin/do-install /opt/setmy.info/bin/do-start && \
     chown -R jenkins:jenkins /var/lib/jenkins && \
     ls -la /var/lib/jenkins
 
 USER jenkins
+
+# Home of the live installation. smi-jenkins-controller uses it as the Jenkins
+# home, smi-jenkins-node keeps the node work directories below it.
+ENV JENKINS_HOME=/var/lib/jenkins
+
+# Kept together with EXPOSE below. The role of the container is not set here,
+# it is detected by ./src/main/sh/do-start.
+ENV SMI_JENKINS_PORT=7070
 
 WORKDIR /var/lib/jenkins
 
@@ -70,4 +80,4 @@ RUN git config --global init.defaultBranch master && \
 
 EXPOSE 7070
 
-CMD [ "smi-docker-command", "do-install", "java", "-jar", "/usr/share/java/jenkins.war", "--httpListenAddress=0.0.0.0", "--httpPort=7070", "--enable-future-java" ]
+CMD [ "smi-docker-command", "do-install", "do-start" ]

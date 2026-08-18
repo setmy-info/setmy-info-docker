@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: jenkins-node-deployment
+    namespace: jenkins-dev
+spec:
+    # One agent secret belongs to one node name, so one replica per node
+    # deployment. Add a further deployment, config map key and secret key for
+    # every additional node.
+    replicas: 1
+    selector:
+        matchLabels:
+            app: jenkins-node
+    template:
+        metadata:
+            labels:
+                app: jenkins-node
+                role: node
+        spec:
+            containers:
+                -   name: jenkins-node
+                    image: setmyinfo/setmy-info-rocky-java-jenkins:latest
+                    env:
+                        -   name: SMI_JENKINS_ROLE
+                            value: "node"
+                        -   name: SMI_JENKINS_CONTROLLER_HOST
+                            valueFrom:
+                                configMapKeyRef:
+                                    name: jenkins-config-map
+                                    key: controller-host
+                                    optional: false
+                        -   name: SMI_JENKINS_CONTROLLER_PORT
+                            valueFrom:
+                                configMapKeyRef:
+                                    name: jenkins-config-map
+                                    key: controller-port
+                                    optional: false
+                        -   name: SMI_JENKINS_NODE_NAME
+                            valueFrom:
+                                configMapKeyRef:
+                                    name: jenkins-config-map
+                                    key: node-name
+                                    optional: false
+                        -   name: SMI_JENKINS_SECRET
+                            valueFrom:
+                                secretKeyRef:
+                                    name: jenkins-secrets-map
+                                    key: jenkins-agent-secret
+                                    optional: false
+                        -   name: GITHUB_TOKEN
+                            valueFrom:
+                                secretKeyRef:
+                                    name: jenkins-secrets-map
+                                    key: github-token
+                                    optional: false
+                        -   name: GITHUB_USERNAME
+                            valueFrom:
+                                secretKeyRef:
+                                    name: jenkins-secrets-map
+                                    key: github-username
+                                    optional: false
+                    # The node connects out to the controller over a web socket,
+                    # so it needs no port, no service and no ingress. The work
+                    # directory is JENKINS_HOME/nodes/NAME on the container file
+                    # system and is deliberately not persisted.
