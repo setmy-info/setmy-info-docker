@@ -36,7 +36,7 @@ spec:
                                     key: github-username
                                     optional: false
                     ports:
-                        -   containerPort: 8080
+                        -   containerPort: 7070
 #                    volumeMounts:
 #                        -   name: jenkins-data
 #                            mountPath: /var/lib/jenkins
