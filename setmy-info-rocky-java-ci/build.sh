@@ -1,6 +1,6 @@
 includePackages maven gradle node cmake dvc jenkins jenkins_home go julia leiningen
 
-ADDITIONAL_VERSION=1
+ADDITIONAL_VERSION=2
 DOCKER_PROJECT_NAME=setmy-info-rocky-java-jenkins
 DOCKER_PROJECT_VERSION=${JENKINS_VERSION}
 DOCKER_PROJECT_VERSION=${JENKINS_VERSION}-${ADDITIONAL_VERSION}
@@ -11,8 +11,8 @@ SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
 
 docker_prepare() {
     mkdir -p ./target/download
-    # TODO : jenkins setup for new version is missing.
-    #cp ${SMI_HOME_PACKAGES_LOCATION}/${JENKINS_HOME_TAR_GZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${JENKINS_HOME_TAR_GZ_FILE_NAME} ./target/download && \
+    # Commented out until deciding solution for software preparations
     #cp ${SMI_HOME_PACKAGES_LOCATION}/${MAVEN_TAR_GZ_FILE_NAME} ./target/download && \
     #cp ${SMI_HOME_PACKAGES_LOCATION}/${CMAKE_TAR_GZ_FILE_NAME} ./target/download && \
     #cp ${SMI_HOME_PACKAGES_LOCATION}/${GO_TAR_GZ_FILE_NAME} ./target/download && \

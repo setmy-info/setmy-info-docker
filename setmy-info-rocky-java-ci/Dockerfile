@@ -4,13 +4,13 @@ ARG JENKINS_VERSION=2.568.2
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${JENKINS_VERSION}-1
+ARG VERSION=${JENKINS_VERSION}-2
 
 COPY ./target/download /var/download
 WORKDIR /var/download
 RUN dnf -y install unzip tar xz && \
     echo "TODO: jenkins-2.x is missing " && \
-    echo tar xvzf /var/download/jenkins-2.0.0.tar.gz && \
+    echo tar xvzf /var/download/jenkins-2.1.0.tar.gz && \
     ls -la
 
 FROM setmyinfo/setmy-info-rocky-java:latest
@@ -37,8 +37,7 @@ RUN mkdir -p /opt/leiningen/bin && \
     mkdir -p /opt/leiningen/lib && \
     mkdir -p /opt/leiningen/self-installs
 
-# TODO : 2.0 is missing
-#COPY --from=BUILD /var/download/jenkins /var/lib/jenkins
+COPY --from=BUILD /var/download/jenkins /var/lib/jenkins
 COPY ./target/download/jenkins-cli.jar /opt/setmy.info/lib/jenkins-cli.jar
 COPY ./src/main/sh/do-install /opt/setmy.info/bin/
 
