@@ -9,8 +9,7 @@ ARG VERSION=${JENKINS_VERSION}-2
 COPY ./target/download /var/download
 WORKDIR /var/download
 RUN dnf -y install unzip tar xz && \
-    echo "TODO: jenkins-2.x is missing " && \
-    echo tar xvzf /var/download/jenkins-2.1.0.tar.gz && \
+    tar xvzf /var/download/jenkins-2.1.0.tar.gz && \
     ls -la
 
 FROM setmyinfo/setmy-info-rocky-java:latest
