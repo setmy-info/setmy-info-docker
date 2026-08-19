@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# do-install runs through sudo, which rebuilds the environment, so the variables
+# the container was started with are not there. PID 1 is the container process
+# itself and still has them.
+if [ -z "${SMI_JENKINS_ROLE}" ] && [ -r /proc/1/environ ]; then
+    SMI_JENKINS_ROLE=$(tr '\0' '\n' < /proc/1/environ | sed -n 's/^SMI_JENKINS_ROLE=//p')
+fi
+
 if [ "${SMI_JENKINS_ROLE}" = "node" ]; then
     echo "$SMI_JENKINS_ROLE"
 else
