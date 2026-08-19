@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ -n "${SMI_JENKINS_ROLE}" ]; then
-    echo "${SMI_JENKINS_ROLE}"
-elif [ -n "${SMI_JENKINS_SECRET}" ]; then
-    echo "node"
+if [ "${SMI_JENKINS_ROLE}" = "node" ]; then
+    echo "$SMI_JENKINS_ROLE"
 else
     echo "controller"
 fi
+
+exit 0

@@ -2,6 +2,7 @@
 
 echo "Should be root: $(whoami)"
 
+SMI_PACKAGES="mvn gradle cmake dvc go julia node lein groovy"
 SMI_JENKINS_ROLE=$(do-role)
 
 processInstallation() {
@@ -31,4 +32,3 @@ else
 fi
 
 exit 0
-
