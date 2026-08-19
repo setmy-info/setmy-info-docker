@@ -36,10 +36,11 @@ RUN mkdir -p /opt/leiningen/bin && \
     mkdir -p /opt/leiningen/lib && \
     mkdir -p /opt/leiningen/self-installs
 
-COPY --from=BUILD /var/download/jenkins /var/lib/jenkins
-COPY ./target/download/jenkins-cli.jar /opt/setmy.info/lib/jenkins-cli.jar
+COPY --from=BUILD /var/download/jenkins  /var/lib/jenkins
+COPY ./target/download/jenkins-cli.jar   /opt/setmy.info/lib/jenkins-cli.jar
 COPY ./target/download/jenkins-agent.jar /opt/setmy.info/lib/jenkins-agent.jar
-COPY ./src/main/sh/do-install ./src/main/sh/do-start /opt/setmy.info/bin/
+COPY ./src/main/sh/do-install /opt/setmy.info/bin/
+COPY ./src/main/sh/do-start   /opt/setmy.info/bin/
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo && \
     echo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
