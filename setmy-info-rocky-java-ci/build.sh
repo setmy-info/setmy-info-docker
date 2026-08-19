@@ -21,11 +21,11 @@ docker_prepare() {
     cp ${SMI_HOME_PACKAGES_LOCATION}/${GRADLE_ZIP_FILE_NAME} ./target/download && \
     cp ${SMI_HOME_PACKAGES_LOCATION}/${LEININGEN_FILE_NAME} ./target/download && \
     cp ${SMI_HOME_PACKAGES_LOCATION}/jenkins.war ./target/download && \
-    unzip -q -o ./target/download/jenkins.war "WEB-INF/lib/cli-${JENKINS_VERSION}.jar" -d ./target/download
-    unzip -q -o ./target/download/jenkins.war "WEB-INF/lib/remoting*.jar" -d ./target/download
-    mv ./target/download/WEB-INF/lib/cli-${JENKINS_VERSION}.jar ./target/download/jenkins-cli.jar
-    # The agent JAR is the remoting JAR of the WAR, same as in jenkins.package
-    mv ./target/download/WEB-INF/lib/remoting*.jar ./target/download/jenkins-agent.jar
+    unzip -q -o ./target/download/jenkins.war "WEB-INF/lib/cli-${JENKINS_VERSION}.jar" -d ./target/download && \
+    unzip -q -o ./target/download/jenkins.war "WEB-INF/lib/remoting*.jar" -d ./target/download && \
+    mv ./target/download/WEB-INF/lib/cli-${JENKINS_VERSION}.jar ./target/download/jenkins-cli.jar && \
+    # The agent JAR is the remoting JAR of the WAR, same as in jenkins.package \
+    mv ./target/download/WEB-INF/lib/remoting*.jar ./target/download/jenkins-agent.jar && \
     rm -r ./target/download/WEB-INF
 }
 
