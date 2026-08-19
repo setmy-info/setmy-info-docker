@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO : that can be inside scripts project as smi-docker-entry in more generic form.
+
 SMI_JENKINS_ROLE=${1:-controller}
 
 if [ ${#} -gt 0 ]; then
