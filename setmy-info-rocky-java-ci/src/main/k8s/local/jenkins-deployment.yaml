@@ -17,9 +17,10 @@ spec:
             containers:
                 -   name: jenkins
                     image: setmyinfo/setmy-info-rocky-java-jenkins:latest
+                    # The role of the container is its argument, so that it
+                    # reaches the installation, which runs through sudo.
+                    args: [ "controller" ]
                     env:
-                        -   name: SMI_JENKINS_ROLE
-                            value: "controller"
                         -   name: SMI_JENKINS_PORT
                             value: "7070"
                         -   name: SMI_JENKINS_HOST

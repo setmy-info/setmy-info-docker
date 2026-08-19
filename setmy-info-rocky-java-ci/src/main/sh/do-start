@@ -1,14 +1,12 @@
 #!/bin/sh
 
-# Container entry point, called by smi-docker-command as the restricted user.
+# Called by smi-docker-command as the restricted user, with the role of the
+# container as the first argument and the arguments of the container after it.
 #
-# Selects what this container is: a Jenkins controller or a Jenkins agent node.
 # Everything else is decided by smi-jenkins-controller(1) and smi-jenkins-node(1),
 # which detect the live mode from the effective user (jenkins) themselves.
 #
 # Configuration is passed as environment variables:
-#
-#   SMI_JENKINS_ROLE               controller | node
 #
 #   controller:
 #     SMI_JENKINS_HOST             listen address    (default: 0.0.0.0)
@@ -24,12 +22,11 @@
 #
 #   JAVA_OPTS                      additional JVM options
 #
-# The role is resolved by do-role, which is used by do-install as well, so that
-# the software that is installed and the process that is started agree. When
-# SMI_JENKINS_ROLE is not set the role is detected from the secret: a container
-# that is given an agent secret can only be an agent node.
+SMI_JENKINS_ROLE=${1:-controller}
 
-SMI_JENKINS_ROLE=$(do-role)
+if [ ${#} -gt 0 ]; then
+    shift
+fi
 
 case "${SMI_JENKINS_ROLE}" in
     controller)
@@ -47,7 +44,7 @@ case "${SMI_JENKINS_ROLE}" in
         exec smi-jenkins-node "$@"
         ;;
     *)
-        echo "ERROR: SMI_JENKINS_ROLE=${SMI_JENKINS_ROLE}: expected controller or node" >&2
+        echo "ERROR: ${SMI_JENKINS_ROLE}: expected controller or node" >&2
         exit 1
         ;;
 esac

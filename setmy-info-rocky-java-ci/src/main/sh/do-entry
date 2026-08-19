@@ -1,0 +1,18 @@
+#!/bin/sh
+
+SMI_JENKINS_ROLE=${1:-controller}
+
+if [ ${#} -gt 0 ]; then
+    shift
+fi
+
+case "${SMI_JENKINS_ROLE}" in
+    controller|node)
+        ;;
+    *)
+        echo "ERROR: ${SMI_JENKINS_ROLE}: expected controller or node" >&2
+        exit 1
+        ;;
+esac
+
+exec smi-docker-command "do-install-${SMI_JENKINS_ROLE}" do-start "${SMI_JENKINS_ROLE}" "${@}"

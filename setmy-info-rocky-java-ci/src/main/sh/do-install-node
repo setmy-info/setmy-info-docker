@@ -3,7 +3,6 @@
 echo "Should be root: $(whoami)"
 
 SMI_PACKAGES="mvn gradle cmake dvc go julia node lein groovy"
-SMI_JENKINS_ROLE=$(do-role)
 
 processInstallation() {
     #mkdir -p /mnt/gintra/ee/has/development/software/packages
@@ -25,10 +24,6 @@ processInstallation() {
     smi-install-package ${SMI_PACKAGES}
 }
 
-if [ "${SMI_JENKINS_ROLE}" = "node" ]; then
-    processInstallation
-else
-    echo "Role ${SMI_JENKINS_ROLE}: the build tools belong to the nodes, none are installed"
-fi
+processInstallation
 
 exit 0

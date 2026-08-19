@@ -23,22 +23,26 @@ Currently, only for internal network, in-house, by team use. Security related en
 
 ## Controller or node
 
-The same image is started as a Jenkins controller or as a Jenkins agent node. The container entry point **do-start**
-selects the role and calls **smi-jenkins-controller** or **smi-jenkins-node**, which detect the live installation from
-the effective user (**jenkins**) themselves.
+The same image is started as a Jenkins controller or as a Jenkins agent node. The role is the **argument** of the
+container, `controller` or `node`, and `controller` is the default. The entry point **do-entry** passes it on to the
+installation and to **do-start**, which calls **smi-jenkins-controller** or **smi-jenkins-node**, and those detect the
+live installation from the effective user (**jenkins**) themselves.
 
-| Variable                      | Role       | Meaning                                | Default                                                         |
-|-------------------------------|------------|----------------------------------------|-----------------------------------------------------------------|
-| `SMI_JENKINS_ROLE`            | both       | `controller` or `node`                 | `node` when `SMI_JENKINS_SECRET` is set, otherwise `controller` |
-| `SMI_JENKINS_HOST`            | controller | Listen address                         | `0.0.0.0`                                                       |
-| `SMI_JENKINS_PORT`            | controller | HTTP port                              | `7070`                                                          |
-| `SMI_JENKINS_HOME`            | controller | Jenkins home                           | `/var/lib/jenkins`                                              |
-| `SMI_JENKINS_CONTROLLER_HOST` | node       | Controller host                        | `127.0.0.1`                                                     |
-| `SMI_JENKINS_CONTROLLER_PORT` | node       | Controller port                        | `7070`                                                          |
-| `SMI_JENKINS_NODE_NAME`       | node       | Node name as created on the controller | Container host name                                             |
-| `SMI_JENKINS_WORKDIR`         | node       | Agent work directory                   | `/var/lib/jenkins/nodes/NAME`                                   |
-| `SMI_JENKINS_SECRET`          | node       | Agent secret, **required**             | None                                                            |
-| `JAVA_OPTS`                   | both       | Additional JVM options                 | None                                                            |
+The role is an argument and not an environment variable because the installation runs through **sudo**, which rebuilds
+the environment. The build tools of the jobs are installed for the `node` role only, the controller hands the work to
+the nodes and stays without them.
+
+| Variable                      | Role       | Meaning                                | Default                       |
+|-------------------------------|------------|----------------------------------------|-------------------------------|
+| `SMI_JENKINS_HOST`            | controller | Listen address                         | `0.0.0.0`                     |
+| `SMI_JENKINS_PORT`            | controller | HTTP port                              | `7070`                        |
+| `SMI_JENKINS_HOME`            | controller | Jenkins home                           | `/var/lib/jenkins`            |
+| `SMI_JENKINS_CONTROLLER_HOST` | node       | Controller host                        | `127.0.0.1`                   |
+| `SMI_JENKINS_CONTROLLER_PORT` | node       | Controller port                        | `7070`                        |
+| `SMI_JENKINS_NODE_NAME`       | node       | Node name as created on the controller | Container host name           |
+| `SMI_JENKINS_WORKDIR`         | node       | Agent work directory                   | `/var/lib/jenkins/nodes/NAME` |
+| `SMI_JENKINS_SECRET`          | node       | Agent secret, **required**             | None                          |
+| `JAVA_OPTS`                   | both       | Additional JVM options                 | None                          |
 
 The agent secret is never given on the command line. Use `--env-file` with Docker and a **Secret** with Kubernetes.
 
@@ -54,11 +58,10 @@ Node, secret in a file that is not committed:
 echo "SMI_JENKINS_SECRET=THE-SECRET-OF-THE-NODE" > jenkins-node.env
 docker run --name jenkins-node-1 \
     --env-file jenkins-node.env \
-    -e SMI_JENKINS_ROLE=node \
     -e SMI_JENKINS_CONTROLLER_HOST=jenkins-controller \
     -e SMI_JENKINS_CONTROLLER_PORT=7070 \
     -e SMI_JENKINS_NODE_NAME=docker-node-1 \
-    -d setmyinfo/setmy-info-rocky-java-jenkins:latest
+    -d setmyinfo/setmy-info-rocky-java-jenkins:latest node
 ```
 
 The node connects out to the controller over a web socket, so it needs no published port.
@@ -66,14 +69,14 @@ The node connects out to the controller over a web socket, so it needs no publis
 ## DEV environment setup and config
 
 ```shell
-kubectl apply -f src/main/k8s/dev/jenkins-namespace.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-config-map.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-secrets-map.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-nfs-persistent-volume.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-nfs-persistent-volume-claim.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-deployment.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-service.yaml
-kubectl apply -f src/main/k8s/dev/jenkins-ingress.yaml
+kubectl apply -f src/main/k8s/local/jenkins-namespace.yaml
+kubectl apply -f src/main/k8s/local/jenkins-config-map.yaml
+kubectl apply -f src/main/k8s/local/jenkins-secrets-map.yaml
+kubectl apply -f src/main/k8s/local/jenkins-nfs-persistent-volume.yaml
+kubectl apply -f src/main/k8s/local/jenkins-nfs-persistent-volume-claim.yaml
+kubectl apply -f src/main/k8s/local/jenkins-deployment.yaml
+kubectl apply -f src/main/k8s/local/jenkins-service.yaml
+kubectl apply -f src/main/k8s/local/jenkins-ingress.yaml
 ```
 
 The agent nodes are deployed after the controller is running and the node is created in the controller user interface.

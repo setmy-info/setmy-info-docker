@@ -39,9 +39,10 @@ RUN mkdir -p /opt/leiningen/bin && \
 COPY --from=BUILD /var/download/jenkins/.jenkins  /var/lib/jenkins
 COPY ./target/download/jenkins-cli.jar   /opt/setmy.info/lib/jenkins-cli.jar
 COPY ./target/download/jenkins-agent.jar /opt/setmy.info/lib/jenkins-agent.jar
-COPY ./src/main/sh/do-install /opt/setmy.info/bin/
-COPY ./src/main/sh/do-start   /opt/setmy.info/bin/
-COPY ./src/main/sh/do-role    /opt/setmy.info/bin/
+COPY ./src/main/sh/do-entry              /opt/setmy.info/bin/
+COPY ./src/main/sh/do-install-controller /opt/setmy.info/bin/
+COPY ./src/main/sh/do-install-node       /opt/setmy.info/bin/
+COPY ./src/main/sh/do-start              /opt/setmy.info/bin/
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo && \
     dnf install -y epel-release && \
@@ -59,7 +60,7 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenk
 		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
     id jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers && \
-    chmod 0755 /opt/setmy.info/bin/do-install /opt/setmy.info/bin/do-start /opt/setmy.info/bin/do-role && \
+    chmod 0755 /opt/setmy.info/bin/do-entry /opt/setmy.info/bin/do-install-controller /opt/setmy.info/bin/do-install-node /opt/setmy.info/bin/do-start && \
     chown -R jenkins:jenkins /var/lib/jenkins && \
     ls -la /var/lib/jenkins
 
@@ -70,7 +71,7 @@ USER jenkins
 ENV JENKINS_HOME=/var/lib/jenkins
 
 # Kept together with EXPOSE below. The role of the container is not set here,
-# it is detected by ./src/main/sh/do-start.
+# it is the argument of the container, see CMD.
 ENV SMI_JENKINS_PORT=7070
 
 WORKDIR /var/lib/jenkins
@@ -81,7 +82,11 @@ RUN git config --global init.defaultBranch master && \
 
 EXPOSE 7070
 
-# The role is written down as the jenkins user, before smi-docker-command
-# crosses to root. sudo rebuilds the environment, so do-install cannot read the
-# variables of the container, but it can read the file.
-CMD [ "sh", "-c", "do-role > /tmp/smi-jenkins-role; exec smi-docker-command do-install do-start" ]
+# The role is the argument of the container, so that it reaches the installation
+# as well: sudo rebuilds the environment, but the name of the script it runs is
+# passed on the command line.
+#
+#   docker run IMAGE           controller
+#   docker run IMAGE node      node
+ENTRYPOINT [ "do-entry" ]
+CMD [ "controller" ]

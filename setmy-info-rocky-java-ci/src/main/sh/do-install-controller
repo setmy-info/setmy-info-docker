@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Should be root: $(whoami)"
+
+# enpty: Controller doe snot need software.
+
+exit 0
