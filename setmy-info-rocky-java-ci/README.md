@@ -83,13 +83,13 @@ The agent nodes are deployed after the controller is running and the node is cre
 The node name in **jenkins-config-map** and the secret in **jenkins-secrets-map** must be the ones of that node.
 
 ```shell
-kubectl apply -f src/main/k8s/dev/jenkins-node-deployment.yaml
+kubectl apply -f src/main/k8s/local/jenkins-node-deployment.yaml
 ```
 
-Change **kubectl** default namespace used. Otherwise, use **-n jenkins-dev** at the end of kubectl command line.
+Change **kubectl** default namespace used. Otherwise, use **-n jenkins-local** at the end of kubectl command line.
 
 ```shell
-kubectl config set-context --current --namespace=jenkins-dev
+kubectl config set-context --current --namespace=jenkins-local
 ```
 
 Check configuration
@@ -132,7 +132,7 @@ kubectl delete pv jenkins-nfs-persistent-volume
 kubectl delete secrets jenkins-secrets-map
 kubectl delete configmap jenkins-config-map
 kubectl delete namespace jenkins-ingress
-kubectl delete namespace jenkins-dev
+kubectl delete namespace jenkins-local
 ```
 
 Because secrets and config maps have **immutable: true**, then config and secret maps need to be removed to apply new
@@ -142,14 +142,14 @@ Config map update.
 
 ```shell
 kubectl delete configmap jenkins-config-map
-kubectl apply -f src/main/k8s/dev/jenkins-config-map.yaml
+kubectl apply -f src/main/k8s/local/jenkins-config-map.yaml
 ```
 
 Secrets map update.
 
 ```shell
 kubectl delete secrets jenkins-secrets-map
-kubectl apply -f src/main/k8s/dev/jenkins-secrets-map.yaml
+kubectl apply -f src/main/k8s/local/jenkins-secrets-map.yaml
 ```
 
 For probing
