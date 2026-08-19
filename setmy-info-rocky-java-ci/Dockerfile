@@ -41,6 +41,7 @@ COPY ./target/download/jenkins-cli.jar   /opt/setmy.info/lib/jenkins-cli.jar
 COPY ./target/download/jenkins-agent.jar /opt/setmy.info/lib/jenkins-agent.jar
 COPY ./src/main/sh/do-install /opt/setmy.info/bin/
 COPY ./src/main/sh/do-start   /opt/setmy.info/bin/
+COPY ./src/main/sh/do-role    /opt/setmy.info/bin/
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo && \
     dnf install -y epel-release && \
@@ -58,7 +59,7 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenk
 		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
     id jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers && \
-    chmod 0755 /opt/setmy.info/bin/do-install /opt/setmy.info/bin/do-start && \
+    chmod 0755 /opt/setmy.info/bin/do-install /opt/setmy.info/bin/do-start /opt/setmy.info/bin/do-role && \
     chown -R jenkins:jenkins /var/lib/jenkins && \
     ls -la /var/lib/jenkins
 

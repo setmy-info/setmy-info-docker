@@ -2,10 +2,7 @@
 
 echo "Should be root: $(whoami)"
 
-# Names of the package files of the SMI toolset, not the names of the tools.
-# A name without a package file is skipped by includePackage in silence, so
-# every one of these has to match a file of smi-packages-location.
-SMI_PACKAGES="mvn gradle cmake dvc go julia node lein groovy"
+SMI_JENKINS_ROLE=$(do-role)
 
 processInstallation() {
     #mkdir -p /mnt/gintra/ee/has/development/software/packages
@@ -27,7 +24,11 @@ processInstallation() {
     smi-install-package ${SMI_PACKAGES}
 }
 
-processInstallation
+if [ "${SMI_JENKINS_ROLE}" = "node" ]; then
+    processInstallation
+else
+    echo "Role ${SMI_JENKINS_ROLE}: the build tools belong to the nodes, none are installed"
+fi
 
 exit 0
 

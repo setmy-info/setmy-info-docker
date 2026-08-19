@@ -24,16 +24,12 @@
 #
 #   JAVA_OPTS                      additional JVM options
 #
-# When SMI_JENKINS_ROLE is not set the role is detected from the secret: a
-# container that is given an agent secret can only be an agent node.
+# The role is resolved by do-role, which is used by do-install as well, so that
+# the software that is installed and the process that is started agree. When
+# SMI_JENKINS_ROLE is not set the role is detected from the secret: a container
+# that is given an agent secret can only be an agent node.
 
-if [ -z "${SMI_JENKINS_ROLE}" ]; then
-    if [ -n "${SMI_JENKINS_SECRET}" ]; then
-        SMI_JENKINS_ROLE="node"
-    else
-        SMI_JENKINS_ROLE="controller"
-    fi
-fi
+SMI_JENKINS_ROLE=$(do-role)
 
 case "${SMI_JENKINS_ROLE}" in
     controller)
