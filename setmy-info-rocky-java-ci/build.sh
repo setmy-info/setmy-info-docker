@@ -11,16 +11,16 @@ SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
 
 docker_prepare() {
     mkdir -p ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${JENKINS_HOME_TAR_GZ_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${MAVEN_TAR_GZ_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${CMAKE_TAR_GZ_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${GO_TAR_GZ_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${JULIA_TAR_GZ_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${NODE_TAR_XZ_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${DVC_REPO_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${GRADLE_ZIP_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/${LEININGEN_FILE_NAME} ./target/download
-    cp ${SMI_HOME_PACKAGES_LOCATION}/leiningen-${LEININGEN_VERSION}-standalone.jar ./target/download
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${JENKINS_HOME_TAR_GZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${MAVEN_TAR_GZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${CMAKE_TAR_GZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${GO_TAR_GZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${JULIA_TAR_GZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${NODE_TAR_XZ_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${DVC_REPO_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${GRADLE_ZIP_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/${LEININGEN_FILE_NAME} ./target/download && \
+    cp ${SMI_HOME_PACKAGES_LOCATION}/leiningen-${LEININGEN_VERSION}-standalone.jar ./target/download && \
     cp ${SMI_HOME_PACKAGES_LOCATION}/jenkins.war ./target/download
     unzip -q -o ./target/download/jenkins.war "WEB-INF/lib/cli-${JENKINS_VERSION}.jar" -d ./target/download
     unzip -q -o ./target/download/jenkins.war "WEB-INF/lib/remoting*.jar" -d ./target/download
