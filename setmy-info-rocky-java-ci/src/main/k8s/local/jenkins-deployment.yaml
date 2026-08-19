@@ -26,12 +26,6 @@ spec:
                             value: "0.0.0.0"
                         -   name: SMI_JENKINS_HOME
                             value: "/var/lib/jenkins"
-                        -   name: JENKINS_URL
-                            valueFrom:
-                                configMapKeyRef:
-                                    name: jenkins-config-map
-                                    key: jenkins-url
-                                    optional: false
                         -   name: GITHUB_TOKEN
                             valueFrom:
                                 secretKeyRef:

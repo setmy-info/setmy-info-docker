@@ -4,7 +4,6 @@ metadata:
     name: jenkins-config-map
     namespace: jenkins-local
 data:
-    jenkins-url: "http://192.168.0.10:7070"
     # Address of the controller as seen by the agent nodes inside the cluster.
     #controller-host: "jenkins-service.jenkins-local.svc.cluster.local"
     controller-host: "192.168.0.10"
