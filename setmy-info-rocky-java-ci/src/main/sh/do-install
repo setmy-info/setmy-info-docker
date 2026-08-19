@@ -2,6 +2,11 @@
 
 echo "Should be root: $(whoami)"
 
+# Names of the package files of the SMI toolset, not the names of the tools.
+# A name without a package file is skipped by includePackage in silence, so
+# every one of these has to match a file of smi-packages-location.
+SMI_PACKAGES="mvn gradle cmake dvc go julia node lein groovy"
+
 processInstallation() {
     #mkdir -p /mnt/gintra/ee/has/development/software/packages
     mkdir -p ~/.setmy.info/packages
@@ -17,9 +22,9 @@ processInstallation() {
     #echo "After sync files in ~/.setmy.info/packages"
     #ls -la ~/.setmy.info/packages
 
-    smi-download-package mvn gradle cmake dvc go julia nodejs leiningen groovy
+    smi-download-package ${SMI_PACKAGES}
     #smi-sync ~/.setmy.info/packages/ /mnt/gintra/ee/has/development/software/packages/
-    smi-install-package mvn gradle cmake dvc go julia nodejs leiningen groovy
+    smi-install-package ${SMI_PACKAGES}
 }
 
 processInstallation
