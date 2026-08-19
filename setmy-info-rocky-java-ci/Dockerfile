@@ -81,4 +81,7 @@ RUN git config --global init.defaultBranch master && \
 
 EXPOSE 7070
 
-CMD [ "smi-docker-command", "do-install", "do-start" ]
+# The role is written down as the jenkins user, before smi-docker-command
+# crosses to root. sudo rebuilds the environment, so do-install cannot read the
+# variables of the container, but it can read the file.
+CMD [ "sh", "-c", "do-role > /tmp/smi-jenkins-role; exec smi-docker-command do-install do-start" ]
