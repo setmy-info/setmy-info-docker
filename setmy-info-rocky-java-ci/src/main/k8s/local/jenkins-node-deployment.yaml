@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: jenkins-node-deployment
-    namespace: jenkins-dev
+    namespace: jenkins-local
 spec:
     # One agent secret belongs to one node name, so one replica per node
     # deployment. Add a further deployment, config map key and secret key for

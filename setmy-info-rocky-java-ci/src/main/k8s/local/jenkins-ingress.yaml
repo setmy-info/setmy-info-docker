@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jenkins-ingress
-  namespace: jenkins-dev
+  namespace: jenkins-local
   annotations:
     # Jenkins is served from the root of the host, so no rewriting. A
     # rewrite-target of / would send every request of the user interface to the
