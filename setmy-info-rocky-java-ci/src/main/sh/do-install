@@ -22,8 +22,7 @@ processInstallation() {
     smi-install-package mvn gradle cmake dvc go julia nodejs leiningen groovy
 }
 
-# currently commented out until better solution.
-#processInstallation
+processInstallation
 
 exit 0
 

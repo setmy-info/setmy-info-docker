@@ -43,7 +43,6 @@ COPY ./src/main/sh/do-install /opt/setmy.info/bin/
 COPY ./src/main/sh/do-start   /opt/setmy.info/bin/
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo && \
-    echo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && \
     dnf install -y epel-release && \
     dnf --enablerepo=epel group && \
     dnf config-manager --set-enabled crb && \
@@ -54,7 +53,7 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenk
 		    unzip tar xz make yum-utils rpmdevtools \
 		    rpm-build git mercurial meld openssl-devel \
             zlib-devel bzip2-devel xz-devel \
-            # Python build deps
+            # Python build dependencies \
             libffi-devel readline-devel tk-devel gdbm-devel ncurses-devel uuid-devel libuuid-devel expat-devel \
 		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
     id jenkins && \
