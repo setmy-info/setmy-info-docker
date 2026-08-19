@@ -36,7 +36,7 @@ RUN mkdir -p /opt/leiningen/bin && \
     mkdir -p /opt/leiningen/lib && \
     mkdir -p /opt/leiningen/self-installs
 
-COPY --from=BUILD /var/download/jenkins  /var/lib/jenkins
+COPY --from=BUILD /var/download/jenkins/.jenkins  /var/lib/jenkins
 COPY ./target/download/jenkins-cli.jar   /opt/setmy.info/lib/jenkins-cli.jar
 COPY ./target/download/jenkins-agent.jar /opt/setmy.info/lib/jenkins-agent.jar
 COPY ./src/main/sh/do-install /opt/setmy.info/bin/
