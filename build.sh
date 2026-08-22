@@ -25,7 +25,7 @@ docker_prepare() {
     docker_prepare_in_dir setmy-info-rocky-java-infinispan
     docker_prepare_in_dir setmy-info-rocky-java-hsqldb
     docker_prepare_in_dir setmy-info-rocky-java-ci
-    docker_prepare_in_dir setmy-info-elixir
+    docker_prepare_in_dir setmy-info-rocky-elixir
 }
 
 docker_build() {
@@ -38,7 +38,7 @@ docker_build() {
     docker_build_in_dir setmy-info-rocky-java-infinispan
     docker_build_in_dir setmy-info-rocky-java-hsqldb
     docker_build_in_dir setmy-info-rocky-java-ci
-    docker_build_in_dir setmy-info-elixir
+    docker_build_in_dir setmy-info-rocky-elixir
 }
 
 docker_prepare
