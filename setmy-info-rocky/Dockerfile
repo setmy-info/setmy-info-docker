@@ -2,9 +2,9 @@ FROM rockylinux/rockylinux:10.2
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=10.2-2
+ARG VERSION=10.2-3
 
-ARG SMI_VERSION=0.110.0
+ARG SMI_VERSION=0.111.0
 ARG SBCL_VERSION=2.6.7
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md

@@ -4,7 +4,7 @@ ARG JDK_VERSION=26.0.2
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${JDK_VERSION}-2
+ARG VERSION=${JDK_VERSION}-3
 
 COPY ./openjdk-${JDK_VERSION}_linux-x64_bin.tar.gz /var/download/
 WORKDIR /var/download

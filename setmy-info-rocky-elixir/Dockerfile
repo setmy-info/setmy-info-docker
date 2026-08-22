@@ -49,8 +49,8 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.documentation="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/README.md" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
-      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-elixir" \
-      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-elixir" \
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-elixir" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-elixir" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
@@ -59,6 +59,8 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
 # A symlink is then created so ENV ERLANG_HOME=/opt/erlang works as expected.
 # Elixir and LFE scripts resolve their location relatively so the same
 # versioned-dir + symlink approach is used for consistency.
+RUN dnf -y install glibc-langpack-en && dnf clean all && rm -rf /var/cache/dnf
+
 COPY --from=BUILD /opt/erlang-${ERLANG_VERSION} /opt/erlang-${ERLANG_VERSION}
 COPY --from=BUILD /opt/elixir-${ELIXIR_VERSION} /opt/elixir-${ELIXIR_VERSION}
 COPY --from=BUILD /opt/lfe-${LFE_VERSION}       /opt/lfe-${LFE_VERSION}
