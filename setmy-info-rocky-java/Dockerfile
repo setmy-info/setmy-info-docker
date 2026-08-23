@@ -1,6 +1,6 @@
 FROM setmyinfo/setmy-info-rocky:latest as BUILD
 
-ARG JDK_VERSION=26.0.2
+ARG JDK_VERSION=26.0.2.1
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
-ARG JDK_VERSION=26.0.2
+ARG JDK_VERSION=26.0.2.1
 
 COPY --from=BUILD /var/download/jdk-${JDK_VERSION} /opt/jdk
 RUN chown -R root:root /opt/jdk && \

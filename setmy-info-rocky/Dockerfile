@@ -4,7 +4,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION=10.2-4
 
-ARG SMI_VERSION=0.111.0
+ARG SMI_VERSION=0.112.0
 ARG SBCL_VERSION=2.6.7
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
