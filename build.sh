@@ -15,7 +15,7 @@ docker_build_in_dir() {
 }
 
 docker_prepare() {
-    smi-download-package all
+    #smi-download-package all
     docker_prepare_in_dir setmy-info-rocky
     docker_prepare_in_dir setmy-info-rocky-java
     docker_prepare_in_dir setmy-info-rocky-node
