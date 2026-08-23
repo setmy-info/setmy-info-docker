@@ -47,7 +47,6 @@ RUN ln -sf /opt/python-${PYTHON314_VERSION} /opt/python314 && \
     chmod ugo+rx /opt/python-${PYTHON314_VERSION}/bin/*
 
 ENV LANG=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
 ENV PYTHON_HOME=/opt/python314
 ENV PATH="${PYTHON_HOME}/bin:${PATH}"
 
