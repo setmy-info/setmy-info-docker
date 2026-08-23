@@ -43,5 +43,5 @@ docker_build() {
     docker_build_in_dir setmy-info-rocky-python
 }
 
-docker_prepare
-docker_build
+#docker_prepare
+#docker_build
