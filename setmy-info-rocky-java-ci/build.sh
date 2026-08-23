@@ -1,6 +1,6 @@
 includePackages mvn gradle node cmake dvc jenkins jenkins_home go julia lein
 
-ADDITIONAL_VERSION=5
+ADDITIONAL_VERSION=6
 DOCKER_PROJECT_NAME=setmy-info-rocky-java-jenkins
 DOCKER_PROJECT_VERSION=${JENKINS_VERSION}
 DOCKER_PROJECT_VERSION=${JENKINS_VERSION}-${ADDITIONAL_VERSION}

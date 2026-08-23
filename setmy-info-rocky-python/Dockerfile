@@ -18,7 +18,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 ARG BUILD_DATE
 ARG VCS_REF
 ARG PYTHON314_VERSION=3.14.7
-ARG VERSION=1-1
+ARG VERSION=${PYTHON314_VERSION}-2
 
 LABEL org.opencontainers.image.title="Docker HUB Rocky Python" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux with Python 3.14" \

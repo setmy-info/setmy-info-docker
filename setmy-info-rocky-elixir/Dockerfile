@@ -31,7 +31,7 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG ERLANG_VERSION=29.0.5
 ARG ELIXIR_VERSION=1.20.3
-ARG VERSION=1-1
+ARG VERSION=${ELIXIR_VERSION}-2
 
 LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux with Erlang, Elixir and LFE" \

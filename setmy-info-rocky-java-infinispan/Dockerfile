@@ -4,7 +4,7 @@ ARG INFINISPAN_VERSION=16.2.2
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${INFINISPAN_VERSION}-3
+ARG VERSION=${INFINISPAN_VERSION}-4
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
