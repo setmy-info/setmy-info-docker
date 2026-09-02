@@ -12,5 +12,6 @@ set -eu
 wget -O nginx.rpm https://nginx.org/packages/centos/10/x86_64/RPMS/nginx-1.30.4-1.el10.ngx.x86_64.rpm
 rpm2cpio nginx.rpm | cpio -idmv './etc/*'
 rm nginx.rpm
+meld ../nginx/etc ../etc
 
 exit 0
