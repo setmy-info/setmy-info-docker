@@ -3,7 +3,7 @@ FROM setmyinfo/setmy-info-rocky:latest AS BUILD
 ARG BUILD_DATE
 ARG VCS_REF
 ARG ERLANG_VERSION=29.0.5
-ARG ELIXIR_VERSION=1.20.3
+ARG ELIXIR_VERSION=1.20.4
 
 # Install Erlang/OTP build dependencies and compile Erlang.
 # glibc-langpack-en is required so the Elixir build does not warn about latin1
@@ -30,7 +30,7 @@ FROM setmyinfo/setmy-info-rocky:latest
 ARG BUILD_DATE
 ARG VCS_REF
 ARG ERLANG_VERSION=29.0.5
-ARG ELIXIR_VERSION=1.20.3
+ARG ELIXIR_VERSION=1.20.4
 ARG VERSION=${ELIXIR_VERSION}-2
 
 LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
