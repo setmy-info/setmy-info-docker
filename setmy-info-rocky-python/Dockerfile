@@ -2,7 +2,7 @@ FROM setmyinfo/setmy-info-rocky:latest AS BUILD
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG PYTHON314_VERSION=3.14.7
+ARG PYTHON313_VERSION=3.13.18
 
 # Install Python build dependencies.
 # glibc-langpack-en ensures UTF-8 locale is available during build.
@@ -17,8 +17,9 @@ FROM setmyinfo/setmy-info-rocky:latest
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG PYTHON314_VERSION=3.14.7
-ARG VERSION=${PYTHON314_VERSION}-2
+ARG PYTHON313_VERSION=3.13.18
+ARG VERSION=${PYTHON313_VERSION}
+#ARG VERSION=${PYTHON313_VERSION}-0
 
 LABEL org.opencontainers.image.title="Docker HUB Rocky Python" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux with Python 3.14" \
@@ -39,15 +40,15 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Python" \
 RUN dnf -y install glibc-langpack-en openssl-libs bzip2-libs libffi zlib readline sqlite-libs xz-libs && \
     dnf clean all && rm -rf /var/cache/dnf
 
-COPY --from=BUILD /opt/python-${PYTHON314_VERSION} /opt/python-${PYTHON314_VERSION}
+COPY --from=BUILD /opt/python-${PYTHON313_VERSION} /opt/python-${PYTHON313_VERSION}
 
-RUN ln -sf /opt/python-${PYTHON314_VERSION} /opt/python314 && \
-    ln -sf /opt/python-${PYTHON314_VERSION} /opt/python && \
-    chown -R root:root /opt/python-${PYTHON314_VERSION} && \
-    chmod ugo+rx /opt/python-${PYTHON314_VERSION}/bin/*
+RUN ln -sf /opt/python-${PYTHON313_VERSION} /opt/python313 && \
+    ln -sf /opt/python-${PYTHON313_VERSION} /opt/python && \
+    chown -R root:root /opt/python-${PYTHON313_VERSION} && \
+    chmod ugo+rx /opt/python-${PYTHON313_VERSION}/bin/*
 
 ENV LANG=en_US.UTF-8
-ENV PYTHON_HOME=/opt/python314
+ENV PYTHON_HOME=/opt/python313
 ENV PATH="${PYTHON_HOME}/bin:${PATH}"
 
 RUN python3 --version && \

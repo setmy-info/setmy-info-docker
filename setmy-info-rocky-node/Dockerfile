@@ -1,10 +1,11 @@
 FROM setmyinfo/setmy-info-rocky:latest
 
-ARG NODE_VERSION=24.19.0
+ARG NODE_VERSION=26.13.0
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${NODE_VERSION}-4
+ARG VERSION=${NODE_VERSION}
+#ARG VERSION=${NODE_VERSION}-4
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
@@ -24,7 +25,8 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
 COPY node-v${NODE_VERSION}-linux-x64 /opt/node
 RUN useradd node --shell /sbin/nologin --no-create-home && \
     chown -R root:root /opt/node && \
-    chmod ugo+rx /opt/node/bin/*
+    chmod ugo+rx /opt/node/bin/* && \
+    dnf install -y libatomic
 ENV NODE_HOME=/opt/node
 ENV PATH="${NODE_HOME}/bin:${PATH}"
 RUN cd /opt/node && ls -la && node --version
