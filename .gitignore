@@ -9,6 +9,7 @@
 **/*.rpm
 **/xz-*
 **/sbcl-*
+**/quicklisp.lisp
 .idea
 
 setmy-info-rocky-java-ci/target/
