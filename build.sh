@@ -20,6 +20,7 @@ docker_prepare() {
     docker_prepare_in_dir setmy-info-rocky-java
     docker_prepare_in_dir setmy-info-rocky-node
     docker_prepare_in_dir setmy-info-rocky-nginx
+    docker_prepare_in_dir setmy-info-rocky-freenginx
     docker_prepare_in_dir setmy-info-rocky-java-tomcat
     docker_prepare_in_dir setmy-info-rocky-java-zeebe
     docker_prepare_in_dir setmy-info-rocky-java-infinispan
@@ -34,6 +35,7 @@ docker_build() {
     docker_build_in_dir setmy-info-rocky-java
     docker_build_in_dir setmy-info-rocky-node
     docker_build_in_dir setmy-info-rocky-nginx
+    docker_build_in_dir setmy-info-rocky-freenginx
     docker_build_in_dir setmy-info-rocky-java-tomcat
     docker_build_in_dir setmy-info-rocky-java-zeebe
     docker_build_in_dir setmy-info-rocky-java-infinispan

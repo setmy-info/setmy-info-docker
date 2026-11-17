@@ -1,40 +1,53 @@
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
-
+ARG ERLANG_VERSION=29.1.2
+ARG ELIXIR_VERSION=1.20.5
+ARG VERSION=${ELIXIR_VERSION}
+#ARG VERSION=${ELIXIR_VERSION}-0
 ARG BUILD_DATE
 ARG VCS_REF
-ARG ERLANG_VERSION=29.0.5
-ARG ELIXIR_VERSION=1.20.4
 
-# Install Erlang/OTP build dependencies and compile Erlang.
-# glibc-langpack-en is required so the Elixir build does not warn about latin1
-# encoding and Elixir itself works correctly with non-ASCII source.
-RUN source /etc/profile.d/setmy-info.sh && \
-    dnf -y install git gcc gcc-c++ make autoconf ncurses-devel openssl-devel sudo glibc-langpack-en && \
-    smi-download-package erlang && \
-    smi-install-package erlang && \
-    dnf clean all && rm -rf /var/cache/dnf
+FROM setmyinfo/setmy-info-rocky:latest AS ERLANG_BUILD
 
-# Elixir compilation needs Erlang on PATH, and the locale must be UTF-8
-# before mix/elixirc runs or it emits latin1 warnings and may misbehave.
+ARG ERLANG_VERSION
+
 ENV LANG=en_US.UTF-8
+
+RUN source /etc/profile.d/setmy-info.sh && \
+    dnf -y install git gcc gcc-c++ make autoconf perl ncurses-devel openssl-devel sudo glibc-langpack-en && \
+    mkdir -p $(smi-home-packages-location) && \
+    echo "ERLANG_VERSION=${ERLANG_VERSION}" > $(smi-home-packages-location)/erlang.package && \
+    smi-download-package erlang && \
+    smi-build-package erlang && \
+    smi-install-package erlang && \
+    ls -la /opt && \
+    /opt/erlang-${ERLANG_VERSION}/bin/erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell
+
+FROM ERLANG_BUILD AS ELIXIR_BUILD
+
+ARG ELIXIR_VERSION
+
 ENV ELIXIR_ERL_OPTIONS="+fnu"
 ENV PATH="/opt/erlang/bin:${PATH}"
 
 RUN source /etc/profile.d/setmy-info.sh && \
+    echo "ELIXIR_VERSION=${ELIXIR_VERSION}" > $(smi-home-packages-location)/elixir.package && \
     smi-download-package elixir && \
-    smi-install-package elixir
+    smi-build-package elixir && \
+    smi-install-package elixir && \
+    rm -rf /opt/elixir-${ELIXIR_VERSION}/.git && \
+    ls -la /opt && \
+    /opt/elixir-${ELIXIR_VERSION}/bin/elixir --version
 
 FROM setmyinfo/setmy-info-rocky:latest
 
-# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
+ARG ERLANG_VERSION
+ARG ELIXIR_VERSION
+ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
-ARG ERLANG_VERSION=29.0.5
-ARG ELIXIR_VERSION=1.20.4
-ARG VERSION=${ELIXIR_VERSION}-2
 
+# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
-      org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux with Erlang, Elixir and LFE" \
+      org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux with Erlang and Elixir" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${VCS_REF}" \
       org.opencontainers.image.licenses="Apache-2.0,MIT" \
@@ -47,29 +60,21 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
-# Erlang embeds the install prefix in its shell scripts (ROOTDIR=...).
-# Copying the versioned directory preserves that path so erlexec is found.
-# A symlink is then created so ENV ERLANG_HOME=/opt/erlang works as expected.
-# Elixir resolve its location relatively so the same
-# versioned-dir + symlink approach is used for consistency.
-RUN dnf -y install glibc-langpack-en && dnf clean all && rm -rf /var/cache/dnf
+RUN dnf -y install glibc-langpack-en ncurses-libs openssl-libs && \
+    dnf clean all && rm -rf /var/cache/dnf
 
-COPY --from=BUILD /opt/erlang-${ERLANG_VERSION} /opt/erlang-${ERLANG_VERSION}
-COPY --from=BUILD /opt/elixir-${ELIXIR_VERSION} /opt/elixir-${ELIXIR_VERSION}
-
+COPY --from=ERLANG_BUILD /opt/erlang-${ERLANG_VERSION} /opt/erlang-${ERLANG_VERSION}
+COPY --from=ELIXIR_BUILD /opt/elixir-${ELIXIR_VERSION} /opt/elixir-${ELIXIR_VERSION}
 RUN ln -sf /opt/erlang-${ERLANG_VERSION} /opt/erlang && \
     ln -sf /opt/elixir-${ELIXIR_VERSION} /opt/elixir && \
     chown -R root:root /opt/erlang-${ERLANG_VERSION} \
                        /opt/elixir-${ELIXIR_VERSION} && \
-    chmod ugo+rx  /opt/erlang/bin/* && \
-    chmod ugo+rx  /opt/elixir/bin/*
-
+    chmod ugo+rx /opt/erlang/bin/* && \
+    chmod ugo+rx /opt/elixir/bin/*
 ENV LANG=en_US.UTF-8
 ENV ELIXIR_ERL_OPTIONS="+fnu"
 ENV ERLANG_HOME=/opt/erlang
 ENV ELIXIR_HOME=/opt/elixir
 ENV PATH="${ELIXIR_HOME}/bin:${ERLANG_HOME}/bin:${PATH}"
-
-RUN source /etc/profile.d/setmy-info.sh && \
-    erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell && \
+RUN erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell && \
     elixir --version
