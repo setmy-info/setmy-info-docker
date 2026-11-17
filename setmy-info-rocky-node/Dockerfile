@@ -4,8 +4,8 @@ ARG NODE_VERSION=26.13.0
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${NODE_VERSION}
-#ARG VERSION=${NODE_VERSION}-4
+#ARG VERSION=${NODE_VERSION}
+ARG VERSION=${NODE_VERSION}-1
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
