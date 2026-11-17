@@ -1,10 +1,25 @@
-FROM setmyinfo/setmy-info-rocky-java:latest
-
-ARG INFINISPAN_VERSION=16.2.2
-
+ARG INFINISPAN_VERSION=16.3.1
+ARG VERSION=${INFINISPAN_VERSION}
+#ARG VERSION=${INFINISPAN_VERSION}-4
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${INFINISPAN_VERSION}-4
+
+FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+
+ARG INFINISPAN_VERSION
+
+COPY ./infinispan-server-${INFINISPAN_VERSION}.zip /var/download/
+WORKDIR /var/download
+RUN dnf -y install unzip && \
+    unzip /var/download/infinispan-server-${INFINISPAN_VERSION}.zip && \
+    ls -la
+
+FROM setmyinfo/setmy-info-rocky-java:latest
+
+ARG INFINISPAN_VERSION
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
@@ -21,7 +36,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY infinispan-server-${INFINISPAN_VERSION} /opt/infinispan-server
+COPY --from=BUILD /var/download/infinispan-server-${INFINISPAN_VERSION} /opt/infinispan-server
 COPY src/infinispan-starter /opt/infinispan-server/bin
 RUN chown -R root:root /opt/infinispan-server && \
     mkdir -p /opt/infinispan-server/server && \
