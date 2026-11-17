@@ -1,4 +1,4 @@
-includePackages hsqldb
+includePackages hsqldb h2
 
 ADDITIONAL_VERSION=6
 DOCKER_PROJECT_NAME=setmy-info-rocky-java-hsqldb
@@ -12,7 +12,7 @@ SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
 docker_prepare() {
     CUR_DIR=$(pwd)
     cp ${SMI_HOME_PACKAGES_LOCATION}/hsqldb-${HSQLDB_VERSION}.zip ./
-    unzip hsqldb-${HSQLDB_VERSION}.zip
+    cp ${SMI_HOME_PACKAGES_LOCATION}/h2-${H2_VERSION}.jar ./
     cd ${CUR_DIR}
 }
 

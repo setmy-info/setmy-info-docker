@@ -1,6 +1,23 @@
 #!/bin/sh
 
-cd /var/opt/hsqldb/data
-java -classpath /opt/hsqldb/lib/hsqldb.jar org.hsqldb.server.Server --database.0 file:/var/opt/hsqldb/data/${1} --dbname.0 db
+DB_SERVER=hsqldb
 
-exit ${?}
+case "${1}" in
+    hsqldb|h2)
+        DB_SERVER=${1}
+        shift
+        ;;
+esac
+
+case "${DB_SERVER}" in
+    hsqldb)
+        DB_NAME=${1:-microservicedb}
+        [ ${#} -gt 0 ] && shift
+        cd /var/opt/hsqldb/data
+        exec java -classpath /opt/hsqldb/lib/hsqldb.jar org.hsqldb.server.Server --database.0 file:/var/opt/hsqldb/data/${DB_NAME} --dbname.0 db "${@}"
+        ;;
+    h2)
+        cd /var/opt/h2/data
+        exec java -classpath /opt/h2/lib/h2.jar org.h2.tools.Server -tcp -tcpAllowOthers -tcpPort 9092 -web -webAllowOthers -webPort 8082 -baseDir /var/opt/h2/data -ifNotExists "${@}"
+        ;;
+esac
