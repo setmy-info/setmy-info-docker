@@ -1,10 +1,25 @@
-FROM setmyinfo/setmy-info-rocky-java:latest
-
-ARG TOMCAT_VERSION=11.0.24
-
+ARG TOMCAT_VERSION=11.0.29
+ARG VERSION=${TOMCAT_VERSION}
+#ARG VERSION=${TOMCAT_VERSION}-4
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${TOMCAT_VERSION}-4
+
+FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+
+ARG TOMCAT_VERSION
+
+COPY ./apache-tomcat-${TOMCAT_VERSION}.tar.gz /var/download/
+WORKDIR /var/download
+RUN dnf -y install tar && \
+    tar xvzf /var/download/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    ls -la
+
+FROM setmyinfo/setmy-info-rocky-java:latest
+
+ARG TOMCAT_VERSION
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
@@ -21,7 +36,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY apache-tomcat-${TOMCAT_VERSION}/ /opt/tomcat/
+COPY --from=BUILD /var/download/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
 
 RUN mkdir -p /opt/tomcat/logs && \
     mkdir -p /opt/tomcat/temp && \
