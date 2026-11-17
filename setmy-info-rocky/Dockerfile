@@ -1,11 +1,42 @@
-FROM rockylinux/rockylinux:10.2
-
+ARG VERSION=10.3
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=10.2-6
-
 ARG SMI_VERSION=0.141.0
 ARG SBCL_VERSION=2.6.10
+
+# Stage 1: unpack and install SBCL and Quicklisp, same as sbcl.package does
+FROM rockylinux/rockylinux:10.3 AS BUILD
+
+ARG SBCL_VERSION
+
+COPY sbcl-${SBCL_VERSION}-x86-64-linux-binary.tar.bz2 /var/download/
+COPY quicklisp.lisp /var/download/
+WORKDIR /var/download
+RUN dnf -y install tar bzip2 && \
+    tar -xvf /var/download/sbcl-${SBCL_VERSION}-x86-64-linux-binary.tar.bz2 && \
+    ls -la && \
+    cd ./sbcl-${SBCL_VERSION}-x86-64-linux && \
+    INSTALL_ROOT=/opt/sbcl-${SBCL_VERSION}-x86-64-linux sh install.sh && \
+    ls -la /opt/sbcl-${SBCL_VERSION}-x86-64-linux && \
+    /opt/sbcl-${SBCL_VERSION}-x86-64-linux/bin/sbcl \
+      --no-sysinit --no-userinit --disable-debugger \
+      --load /var/download/quicklisp.lisp \
+      --eval '(quicklisp-quickstart:install :path "/opt/quicklisp/")' \
+      --eval '(ql-util:without-prompting (ql:add-to-init-file))' \
+      --quit && \
+    mkdir -p /opt/quicklisp/lib && \
+    cp /var/download/quicklisp.lisp /opt/quicklisp/lib/quicklisp.lisp && \
+    ls -la /opt/quicklisp && \
+    cat /root/.sbclrc
+
+# Stage 2: final image
+FROM rockylinux/rockylinux:10.3
+
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
+ARG SMI_VERSION
+ARG SBCL_VERSION
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky" \
@@ -23,20 +54,23 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.base.name=""
 
 COPY setmy-info-scripts-${SMI_VERSION}.noarch.rpm /tmp/
-COPY sbcl-${SBCL_VERSION}-x86-64-linux-binary.tar.bz2  /tmp/
+COPY --from=BUILD /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/sbcl-${SBCL_VERSION}-x86-64-linux
+# Shared Quicklisp for all users. lib/quicklisp.lisp is where quicklisp-setup puts
+# the bootstrap, for quicklisp-user-setup of a user who wants an own ~/quicklisp.
+COPY --from=BUILD /opt/quicklisp /opt/quicklisp
+# Init file written by ql:add-to-init-file, as system wide init file for every user
+COPY --from=BUILD /root/.sbclrc /etc/sbclrc
 
 RUN yum -y update && \
     yum -y install tar gzip bzip2 wget yum-utils && \
     rpm -i /tmp/setmy-info-scripts-${SMI_VERSION}.noarch.rpm && \
-    mkdir /tmp/sbcl && \
-    cd /tmp/sbcl && \
-    pwd && \
-    ls -la && \
-    tar -xvf /tmp/sbcl-${SBCL_VERSION}-x86-64-linux-binary.tar.bz2 -C /tmp/sbcl && \
-    ls -la && \
-    cd ./sbcl-${SBCL_VERSION}-x86-64-linux && \
-    INSTALL_ROOT=/opt/sbcl sh install.sh && \
-    rm -R /tmp/sbcl && \
+    rm /tmp/setmy-info-scripts-${SMI_VERSION}.noarch.rpm && \
+    ln -sf /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/sbcl && \
+    chown -R root:root /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/quicklisp && \
+    chmod -R go+rX /opt/quicklisp && \
+    chown root:root /etc/sbclrc && \
+    chmod 0644 /etc/sbclrc && \
+    install -d -m 0700 -o microservice -g microservice "$(getent passwd microservice | cut -d: -f6)" && \
 #    useradd microservice --shell /sbin/nologin --no-create-home && \
     mkdir -p /opt/setmy.info/bin && \
     mkdir -p /opt/setmy.info/lib && \
@@ -60,7 +94,11 @@ ENV PATH=/opt/setmy.info/bin:${SBCL_HOME}/bin:${PATH}
 
 RUN source /etc/profile.d/setmy-info.sh && \
     cat /etc/redhat-release && \
+    id microservice && \
     python3 --version && \
     sbcl --version && \
+    sbcl --noinform --non-interactive --eval '(format t "Quicklisp ~a~%" (ql:client-version))' && \
+    sbcl --noinform --non-interactive --eval '(format t "~a~%" (asdf:already-loaded-systems))' && \
+    runuser -u microservice -- sbcl --noinform --non-interactive --eval '(format t "Quicklisp ~a as microservice~%" (ql:client-version))' && \
     curl --version && \
     smi-version
