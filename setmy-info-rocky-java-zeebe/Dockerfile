@@ -1,10 +1,25 @@
-FROM setmyinfo/setmy-info-rocky-java:latest
-
-ARG ZEEBE_VERSION=8.9.14
-
+ARG ZEEBE_VERSION=8.10.9
+ARG VERSION=${ZEEBE_VERSION}
+#ARG VERSION=${ZEEBE_VERSION}-4
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${ZEEBE_VERSION}-4
+
+FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+
+ARG ZEEBE_VERSION
+
+COPY ./camunda-zeebe-${ZEEBE_VERSION}.tar.gz /var/download/
+WORKDIR /var/download
+RUN dnf -y install tar && \
+    tar xvzf /var/download/camunda-zeebe-${ZEEBE_VERSION}.tar.gz && \
+    ls -la
+
+FROM setmyinfo/setmy-info-rocky-java:latest
+
+ARG ZEEBE_VERSION
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
@@ -21,14 +36,14 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.ref.name="" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY camunda-zeebe-${ZEEBE_VERSION} /opt/zeebe-broker
+COPY --from=BUILD /var/download/camunda-zeebe-${ZEEBE_VERSION} /opt/zeebe-broker
 COPY src/zeebe-starter /opt/zeebe-broker/bin
 RUN chown -R root:root /opt/zeebe-broker && \
     mkdir /opt/zeebe-broker/data && \
     mkdir /opt/zeebe-broker/logs && \
     chown -R microservice:microservice /opt/zeebe-broker/data && \
     chown -R microservice:microservice /opt/zeebe-broker/logs
-ENV ZEEBE_HOME /opt/zeebe-broker
+ENV ZEEBE_HOME=/opt/zeebe-broker
 ENV PATH="${ZEEBE_HOME}/bin:${PATH}"
 RUN cd /opt/zeebe-broker && ls -la
 USER microservice
@@ -39,6 +54,6 @@ WORKDIR /opt/zeebe-broker
 #TODO
 #VOLUME /opt/zeebe-broker/data
 
-EXPOSE 26500/tcp 26501/tcp 26502/tcp
+EXPOSE 26500/tcp 26501/tcp 26502/tcp 8080/tcp 9600/tcp
 
 CMD ["/opt/zeebe-broker/bin/zeebe-starter"]
