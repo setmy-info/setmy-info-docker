@@ -1,11 +1,25 @@
-FROM setmyinfo/setmy-info-rocky:latest
-
-ARG NODE_VERSION=26.13.0
-
+ARG NODE_VERSION=26.13.1
+ARG VERSION=${NODE_VERSION}
+#ARG VERSION=${NODE_VERSION}-1
 ARG BUILD_DATE
 ARG VCS_REF
-#ARG VERSION=${NODE_VERSION}
-ARG VERSION=${NODE_VERSION}-1
+
+FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+
+ARG NODE_VERSION
+
+COPY ./node-v${NODE_VERSION}-linux-x64.tar.xz /var/download/
+WORKDIR /var/download
+RUN dnf -y install tar xz && \
+    tar xvJf /var/download/node-v${NODE_VERSION}-linux-x64.tar.xz && \
+    ls -la
+
+FROM setmyinfo/setmy-info-rocky:latest
+
+ARG NODE_VERSION
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
 
 # http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
@@ -22,11 +36,11 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
       org.opencontainers.image.ref.name="rocky-node:${VERSION}" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
-COPY node-v${NODE_VERSION}-linux-x64 /opt/node
+COPY --from=BUILD /var/download/node-v${NODE_VERSION}-linux-x64 /opt/node
 RUN useradd node --shell /sbin/nologin --no-create-home && \
     chown -R root:root /opt/node && \
     chmod ugo+rx /opt/node/bin/* && \
     dnf install -y libatomic
 ENV NODE_HOME=/opt/node
 ENV PATH="${NODE_HOME}/bin:${PATH}"
-RUN cd /opt/node && ls -la && node --version
+RUN cd /opt/node && ls -la && node --version && id node

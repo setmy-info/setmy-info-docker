@@ -25,3 +25,6 @@ setmy-info-rocky-java-tomcat/apache-tomcat-11.0.24.tar.gz
 setmy-info-rocky-java-zeebe/camunda-zeebe-8.9.14.tar.gz
 
 **/*.rpm
+
+claude.sesson.sh
+cursor.sesson.sh
