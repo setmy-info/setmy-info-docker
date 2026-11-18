@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG TOMCAT_VERSION
 
@@ -34,7 +34,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-tomcat" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY --from=BUILD /var/download/apache-tomcat-${TOMCAT_VERSION} /opt/apache-tomcat-${TOMCAT_VERSION}
+COPY --from=build /var/download/apache-tomcat-${TOMCAT_VERSION} /opt/apache-tomcat-${TOMCAT_VERSION}
 
 RUN ln -sf /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat && \
     mkdir -p /opt/tomcat/logs && \

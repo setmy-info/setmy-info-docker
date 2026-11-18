@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG ZEEBE_VERSION
 
@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Zeebe" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-zeebe" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY --from=BUILD /var/download/camunda-zeebe-${ZEEBE_VERSION} /opt/camunda-zeebe-${ZEEBE_VERSION}
+COPY --from=build /var/download/camunda-zeebe-${ZEEBE_VERSION} /opt/camunda-zeebe-${ZEEBE_VERSION}
 COPY src/zeebe-starter /opt/camunda-zeebe-${ZEEBE_VERSION}/bin/
 RUN ln -sf /opt/camunda-zeebe-${ZEEBE_VERSION} /opt/zeebe && \
     chown -R root:root /opt/zeebe/ && \

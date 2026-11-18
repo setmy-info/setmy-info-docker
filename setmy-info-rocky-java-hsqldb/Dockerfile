@@ -4,7 +4,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG HSQLDB_VERSION
 
@@ -33,7 +33,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Linux HSQLDB and H2" \
 
 RUN mkdir -p /var/opt/hsqldb/data /var/opt/h2/data
 
-COPY --from=BUILD /var/download/hsqldb-${HSQLDB_VERSION}/hsqldb/lib/hsqldb.jar /opt/hsqldb/lib/hsqldb.jar
+COPY --from=build /var/download/hsqldb-${HSQLDB_VERSION}/hsqldb/lib/hsqldb.jar /opt/hsqldb/lib/hsqldb.jar
 COPY ./h2-${H2_VERSION}.jar /opt/h2/lib/h2.jar
 COPY src/server /opt/hsqldb/bin/
 RUN chmod ugo+rx /opt/hsqldb/bin/* && \

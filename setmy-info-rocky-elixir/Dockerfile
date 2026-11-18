@@ -4,7 +4,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS ERLANG_BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS erlang_build
 
 ARG ERLANG_VERSION
 
@@ -22,7 +22,7 @@ RUN source /etc/profile.d/setmy-info.sh && \
     mkdir -p /dist && \
     cp -a /opt/erlang /opt/erlang-* /dist/
 
-FROM setmyinfo/setmy-info-rocky:latest AS ELIXIR_BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS elixir_build
 
 ARG ELIXIR_VERSION
 
@@ -30,7 +30,7 @@ ENV LANG=en_US.UTF-8
 ENV ELIXIR_ERL_OPTIONS="+fnu"
 ENV PATH="/opt/erlang/bin:${PATH}"
 
-COPY --from=ERLANG_BUILD /dist/ /opt/
+COPY --from=erlang_build /dist/ /opt/
 
 RUN source /etc/profile.d/setmy-info.sh && \
     dnf -y install git make sudo glibc-langpack-en ncurses-libs openssl-libs && \
@@ -65,8 +65,8 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Elixir" \
 RUN dnf -y install glibc-langpack-en ncurses-libs openssl-libs && \
     dnf clean all && rm -rf /var/cache/dnf
 
-COPY --from=ERLANG_BUILD /dist/ /opt/
-COPY --from=ELIXIR_BUILD /dist/ /opt/
+COPY --from=erlang_build /dist/ /opt/
+COPY --from=elixir_build /dist/ /opt/
 RUN chown -R -H root:root /opt/erlang /opt/elixir && \
     chmod ugo+rx /opt/erlang/bin/* && \
     chmod ugo+rx /opt/elixir/bin/*

@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG FREENGINX_VERSION
 
@@ -41,7 +41,7 @@ RUN dnf -y install pcre2 openssl-libs zlib && \
     dnf clean all && rm -rf /var/cache/dnf && \
     useradd nginx --shell /sbin/nologin --no-create-home
 
-COPY --from=BUILD /dist/ /opt/
+COPY --from=build /dist/ /opt/
 
 COPY ./opt/freenginx/conf/nginx.conf   /opt/freenginx/conf/nginx.conf
 COPY ./opt/freenginx/conf/conf.d/      /opt/freenginx/conf/conf.d/

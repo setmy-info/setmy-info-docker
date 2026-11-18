@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG NODE_VERSION
 
@@ -30,7 +30,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky NodeJS" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-node" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
-COPY --from=BUILD /var/download/node-v${NODE_VERSION}-linux-x64 /opt/node-v${NODE_VERSION}-linux-x64
+COPY --from=build /var/download/node-v${NODE_VERSION}-linux-x64 /opt/node-v${NODE_VERSION}-linux-x64
 RUN ln -sf /opt/node-v${NODE_VERSION}-linux-x64 /opt/node && \
     useradd node --shell /sbin/nologin --no-create-home && \
     chown -R root:root /opt/node/ && \

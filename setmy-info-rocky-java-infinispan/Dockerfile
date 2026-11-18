@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG INFINISPAN_VERSION
 
@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java Infinispan" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-infinispan" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY --from=BUILD /var/download/infinispan-server-${INFINISPAN_VERSION} /opt/infinispan-server-${INFINISPAN_VERSION}
+COPY --from=build /var/download/infinispan-server-${INFINISPAN_VERSION} /opt/infinispan-server-${INFINISPAN_VERSION}
 COPY src/infinispan-starter /opt/infinispan-server-${INFINISPAN_VERSION}/bin/
 RUN ln -sf /opt/infinispan-server-${INFINISPAN_VERSION} /opt/infinispan && \
     chown -R root:root /opt/infinispan/ && \

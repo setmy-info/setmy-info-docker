@@ -6,7 +6,7 @@ ARG SMI_VERSION
 ARG SBCL_VERSION
 
 # Stage 1: unpack and install SBCL and Quicklisp, same as sbcl.package does
-FROM rockylinux/rockylinux:${ROCKY_VERSION} AS BUILD
+FROM rockylinux/rockylinux:${ROCKY_VERSION} AS build
 
 ARG SBCL_VERSION
 
@@ -56,12 +56,12 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.base.name="rockylinux/rockylinux:${ROCKY_VERSION}"
 
 COPY setmy-info-scripts-${SMI_VERSION}.noarch.rpm /tmp/
-COPY --from=BUILD /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/sbcl-${SBCL_VERSION}-x86-64-linux
+COPY --from=build /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/sbcl-${SBCL_VERSION}-x86-64-linux
 # Shared Quicklisp for all users. lib/quicklisp.lisp is where quicklisp-setup puts
 # the bootstrap, for quicklisp-user-setup of a user who wants an own ~/quicklisp.
-COPY --from=BUILD /opt/quicklisp /opt/quicklisp
+COPY --from=build /opt/quicklisp /opt/quicklisp
 # Init file written by ql:add-to-init-file, as system wide init file for every user
-COPY --from=BUILD /root/.sbclrc /etc/sbclrc
+COPY --from=build /root/.sbclrc /etc/sbclrc
 
 RUN dnf -y update && \
     dnf -y install tar gzip bzip2 wget yum-utils && \

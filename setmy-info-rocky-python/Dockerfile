@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG PYTHON313_VERSION
 
@@ -39,7 +39,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Python" \
 RUN dnf -y install glibc-langpack-en openssl-libs bzip2-libs libffi zlib readline sqlite-libs xz-libs && \
     dnf clean all && rm -rf /var/cache/dnf
 
-COPY --from=BUILD /dist/ /opt/
+COPY --from=build /dist/ /opt/
 RUN chown -R -H root:root /opt/python313 && \
     chmod ugo+rx /opt/python313/bin/*
 ENV LANG=en_US.UTF-8

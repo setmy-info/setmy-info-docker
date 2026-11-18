@@ -3,7 +3,7 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-FROM setmyinfo/setmy-info-rocky:latest AS BUILD
+FROM setmyinfo/setmy-info-rocky:latest AS build
 
 ARG JDK_VERSION
 
@@ -28,7 +28,7 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky Java" \
       org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky:latest"
 
-COPY --from=BUILD /var/download/jdk-${JDK_VERSION} /opt/jdk-${JDK_VERSION}
+COPY --from=build /var/download/jdk-${JDK_VERSION} /opt/jdk-${JDK_VERSION}
 RUN ln -sf /opt/jdk-${JDK_VERSION} /opt/jdk && \
     chown -R root:root /opt/jdk/ && \
     chmod ugo+rx /opt/jdk/bin/*
