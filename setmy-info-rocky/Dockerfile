@@ -1,11 +1,12 @@
-ARG VERSION=10.3
+ARG ROCKY_VERSION
+ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
-ARG SMI_VERSION=0.141.0
-ARG SBCL_VERSION=2.6.10
+ARG SMI_VERSION
+ARG SBCL_VERSION
 
 # Stage 1: unpack and install SBCL and Quicklisp, same as sbcl.package does
-FROM rockylinux/rockylinux:10.3 AS BUILD
+FROM rockylinux/rockylinux:${ROCKY_VERSION} AS BUILD
 
 ARG SBCL_VERSION
 
@@ -30,8 +31,9 @@ RUN dnf -y install tar bzip2 && \
     cat /root/.sbclrc
 
 # Stage 2: final image
-FROM rockylinux/rockylinux:10.3
+FROM rockylinux/rockylinux:${ROCKY_VERSION}
 
+ARG ROCKY_VERSION
 ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
@@ -48,10 +50,10 @@ LABEL org.opencontainers.image.title="Docker HUB Rocky" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.documentation="" \
       org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
-      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky" \
-      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky" \
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky" \
       org.opencontainers.image.ref.name="" \
-      org.opencontainers.image.base.name=""
+      org.opencontainers.image.base.name="rockylinux/rockylinux:${ROCKY_VERSION}"
 
 COPY setmy-info-scripts-${SMI_VERSION}.noarch.rpm /tmp/
 COPY --from=BUILD /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/sbcl-${SBCL_VERSION}-x86-64-linux
@@ -61,8 +63,9 @@ COPY --from=BUILD /opt/quicklisp /opt/quicklisp
 # Init file written by ql:add-to-init-file, as system wide init file for every user
 COPY --from=BUILD /root/.sbclrc /etc/sbclrc
 
-RUN yum -y update && \
-    yum -y install tar gzip bzip2 wget yum-utils && \
+RUN dnf -y update && \
+    dnf -y install tar gzip bzip2 wget yum-utils && \
+    dnf clean all && rm -rf /var/cache/dnf && \
     rpm -i /tmp/setmy-info-scripts-${SMI_VERSION}.noarch.rpm && \
     rm /tmp/setmy-info-scripts-${SMI_VERSION}.noarch.rpm && \
     ln -sf /opt/sbcl-${SBCL_VERSION}-x86-64-linux /opt/sbcl && \
@@ -72,25 +75,15 @@ RUN yum -y update && \
     chmod 0644 /etc/sbclrc && \
     install -d -m 0700 -o microservice -g microservice "$(getent passwd microservice | cut -d: -f6)" && \
 #    useradd microservice --shell /sbin/nologin --no-create-home && \
-    mkdir -p /opt/setmy.info/bin && \
-    mkdir -p /opt/setmy.info/lib && \
     mkdir -p /opt/setmy.info/doc && \
-    mkdir -p /opt/setmy.info/man && \
-    mkdir -p /opt/setmy.info/etc && \
-    mkdir -p /var/setmy.info/setmy.info && \
-    mkdir -p /var/opt/setmy.info/microservice && \
     mkdir -p /var/opt/setmy.info/microservice/log && \
-    chown -R root:root /opt/setmy.info && \
-    chown -R microservice:microservice /var/opt/setmy.info && \
-    chmod -R u+rwx /opt/setmy.info && \
-    chmod -R go+rx /opt/setmy.info && \
-    chmod -R go-w  /opt/setmy.info && \
+    chown -R microservice:microservice /var/opt/setmy.info/microservice && \
     cd /opt && ls -la && cd /opt/setmy.info && ls -la && cd /var/opt/ && ls -la && cd /var/opt/setmy.info && ls -la
 
-ENV SBCL_HOME=/opt/sbcl
+ENV SBCL_HOME=/opt/sbcl/lib/sbcl
 ENV LD_LIBRARY_PATH=/opt/setmy.info/lib
 ENV PYTHONPATH=/opt/setmy.info/lib
-ENV PATH=/opt/setmy.info/bin:${SBCL_HOME}/bin:${PATH}
+ENV PATH=/opt/setmy.info/bin:/opt/sbcl/bin:${PATH}
 
 RUN source /etc/profile.d/setmy-info.sh && \
     cat /etc/redhat-release && \

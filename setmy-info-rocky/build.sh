@@ -2,24 +2,14 @@ includePackages smi sbcl
 
 ROCKY_VERSION=10.3
 ADDITIONAL_VERSION=0
-DOCKER_PROJECT_NAME=setmy-info-rocky
 DOCKER_PROJECT_VERSION=${ROCKY_VERSION}
 #DOCKER_PROJECT_VERSION=${ROCKY_VERSION}-${ADDITIONAL_VERSION}
-DOCKER_ID_ORGANIZATION=setmyinfo
-DOCKER_CONTENT_TRUST=1
-
-SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
+DOCKER_BUILD_ARGS="ROCKY_VERSION SMI_VERSION SBCL_VERSION"
 
 docker_prepare() {
-    CUR_DIR=$(pwd)
-    cp ${SMI_HOME_PACKAGES_LOCATION}/setmy-info-scripts/setmy-info-scripts-*.noarch.rpm ./
-    cp ${SMI_HOME_PACKAGES_LOCATION}/sbcl-*-x86-64-linux-binary.tar.bz2 ./
-    cp ${SMI_HOME_PACKAGES_LOCATION}/quicklisp.lisp ./
-    cd ${CUR_DIR}
+    smi-download-package smi sbcl && \
+    smi-build-package smi && \
+    cp ${HOME_PACKAGES_DIR}/setmy-info-scripts-${SMI_VERSION}.noarch.rpm ./ && \
+    cp ${HOME_PACKAGES_DIR}/sbcl-${SBCL_VERSION}-x86-64-linux-binary.tar.bz2 ./ && \
+    cp ${HOME_PACKAGES_DIR}/quicklisp.lisp ./
 }
-
-docker_build() {
-    CUR_DIR=$(pwd)
-    # Nothing here right now
-    cd ${CUR_DIR}
- }

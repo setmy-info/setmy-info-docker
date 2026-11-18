@@ -1,32 +1,30 @@
-FROM setmyinfo/setmy-info-rocky-java:latest as BUILD
-
-ARG JENKINS_VERSION=2.568.2
-
+ARG JENKINS_HOME_VERSION
+ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=${JENKINS_VERSION}-6
+
+FROM setmyinfo/setmy-info-rocky-java:latest AS BUILD
+
+ARG JENKINS_HOME_VERSION
 
 COPY ./target/download /var/download
 WORKDIR /var/download
-RUN dnf -y install unzip tar xz && \
-    tar xvzf /var/download/jenkins-2.1.0.tar.gz && \
+RUN tar xvzf /var/download/jenkins-${JENKINS_HOME_VERSION}.tar.gz && \
     ls -la
 
 FROM setmyinfo/setmy-info-rocky-java:latest
 
-# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
+ARG VERSION
+ARG BUILD_DATE
+ARG VCS_REF
+
 LABEL org.opencontainers.image.title="Docker HUB Rocky Linux CI" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Linux CI" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created="${BUILD_DATE}" \
-      org.opencontainers.image.documentation="" \
-      org.opencontainers.image.authors="Imre Tabur" \
-      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-ci" \
-      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-ci" \
-      org.opencontainers.image.ref.name="" \
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-ci" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-ci" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
 ENV LANG=C.UTF-8
@@ -50,14 +48,14 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenk
     dnf config-manager --set-enabled crb && \
     dnf config-manager --set-enabled plus && \
     dnf config-manager --set-enabled rt && \
-    dnf update -y && \
     dnf install -y fontconfig jenkins git make sudo rsync \
-		    unzip tar xz make yum-utils rpmdevtools \
-		    rpm-build git mercurial meld openssl-devel \
+		    unzip xz rpmdevtools \
+		    rpm-build mercurial meld openssl-devel \
             zlib-devel bzip2-devel xz-devel \
             # Python build dependencies \
             libffi-devel readline-devel tk-devel gdbm-devel ncurses-devel uuid-devel libuuid-devel expat-devel \
 		    sqlite sqlite-devel cpp gcc g++ boost-test dos2unix rpmlint && \
+    dnf clean all && rm -rf /var/cache/dnf && \
     id jenkins && \
     echo "jenkins ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers && \
     chmod 0755 /opt/setmy.info/bin/do-entry /opt/setmy.info/bin/do-install-controller /opt/setmy.info/bin/do-install-node /opt/setmy.info/bin/do-start && \

@@ -155,7 +155,8 @@ kubectl apply -f src/main/k8s/local/jenkins-secrets-map.yaml
 For probing
 
 ```shell
-docker build --no-cache --progress=plain -t setmyinfo/setmy-info-rocky-java-jenkins:2.568.2-4 -t setmyinfo/setmy-info-rocky-java-jenkins:latest .
+smi-docker-prepare
+smi-docker-build
 docker run --rm -p 30000:7070 setmyinfo/setmy-info-rocky-java-jenkins:latest
 docker exec -it HASH /bin/sh
 java -jar /opt/setmy.info/lib/jenkins-cli.jar -s http://localhost:7070/ help

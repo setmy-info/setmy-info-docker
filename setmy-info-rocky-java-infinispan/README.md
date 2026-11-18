@@ -15,4 +15,8 @@ docker run --rm -it -p 11222:11222 -p 7800:7800 -p 11221:11221 -p 8181:8080 -p 9
 
 Hot Rod, REST and web console port **11222**, web console URL `http://localhost:11222/console`.
 
-User **admin** password **admin**.
+User **admin**, or INFINISPAN_USER. The password is INFINISPAN_PASSWORD, or generated and printed in the container log at start:
+
+```shell
+docker run --rm -p 11222:11222 -e INFINISPAN_PASSWORD=secret setmyinfo/setmy-info-rocky-java-infinispan:latest
+```

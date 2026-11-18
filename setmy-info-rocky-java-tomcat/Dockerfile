@@ -1,6 +1,5 @@
-ARG TOMCAT_VERSION=11.0.29
-ARG VERSION=${TOMCAT_VERSION}
-#ARG VERSION=${TOMCAT_VERSION}-4
+ARG TOMCAT_VERSION
+ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
@@ -10,8 +9,11 @@ ARG TOMCAT_VERSION
 
 COPY ./apache-tomcat-${TOMCAT_VERSION}.tar.gz /var/download/
 WORKDIR /var/download
-RUN dnf -y install tar && \
-    tar xvzf /var/download/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+RUN tar xvzf /var/download/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    rm -rf apache-tomcat-${TOMCAT_VERSION}/webapps/docs \
+           apache-tomcat-${TOMCAT_VERSION}/webapps/examples \
+           apache-tomcat-${TOMCAT_VERSION}/webapps/manager \
+           apache-tomcat-${TOMCAT_VERSION}/webapps/host-manager && \
     ls -la
 
 FROM setmyinfo/setmy-info-rocky-java:latest
@@ -21,41 +23,31 @@ ARG VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-# http://label-schema.org/rc1/ replaced with https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title="Docker HUB Rocky Tomcat" \
       org.opencontainers.image.description="setmy.info Docker HUB Rocky Tomcat" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${VCS_REF}" \
       org.opencontainers.image.licenses="Apache-2.0,MIT" \
-      org.opencontainers.image.vendor="Hear And See Systems LLC" \
       org.opencontainers.image.created="${BUILD_DATE}" \
-      org.opencontainers.image.documentation="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/README.md" \
-      org.opencontainers.image.authors="Imre Tabur <imre.tabur@mail.ee>" \
-      org.opencontainers.image.source="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-tomcat" \
-      org.opencontainers.image.url="https://github.com/setmy-info/setmy.info/tree/master/setmy-info-docker/setmy-info-rocky-java-tomcat" \
-      org.opencontainers.image.ref.name="" \
+      org.opencontainers.image.documentation="https://github.com/setmy-info/setmy-info-docker/blob/master/README.md" \
+      org.opencontainers.image.source="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-tomcat" \
+      org.opencontainers.image.url="https://github.com/setmy-info/setmy-info-docker/tree/master/setmy-info-rocky-java-tomcat" \
       org.opencontainers.image.base.name="setmyinfo/setmy-info-rocky-java:latest"
 
-COPY --from=BUILD /var/download/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
+COPY --from=BUILD /var/download/apache-tomcat-${TOMCAT_VERSION} /opt/apache-tomcat-${TOMCAT_VERSION}
 
-RUN mkdir -p /opt/tomcat/logs && \
+RUN ln -sf /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat && \
+    mkdir -p /opt/tomcat/logs && \
     mkdir -p /opt/tomcat/temp && \
     mkdir -p /opt/tomcat/conf/Catalina/ && \
     useradd tomcat --shell /sbin/nologin --no-create-home && \
-    chown -R root:root     /opt/tomcat && \
+    chown -R root:root     /opt/tomcat/ && \
     chown -R tomcat:tomcat /opt/tomcat/work/ \
                            /opt/tomcat/temp/ \
                            /opt/tomcat/logs/ \
                            /opt/tomcat/webapps/ \
                            /opt/tomcat/conf/Catalina/ && \
-    chmod ugo+rx /opt/tomcat && \
-    chmod ugo+rx /opt/tomcat/bin && \
-    chmod ugo+rx /opt/tomcat/conf && \
-    chmod -R ugo+rX /opt/tomcat/lib && \
-    chmod ugo+r  /opt/tomcat/bin/* && \
-    chmod ugo+x  /opt/tomcat/bin/*.sh && \
-    chmod ugo+r  /opt/tomcat/conf/*
-# TODO : tomcat std apps deletion
+    chmod -R go+rX /opt/tomcat/
 
 ENV CATALINA_HOME=/opt/tomcat
 ENV PATH="${CATALINA_HOME}/bin:${PATH}"

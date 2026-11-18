@@ -14,5 +14,7 @@ USER microservice
 
 WORKDIR /var/opt/setmy.info/microservice
 
-CMD [ "smi-docker-command", "do-install", "do-main-work", "a", "b", "c"]
-#CMD [ "smi-docker-command", "do-install", "smi-python", "hello.py"]
+ENTRYPOINT [ "smi-docker-command", "do-install", "do-main-work" ]
+CMD [ "a", "b", "c" ]
+#ENTRYPOINT [ "smi-docker-command", "do-install", "smi-python" ]
+#CMD [ "hello.py" ]

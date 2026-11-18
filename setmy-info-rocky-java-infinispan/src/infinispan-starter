@@ -2,14 +2,18 @@
 
 # Copyright 2025 Imre Tabur <imre.tabur@mail.ee>
 
-set -e
-
 OPT_DIR=/opt
-INFINISPAN_OPT_DIR=${OPT_DIR}/infinispan-server
+INFINISPAN_OPT_DIR=${OPT_DIR}/infinispan
 INFINISPAN_BIN_DIR=${INFINISPAN_OPT_DIR}/bin
 INFINISPAN_WORKING_DIR=/var${INFINISPAN_OPT_DIR}
 
-cd ${INFINISPAN_WORKING_DIR}
-${INFINISPAN_BIN_DIR}/server.sh -Dinfinispan.bind.address=0.0.0.0
+INFINISPAN_USER=${INFINISPAN_USER:-admin}
+if [ -z "${INFINISPAN_PASSWORD}" ]; then
+    INFINISPAN_PASSWORD=$(smi-password-gen)
+    echo "Generated password of Infinispan user ${INFINISPAN_USER}: ${INFINISPAN_PASSWORD}"
+fi
+${INFINISPAN_BIN_DIR}/cli.sh user create "${INFINISPAN_USER}" -p "${INFINISPAN_PASSWORD}" -g admin || \
+    echo "Infinispan user ${INFINISPAN_USER} not created, it may exist already"
 
-exit ${?}
+cd ${INFINISPAN_WORKING_DIR}
+exec ${INFINISPAN_BIN_DIR}/server.sh -Dinfinispan.bind.address=0.0.0.0

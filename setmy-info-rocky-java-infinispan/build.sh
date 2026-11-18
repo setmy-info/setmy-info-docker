@@ -1,22 +1,11 @@
 includePackages infinispan
 
 ADDITIONAL_VERSION=0
-DOCKER_PROJECT_NAME=setmy-info-rocky-java-infinispan
 DOCKER_PROJECT_VERSION=${INFINISPAN_VERSION}
 #DOCKER_PROJECT_VERSION=${INFINISPAN_VERSION}-${ADDITIONAL_VERSION}
-DOCKER_ID_ORGANIZATION=setmyinfo
-DOCKER_CONTENT_TRUST=1
-
-SMI_HOME_PACKAGES_LOCATION=$(smi-home-packages-location)
+DOCKER_BUILD_ARGS="INFINISPAN_VERSION"
 
 docker_prepare() {
-    CUR_DIR=$(pwd)
-    cp ${SMI_HOME_PACKAGES_LOCATION}/infinispan-server-${INFINISPAN_VERSION}.zip ./
-    cd ${CUR_DIR}
+    smi-download-package infinispan && \
+    cp ${HOME_PACKAGES_DIR}/infinispan-server-${INFINISPAN_VERSION}.zip ./
 }
-
-docker_build() {
-     CUR_DIR=$(pwd)
-     # Nothing here right now
-     cd ${CUR_DIR}
- }

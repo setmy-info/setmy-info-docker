@@ -3,7 +3,7 @@
 # Copyright 2019 Imre Tabur <imre.tabur@mail.ee>
 
 OPT_DIR=/opt
-ZEEBE_OPT_DIR=${OPT_DIR}/zeebe-broker
+ZEEBE_OPT_DIR=${OPT_DIR}/zeebe
 ZEEBE_BIN_DIR=${ZEEBE_OPT_DIR}/bin
 ZEEBE_WORKING_DIR=${ZEEBE_OPT_DIR}
 

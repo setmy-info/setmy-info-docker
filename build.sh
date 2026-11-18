@@ -1,46 +1,37 @@
-docker_prepare_in_dir() {
-    CUR_DIR=$(pwd)
-    IN_DIR=${1}
-    cd ${IN_DIR}
-    smi-docker-prepare
-    cd ${CUR_DIR}
-}
+DOCKER_MODULES="
+    setmy-info-rocky
+    setmy-info-rocky-java
+    setmy-info-rocky-node
+    setmy-info-rocky-nginx
+    setmy-info-rocky-freenginx
+    setmy-info-rocky-java-tomcat
+    setmy-info-rocky-java-zeebe
+    setmy-info-rocky-java-infinispan
+    setmy-info-rocky-java-hsqldb
+    setmy-info-rocky-java-ci
+    setmy-info-rocky-elixir
+    setmy-info-rocky-python
+"
 
-docker_build_in_dir() {
-    CUR_DIR=$(pwd)
-    IN_DIR=${1}
-    cd ${IN_DIR}
-    smi-docker-build
-    cd ${CUR_DIR}
+docker_in_modules() {
+    for DOCKER_MODULE in ${DOCKER_MODULES}; do
+        echo "=== ${1} ${DOCKER_MODULE}"
+        (cd ${DOCKER_MODULE} && ${1}) || return
+    done
 }
 
 docker_prepare() {
-    #smi-download-package all
-    docker_prepare_in_dir setmy-info-rocky
-    docker_prepare_in_dir setmy-info-rocky-java
-    docker_prepare_in_dir setmy-info-rocky-node
-    docker_prepare_in_dir setmy-info-rocky-nginx
-    docker_prepare_in_dir setmy-info-rocky-freenginx
-    docker_prepare_in_dir setmy-info-rocky-java-tomcat
-    docker_prepare_in_dir setmy-info-rocky-java-zeebe
-    docker_prepare_in_dir setmy-info-rocky-java-infinispan
-    docker_prepare_in_dir setmy-info-rocky-java-hsqldb
-    docker_prepare_in_dir setmy-info-rocky-java-ci
-    docker_prepare_in_dir setmy-info-rocky-elixir
-    docker_prepare_in_dir setmy-info-rocky-python
+    docker_in_modules smi-docker-prepare
 }
 
 docker_build() {
-    docker_build_in_dir setmy-info-rocky
-    docker_build_in_dir setmy-info-rocky-java
-    docker_build_in_dir setmy-info-rocky-node
-    docker_build_in_dir setmy-info-rocky-nginx
-    docker_build_in_dir setmy-info-rocky-freenginx
-    docker_build_in_dir setmy-info-rocky-java-tomcat
-    docker_build_in_dir setmy-info-rocky-java-zeebe
-    docker_build_in_dir setmy-info-rocky-java-infinispan
-    docker_build_in_dir setmy-info-rocky-java-hsqldb
-    docker_build_in_dir setmy-info-rocky-java-ci
-    docker_build_in_dir setmy-info-rocky-elixir
-    docker_build_in_dir setmy-info-rocky-python
+    if [ "${SMI_DOCKER_BUILD_CLEANUP}" = "true" ]; then
+        docker images -aq --filter 'reference=setmyinfo/setmy-info-rocky*' | sort -u | xargs -r docker image rm -f
+        docker image prune -f
+    fi
+    docker_in_modules smi-docker-build
+}
+
+docker_push() {
+    docker_in_modules smi-docker-push
 }
